@@ -1,5 +1,6 @@
 {
   "district": "Lucknow, Uttar Pradesh",
+  "notifiedState": "up",
   "notifiedCrops": { "kharif": ["paddy", "bajra", "maize", "jowar", "urad"], "rabi": ["wheat", "mustard", "potato"] },
   "schemes": [
     {
@@ -97,6 +98,157 @@
       "deadlines": [],
       "notes": [],
       "sourceUrl": "https://soilhealth.dac.gov.in",
+      "lastVerified": "2026-11-01"
+    },
+    {
+      "id": "pmkmy",
+      "nameKey": "scheme.pmkmy.name",
+      "icon": "👵",
+      "benefitKey": "scheme.pmkmy.benefit",
+      "yearlyAmount": 0,
+      "conditions": [
+        { "id": "ownsLand", "field": "ownsLand", "op": "isTrue", "failAs": "not_eligible",
+          "passKey": "reason.pmkmy.ownsLand.pass", "failKey": "reason.pmkmy.ownsLand.fail" },
+        { "id": "smallFarmer", "field": "land", "op": "notEquals", "value": "gt5acre", "failAs": "not_eligible",
+          "passKey": "reason.pmkmy.smallFarmer.pass", "failKey": "reason.pmkmy.smallFarmer.fail" },
+        { "id": "ageNo", "field": "age", "op": "notIn", "value": ["under18", "41to59", "60plus"], "failAs": "not_eligible",
+          "passKey": "reason.pmkmy.age.pass", "failKey": "reason.pmkmy.age.fail" },
+        { "id": "ageUnknown", "field": "age", "op": "equals", "value": "18to40", "failAs": "check_office",
+          "passKey": "reason.pmkmy.age.pass", "failKey": "reason.pmkmy.age.unsure" },
+        { "id": "incomeTaxYes", "field": "incomeTax", "op": "notEquals", "value": "yes", "failAs": "not_eligible",
+          "passKey": "reason.pmkisan.incomeTax.pass", "failKey": "reason.pmkisan.incomeTax.fail" },
+        { "id": "incomeTaxUnsure", "field": "incomeTax", "op": "notEquals", "value": "dontKnow", "failAs": "check_office",
+          "passKey": "reason.pmkisan.incomeTax.pass", "failKey": "reason.pmkisan.incomeTax.unsure" },
+        { "id": "pensionYes", "field": "pensionOrGovtJob", "op": "notEquals", "value": "yes", "failAs": "not_eligible",
+          "passKey": "reason.pmkisan.pension.pass", "failKey": "reason.pmkisan.pension.fail" },
+        { "id": "pensionUnsure", "field": "pensionOrGovtJob", "op": "notEquals", "value": "dontKnow", "failAs": "check_office",
+          "passKey": "reason.pmkisan.pension.pass", "failKey": "reason.pmkisan.pension.unsure" }
+      ],
+      "tips": [],
+      "documents": ["doc.aadhaarCard", "doc.bankPassbook", "doc.landRecord"],
+      "deadlines": [],
+      "notes": ["note.pmkmy.contribution", "note.pmkmy.otherPension", "note.pmkmy.csc"],
+      "sourceUrl": "https://maandhan.in",
+      "lastVerified": "2026-11-01"
+    },
+    {
+      "id": "namo",
+      "states": ["mh"],
+      "nameKey": "scheme.namo.name",
+      "icon": "🌸",
+      "benefitKey": "scheme.namo.benefit",
+      "yearlyAmount": 6000,
+      "conditions": [
+        { "id": "ownsLand", "field": "ownsLand", "op": "isTrue", "failAs": "not_eligible",
+          "passKey": "reason.pmkisan.ownsLand.pass", "failKey": "reason.pmkisan.ownsLand.fail" },
+        { "id": "cutoff", "field": "landAfter2019", "op": "notIn", "value": ["yes", "dontKnow"], "failAs": "check_office",
+          "passKey": "reason.pmkisan.cutoff.pass", "failKey": "reason.pmkisan.cutoff.fail" },
+        { "id": "incomeTaxYes", "field": "incomeTax", "op": "notEquals", "value": "yes", "failAs": "not_eligible",
+          "passKey": "reason.pmkisan.incomeTax.pass", "failKey": "reason.pmkisan.incomeTax.fail" },
+        { "id": "incomeTaxUnsure", "field": "incomeTax", "op": "notEquals", "value": "dontKnow", "failAs": "check_office",
+          "passKey": "reason.pmkisan.incomeTax.pass", "failKey": "reason.pmkisan.incomeTax.unsure" },
+        { "id": "pensionYes", "field": "pensionOrGovtJob", "op": "notEquals", "value": "yes", "failAs": "not_eligible",
+          "passKey": "reason.pmkisan.pension.pass", "failKey": "reason.pmkisan.pension.fail" },
+        { "id": "pensionUnsure", "field": "pensionOrGovtJob", "op": "notEquals", "value": "dontKnow", "failAs": "check_office",
+          "passKey": "reason.pmkisan.pension.pass", "failKey": "reason.pmkisan.pension.unsure" },
+        { "id": "professionalYes", "field": "professionalOrPost", "op": "notEquals", "value": "yes", "failAs": "not_eligible",
+          "passKey": "reason.pmkisan.professional.pass", "failKey": "reason.pmkisan.professional.fail" },
+        { "id": "professionalUnsure", "field": "professionalOrPost", "op": "notEquals", "value": "dontKnow", "failAs": "check_office",
+          "passKey": "reason.pmkisan.professional.pass", "failKey": "reason.pmkisan.professional.unsure" }
+      ],
+      "tips": [
+        { "when": { "field": "bankEkyc", "op": "notEquals", "value": "yes" }, "key": "tip.pmkisan.ekyc" }
+      ],
+      "documents": ["doc.landRecordMh", "doc.aadhaarCard", "doc.bankPassbookLinked"],
+      "deadlines": [],
+      "notes": ["note.namo.withPmkisan"],
+      "sourceUrl": "https://www.myscheme.gov.in/schemes/namo-shetkari-mahasanman-nidhi-yojana",
+      "lastVerified": "2026-11-01"
+    },
+    {
+      "id": "rythuBharosa",
+      "states": ["tg"],
+      "nameKey": "scheme.rythuBharosa.name",
+      "icon": "🌾",
+      "benefitKey": "scheme.rythuBharosa.benefit",
+      "yearlyAmount": 0,
+      "conditions": [
+        { "id": "cultivates", "field": "cultivates", "op": "isTrue", "failAs": "not_eligible",
+          "passKey": "reason.rythuBharosa.cultivates.pass", "failKey": "reason.rythuBharosa.cultivates.fail" },
+        { "id": "ownsLand", "field": "ownsLand", "op": "isTrue", "failAs": "check_office",
+          "passKey": "reason.rythuBharosa.ownsLand.pass", "failKey": "reason.rythuBharosa.ownsLand.fail" }
+      ],
+      "tips": [],
+      "documents": ["doc.pattadarPassbook", "doc.aadhaarCard", "doc.bankPassbookLinked"],
+      "deadlines": [],
+      "notes": ["note.rythuBharosa.landRecords"],
+      "sourceUrl": "https://www.myscheme.gov.in/search/state/Telangana",
+      "lastVerified": "2026-11-01"
+    },
+    {
+      "id": "rythuBima",
+      "states": ["tg"],
+      "nameKey": "scheme.rythuBima.name",
+      "icon": "🕊️",
+      "benefitKey": "scheme.rythuBima.benefit",
+      "yearlyAmount": 0,
+      "conditions": [
+        { "id": "ownsLand", "field": "ownsLand", "op": "isTrue", "failAs": "not_eligible",
+          "passKey": "reason.rythuBima.ownsLand.pass", "failKey": "reason.rythuBima.ownsLand.fail" },
+        { "id": "ageNo", "field": "age", "op": "notIn", "value": ["under18", "60plus"], "failAs": "not_eligible",
+          "passKey": "reason.rythuBima.age.pass", "failKey": "reason.rythuBima.age.fail" },
+        { "id": "ageUnknown", "field": "age", "op": "in", "value": ["18to40", "41to59"], "failAs": "check_office",
+          "passKey": "reason.rythuBima.age.pass", "failKey": "reason.rythuBima.age.unsure" }
+      ],
+      "tips": [],
+      "documents": ["doc.pattadarPassbook", "doc.aadhaarCard", "doc.nominee"],
+      "deadlines": [],
+      "notes": ["note.rythuBima.ageAadhaar", "note.rythuBima.claim"],
+      "sourceUrl": "https://www.myscheme.gov.in/schemes/rythu-bima",
+      "lastVerified": "2026-11-01"
+    },
+    {
+      "id": "krishakBandhu",
+      "states": ["wb"],
+      "nameKey": "scheme.krishakBandhu.name",
+      "icon": "🤲",
+      "benefitKey": "scheme.krishakBandhu.benefit",
+      "yearlyAmount": 0,
+      "conditions": [
+        { "id": "cultivates", "field": "cultivates", "op": "isTrue", "failAs": "not_eligible",
+          "passKey": "reason.krishakBandhu.cultivates.pass", "failKey": "reason.krishakBandhu.cultivates.fail" }
+      ],
+      "tips": [],
+      "documents": ["doc.rorOrBargadar", "doc.aadhaarCard", "doc.bankPassbook"],
+      "deadlines": [],
+      "notes": ["note.krishakBandhu.death", "note.krishakBandhu.bargadar"],
+      "sourceUrl": "https://krishakbandhu.wb.gov.in",
+      "lastVerified": "2026-11-01"
+    },
+    {
+      "id": "uzhavar",
+      "states": ["tn"],
+      "nameKey": "scheme.uzhavar.name",
+      "icon": "🛟",
+      "benefitKey": "scheme.uzhavar.benefit",
+      "yearlyAmount": 0,
+      "conditions": [
+        { "id": "landLimit", "field": "land", "op": "notEquals", "value": "gt5acre", "failAs": "not_eligible",
+          "passKey": "reason.uzhavar.landLimit.pass", "failKey": "reason.uzhavar.landLimit.fail" },
+        { "id": "wetOrDry", "field": "land", "op": "notEquals", "value": "1to5acre", "failAs": "check_office",
+          "passKey": "reason.uzhavar.landLimit.pass", "failKey": "reason.uzhavar.wetOrDry" },
+        { "id": "ageNo", "field": "age", "op": "notEquals", "value": "under18", "failAs": "not_eligible",
+          "passKey": "reason.uzhavar.age.pass", "failKey": "reason.uzhavar.age.fail" },
+        { "id": "ageCheck", "field": "age", "op": "in", "value": ["18to40", "41to59"], "failAs": "check_office",
+          "passKey": "reason.uzhavar.age.pass", "failKey": "reason.uzhavar.age.unsure" },
+        { "id": "cultivates", "field": "cultivates", "op": "isTrue", "failAs": "check_office",
+          "passKey": "reason.uzhavar.cultivates.pass", "failKey": "reason.uzhavar.cultivates.fail" }
+      ],
+      "tips": [],
+      "documents": ["doc.landOrTenancy", "doc.aadhaarCard", "doc.ageProof", "doc.bankPassbook"],
+      "deadlines": [],
+      "notes": ["note.uzhavar.card", "note.uzhavar.amounts"],
+      "sourceUrl": "https://oap.tn.gov.in/cmupt",
       "lastVerified": "2026-11-01"
     }
   ]

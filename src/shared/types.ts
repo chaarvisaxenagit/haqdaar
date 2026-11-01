@@ -8,9 +8,14 @@ export type YesNoDontKnow = 'yes' | 'no' | 'dontKnow'
 export type LandSize = 'none' | 'lt1acre' | '1to5acre' | 'gt5acre'
 export type Season = 'kharif' | 'rabi'
 export type SoilTest = 'never' | 'within2y' | 'over2y' | 'dontKnow'
+// up = Uttar Pradesh, mh = Maharashtra, pb = Punjab, tn = Tamil Nadu, tg = Telangana, wb = West Bengal
+export type StateCode = 'up' | 'mh' | 'pb' | 'tn' | 'tg' | 'wb' | 'other'
+export type AgeBand = 'under18' | '18to40' | '41to59' | '60plus'
 
 // What the questions collect. A field is missing until the farmer answers it.
 export interface Answers {
+  state?: StateCode // missing in records saved before this question: counts as UP (Lucknow)
+  age?: AgeBand
   land?: LandSize
   landAfter2019?: YesNoDontKnow // only asked when land is not "none"
   tenant?: YesNo
@@ -118,6 +123,7 @@ export interface Scheme {
   icon: string
   benefitKey: string
   yearlyAmount: number
+  states?: StateCode[] // only for farmers in these states; missing = all of India
   alreadyHave?: { when: When; reasonKey: string }
   conditions: Condition[]
   tips: { when: When; key: string }[]

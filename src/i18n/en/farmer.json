@@ -89,5 +89,19 @@
   "results.soonText": "New state = new rules file",
   "results.sourceLabel": "Source",
   "results.checkedOn": "checked {date}",
-  "checklist.progress": "{done} / {total} papers ready"
+  "checklist.progress": "{done} / {total} papers ready",
+  "q.state.text": "Which state is your farm land in?",
+  "q.state.opt.up": "Uttar Pradesh",
+  "q.state.opt.mh": "Maharashtra",
+  "q.state.opt.pb": "Punjab",
+  "q.state.opt.tn": "Tamil Nadu",
+  "q.state.opt.tg": "Telangana",
+  "q.state.opt.wb": "West Bengal",
+  "q.state.opt.other": "Another state",
+  "q.age.text": "How old are you?",
+  "q.age.note": "Tell the age of the person this check is for.",
+  "q.age.opt.under18": "Under 18 years",
+  "q.age.opt.18to40": "18 to 40 years",
+  "q.age.opt.41to59": "41 to 59 years",
+  "q.age.opt.60plus": "60 years or more"
 }

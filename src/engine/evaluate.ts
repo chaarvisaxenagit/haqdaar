@@ -1,7 +1,7 @@
 // Runs every scheme's rules from schemes.json.
 // No AI here: the same answers always give the same result.
 import type { Answers, DeadlineResult, Scheme, SchemeResult, SchemeStatus, When } from '../shared/types'
-import { getFacts } from './facts'
+import { getFacts, stateOf } from './facts'
 import { nextDate } from './dates'
 import schemesData from './schemes.json'
 
@@ -87,7 +87,12 @@ export function evaluateScheme(scheme: Scheme, answers: Answers, today: string):
   }
 }
 
-// Results for every scheme, in the order of schemes.json.
+// Does this scheme apply where the farmer lives? (State schemes only show in their own state.)
+export function schemeApplies(scheme: Scheme, answers: Answers): boolean {
+  return !scheme.states || (scheme.states as string[]).includes(stateOf(answers))
+}
+
+// Results for every scheme that applies, in the order of schemes.json.
 export function evaluateAll(answers: Answers, today: string): SchemeResult[] {
-  return SCHEMES.map((s) => evaluateScheme(s, answers, today))
+  return SCHEMES.filter((s) => schemeApplies(s, answers)).map((s) => evaluateScheme(s, answers, today))
 }

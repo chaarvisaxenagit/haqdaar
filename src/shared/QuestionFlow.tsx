@@ -29,6 +29,19 @@ const YES_NO_DK: Option[] = [...YES_NO, { value: 'dontKnow', icon: '❓' }]
 // The order of the question screens. Season and crop share one screen (field "season").
 const QUESTIONS: Question[] = [
   {
+    field: 'state',
+    tile: '🗺️',
+    options: [
+      { value: 'up', icon: '📍' },
+      { value: 'mh', icon: '📍' },
+      { value: 'pb', icon: '📍' },
+      { value: 'tn', icon: '📍' },
+      { value: 'tg', icon: '📍' },
+      { value: 'wb', icon: '📍' },
+      { value: 'other', icon: '🗺️' },
+    ],
+  },
+  {
     field: 'land',
     tile: '🏞️',
     options: [
@@ -40,6 +53,17 @@ const QUESTIONS: Question[] = [
   },
   { field: 'landAfter2019', tile: '📜', options: YES_NO_DK, showIf: (a) => a.land !== 'none' },
   { field: 'tenant', tile: '🤝', options: YES_NO },
+  {
+    field: 'age',
+    tile: '🎂',
+    noteKey: 'q.age.note',
+    options: [
+      { value: 'under18', icon: '🧒' },
+      { value: '18to40', icon: '🧑' },
+      { value: '41to59', icon: '🧔' },
+      { value: '60plus', icon: '🧓' },
+    ],
+  },
   { field: 'incomeTax', tile: '🧾', options: YES_NO_DK, noteKey: 'q.family.note' },
   { field: 'pensionOrGovtJob', tile: '🏛️', options: YES_NO_DK, noteKey: 'q.family.note' },
   { field: 'professionalOrPost', tile: '💼', options: YES_NO_DK, noteKey: 'q.family.note' },

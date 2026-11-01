@@ -23,6 +23,8 @@ const CLEAN: Answers = {
   crop: 'wheat',
   hasKcc: 'no',
   soilTest: 'within2y',
+  state: 'up',
+  age: '41to59',
 }
 
 // Run the engine on the clean farmer plus some changes. Results by scheme id.
@@ -69,6 +71,26 @@ const ALL_CASES: Answers[] = [
   { soilTest: 'never' },
   { land: 'none', tenant: 'no', hasKcc: 'yes' },
   { land: 'none', tenant: 'yes', soilTest: 'within2y' },
+  { age: '18to40' },
+  { age: '18to40', land: 'gt5acre' },
+  { age: '18to40', incomeTax: 'dontKnow' },
+  { age: 'under18' },
+  { state: 'mh' },
+  { state: 'mh', incomeTax: 'yes' },
+  { state: 'mh', landAfter2019: 'yes' },
+  { state: 'tg' },
+  { state: 'tg', age: '60plus' },
+  { state: 'tg', land: 'none', tenant: 'yes' },
+  { state: 'wb' },
+  { state: 'wb', land: 'none', tenant: 'yes' },
+  { state: 'wb', land: 'none', tenant: 'no' },
+  { state: 'tn' },
+  { state: 'tn', land: 'lt1acre' },
+  { state: 'tn', land: 'gt5acre' },
+  { state: 'tn', land: 'lt1acre', age: '60plus' },
+  { state: 'tn', land: 'none', tenant: 'no' },
+  { state: 'pb' },
+  { state: 'other' },
 ]
 
 const files = import.meta.glob<Record<string, string>>('../i18n/*/*.json', { eager: true, import: 'default' })
@@ -80,7 +102,7 @@ describe('eligibility', () => {
     expect(r.pmfby.status).toBe('likely_eligible')
     expect(r.kcc.status).toBe('likely_eligible')
     expect(r.shc.status).toBe('already_have')
-    expect(Object.keys(r).sort()).toEqual(['kcc', 'pmfby', 'pmkisan', 'shc'])
+    expect(Object.keys(r).sort()).toEqual(['kcc', 'pmfby', 'pmkisan', 'pmkmy', 'shc'])
   })
 
   it('2. no land, not a tenant: all likely not eligible (SHC must NOT be already_have)', () => {
@@ -181,6 +203,97 @@ describe('eligibility', () => {
   })
 
   it.skip('25. state scheme skipped on 1 Nov', () => {})
+})
+
+describe('pension scheme (PM-KMY, all India)', () => {
+  it('26. age 41-59: PM-KMY likely not eligible (joins only at 18-40)', () => {
+    const r = run()
+    expect(r.pmkmy.status).toBe('likely_not_eligible')
+    expect(r.pmkmy.reasons).toContain('reason.pmkmy.age.fail')
+  })
+
+  it('27. age 18-40, small farmer: PM-KMY likely eligible', () => {
+    expect(run({ age: '18to40' }).pmkmy.status).toBe('likely_eligible')
+  })
+
+  it('28. age 18-40 but more than 5 acres: PM-KMY likely not eligible', () => {
+    const r = run({ age: '18to40', land: 'gt5acre' })
+    expect(r.pmkmy.status).toBe('likely_not_eligible')
+    expect(r.pmkmy.reasons).toContain('reason.pmkmy.smallFarmer.fail')
+  })
+
+  it('29. age 18-40, tenant with no land: PM-KMY likely not eligible (needs land in name)', () => {
+    const r = run({ age: '18to40', land: 'none', tenant: 'yes' })
+    expect(r.pmkmy.status).toBe('likely_not_eligible')
+    expect(r.pmkmy.reasons).toContain('reason.pmkmy.ownsLand.fail')
+  })
+
+  it('30. age 18-40, income tax not known: PM-KMY check with office', () => {
+    expect(run({ age: '18to40', incomeTax: 'dontKnow' }).pmkmy.status).toBe('check_office')
+  })
+})
+
+describe('state schemes', () => {
+  it('31. Maharashtra: Namo Shetkari likely eligible, Rs 6,000 a year', () => {
+    const r = run({ state: 'mh' })
+    expect(r.namo.status).toBe('likely_eligible')
+    expect(r.namo.yearlyAmount).toBe(6000)
+    expect(run({ state: 'mh', incomeTax: 'yes' }).namo.status).toBe('likely_not_eligible')
+  })
+
+  it('32. Maharashtra, land after 2019: Namo Shetkari check with office', () => {
+    expect(run({ state: 'mh', landAfter2019: 'yes' }).namo.status).toBe('check_office')
+  })
+
+  it('33. Telangana: Rythu Bharosa and Rythu Bima likely eligible', () => {
+    const r = run({ state: 'tg' })
+    expect(r.rythuBharosa.status).toBe('likely_eligible')
+    expect(r.rythuBima.status).toBe('likely_eligible')
+  })
+
+  it('34. Telangana, age 60 or more: Rythu Bima likely not eligible', () => {
+    const r = run({ state: 'tg', age: '60plus' })
+    expect(r.rythuBima.status).toBe('likely_not_eligible')
+    expect(r.rythuBima.reasons).toContain('reason.rythuBima.age.fail')
+  })
+
+  it('35. Telangana tenant with no land: Rythu Bharosa check with office, Rythu Bima no', () => {
+    const r = run({ state: 'tg', land: 'none', tenant: 'yes' })
+    expect(r.rythuBharosa.status).toBe('check_office')
+    expect(r.rythuBima.status).toBe('likely_not_eligible')
+  })
+
+  it('36. West Bengal: Krishak Bandhu for owners and sharecroppers, not for non-farmers', () => {
+    expect(run({ state: 'wb' }).krishakBandhu.status).toBe('likely_eligible')
+    expect(run({ state: 'wb', land: 'none', tenant: 'yes' }).krishakBandhu.status).toBe('likely_eligible')
+    expect(run({ state: 'wb', land: 'none', tenant: 'no' }).krishakBandhu.status).toBe('likely_not_eligible')
+  })
+
+  it('37. Tamil Nadu: Uzhavar Pathukappu depends on land size, age and work', () => {
+    expect(run({ state: 'tn', land: 'lt1acre' }).uzhavar.status).toBe('likely_eligible')
+    expect(run({ state: 'tn' }).uzhavar.status).toBe('check_office') // 1-5 acres: wet or dry land?
+    expect(run({ state: 'tn', land: 'gt5acre' }).uzhavar.status).toBe('likely_not_eligible')
+    expect(run({ state: 'tn', land: 'lt1acre', age: '60plus' }).uzhavar.status).toBe('check_office')
+    expect(run({ state: 'tn', land: 'none', tenant: 'no' }).uzhavar.status).toBe('check_office') // farm workers
+  })
+
+  it('38. a state scheme shows only in its own state', () => {
+    const central = ['kcc', 'pmfby', 'pmkisan', 'pmkmy', 'shc']
+    expect(Object.keys(run({ state: 'pb' })).sort()).toEqual(central)
+    expect(Object.keys(run({ state: 'other' })).sort()).toEqual(central)
+    expect(Object.keys(run({ state: 'tg' })).sort()).toEqual([...central, 'rythuBharosa', 'rythuBima'].sort())
+  })
+
+  it('39. outside Lucknow, PMFBY asks to confirm the crop is notified', () => {
+    const r = run({ state: 'mh' })
+    expect(r.pmfby.status).toBe('check_office')
+    expect(r.pmfby.reasons).toContain('reason.pmfby.cropNotified.fail')
+  })
+
+  it('40. a record saved before the state question counts as Lucknow, UP', () => {
+    const r = run({ state: undefined })
+    expect(r.pmfby.status).toBe('likely_eligible')
+  })
 })
 
 describe('deadlines', () => {

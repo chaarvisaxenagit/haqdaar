@@ -89,5 +89,19 @@
   "results.soonText": "नया राज्य = नई नियम फ़ाइल",
   "results.sourceLabel": "स्रोत",
   "results.checkedOn": "जाँचा गया {date}",
-  "checklist.progress": "{done} / {total} कागज़ तैयार"
+  "checklist.progress": "{done} / {total} कागज़ तैयार",
+  "q.state.text": "आपकी खेती की ज़मीन किस राज्य में है?",
+  "q.state.opt.up": "उत्तर प्रदेश",
+  "q.state.opt.mh": "महाराष्ट्र",
+  "q.state.opt.pb": "पंजाब",
+  "q.state.opt.tn": "तमिलनाडु",
+  "q.state.opt.tg": "तेलंगाना",
+  "q.state.opt.wb": "पश्चिम बंगाल",
+  "q.state.opt.other": "कोई और राज्य",
+  "q.age.text": "आपकी उम्र कितनी है?",
+  "q.age.note": "जिस व्यक्ति के लिए यह जाँच हो रही है, उसकी उम्र बताएँ।",
+  "q.age.opt.under18": "18 साल से कम",
+  "q.age.opt.18to40": "18 से 40 साल",
+  "q.age.opt.41to59": "41 से 59 साल",
+  "q.age.opt.60plus": "60 साल या ज़्यादा"
 }
