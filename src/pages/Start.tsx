@@ -1,39 +1,38 @@
-// Start screen: language picker + "I am a farmer" + "Operator sign-in".
+// Start screen: farm picture, name, the two big choices, and "How it works".
+// The language switch is in the top bar on every page.
+import type { CSSProperties } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useI18n } from '../shared/i18n'
-import { LIVE_LANGUAGES } from '../shared/languages'
 import { BigButton } from '../shared/ui'
+import FarmScene from '../shared/ui/FarmScene'
 
 export default function Start() {
-  const { t, lang, setLang } = useI18n()
+  const { t } = useI18n()
   const navigate = useNavigate()
+  const chips = ['start.chip.offline', 'start.chip.listen', 'start.chip.rules']
   return (
-    <main className="mx-auto flex w-full max-w-xl flex-col gap-6 px-4 py-8">
-      <header className="flex flex-col gap-1">
-        <h1 className="text-3xl font-bold">{t('app.name')}</h1>
-        <p className="text-lg text-gray-700">{t('app.tagline')}</p>
-      </header>
-
-      <section className="flex flex-col gap-3">
-        <h2 className="text-xl font-bold">{t('lang.choose')}</h2>
-        {/* Each language is written in its own script. Only live languages show. */}
-        {LIVE_LANGUAGES.map((l) => (
-          <BigButton key={l.code} selected={lang === l.code} onClick={() => setLang(l.code)}>
-            {l.name}
-          </BigButton>
-        ))}
+    <main className="is-narrow">
+      <section className="hero">
+        <FarmScene />
+        <h1 className="logo">{t('app.name')}</h1>
+        <div className="logo-en">Haqdaar</div>
+        <p className="tagline">{t('start.tagline')}</p>
+        <p className="sub">{t('start.sub')}</p>
+        <ul className="chips">
+          {chips.map((k, i) => (
+            <li key={k} style={{ '--i': i + 2 } as CSSProperties}>
+              {t(k)}
+            </li>
+          ))}
+        </ul>
       </section>
-
-      <section className="flex flex-col gap-3">
-        <BigButton icon="👩‍🌾" onClick={() => navigate('/f')}>
-          {t('start.farmer')}
-        </BigButton>
-        <BigButton icon="🧑‍💼" onClick={() => navigate('/o/login')}>
-          {t('start.operator')}
-        </BigButton>
-      </section>
-
-      <Link to="/about" className="text-lg font-medium text-green-800 underline">
+      <BigButton icon="👨‍🌾" variant="primary" big onClick={() => navigate('/f')}>
+        {t('start.farmer')}
+      </BigButton>
+      <BigButton icon="🏢" big onClick={() => navigate('/o/login')}>
+        {t('start.operator')}
+      </BigButton>
+      <Link to="/about" className="link-center">
         {t('start.about')}
       </Link>
     </main>

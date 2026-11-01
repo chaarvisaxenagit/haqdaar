@@ -3,10 +3,11 @@
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useI18n } from '../../shared/i18n'
-import { BigButton, HaqdaarIdLine, ListenButton, Page } from '../../shared/ui'
+import { BigButton, ListenButton, Nav } from '../../shared/ui'
 import { evaluateAll } from '../../engine/evaluate'
 import { todayString } from '../../shared/dates'
 import DeadlineBanner from '../deadlines/DeadlineBanner'
+import { MoneyCard } from './Results'
 import { deleteFarmerData, loadRecord } from './storage'
 
 type Screen = 'home' | 'confirmDelete' | 'deleted'
@@ -19,46 +20,64 @@ export default function FarmerHome() {
 
   if (screen === 'deleted') {
     return (
-      <Page title={t('delete.done')}>
-        <ListenButton text={t('delete.done')} />
-        <BigButton icon="🏠" onClick={() => navigate('/')}>
-          {t('nav.home')}
-        </BigButton>
-      </Page>
+      <main className="is-narrow">
+        <div className="consent-box">
+          <div className="tile3d big" aria-hidden="true">
+            🧹
+          </div>
+          <h1>{t('delete.done')}</h1>
+          <ListenButton text={t('delete.done')} />
+          <BigButton icon="🏠" variant="primary" onClick={() => navigate('/')}>
+            {t('nav.home')}
+          </BigButton>
+        </div>
+      </main>
     )
   }
 
   if (!record) return <Navigate to="/f/questions" replace />
 
   if (screen === 'confirmDelete') {
-    const text = `${t('delete.confirmTitle')} ${t('delete.confirmText')}`
     return (
-      <Page title={t('delete.confirmTitle')}>
-        <p className="text-lg">{t('delete.confirmText')}</p>
-        <ListenButton text={text} />
-        <BigButton
-          icon="🗑️"
-          variant="danger"
-          onClick={() => {
-            deleteFarmerData()
-            setScreen('deleted')
-          }}
-        >
-          {t('delete.yes')}
-        </BigButton>
-        <BigButton icon="↩️" onClick={() => setScreen('home')}>
-          {t('delete.no')}
-        </BigButton>
-      </Page>
+      <main className="is-narrow">
+        <div className="consent-box">
+          <div className="tile3d big" aria-hidden="true">
+            🗑️
+          </div>
+          <h1>{t('delete.confirmTitle')}</h1>
+          <p>{t('delete.confirmText')}</p>
+          <ListenButton text={`${t('delete.confirmTitle')} ${t('delete.confirmText')}`} />
+          <BigButton
+            icon="🗑️"
+            variant="danger"
+            onClick={() => {
+              deleteFarmerData()
+              setScreen('deleted')
+            }}
+          >
+            {t('delete.yes')}
+          </BigButton>
+          <BigButton icon="↩️" onClick={() => setScreen('home')}>
+            {t('delete.no')}
+          </BigButton>
+        </div>
+      </main>
     )
   }
 
+  const today = todayString()
+  const results = evaluateAll(record.answers, today)
+
   return (
-    <Page title={t('page.farmerHome.title')}>
-      <DeadlineBanner results={evaluateAll(record.answers, todayString())} today={todayString()} />
-      <p className="text-lg">{t('home.saved')}</p>
-      <HaqdaarIdLine id={record.haqdaarId} />
-      <BigButton icon="📋" variant="primary" onClick={() => navigate('/f/results')}>
+    <main className="is-narrow">
+      <DeadlineBanner results={results} today={today} />
+      <h1>{t('page.farmerHome.title')}</h1>
+      <p className="who">
+        {t('results.haqdaarId')}: <span className="mono">{record.haqdaarId}</span>
+      </p>
+      <p className="muted">{t('home.saved')}</p>
+      <MoneyCard results={results} />
+      <BigButton icon="📋" variant="primary" big onClick={() => navigate('/f/results')}>
         {t('home.seeResults')}
       </BigButton>
       <BigButton icon="🔄" onClick={() => navigate('/f/questions')}>
@@ -67,6 +86,7 @@ export default function FarmerHome() {
       <BigButton icon="🗑️" onClick={() => setScreen('confirmDelete')}>
         {t('home.delete')}
       </BigButton>
-    </Page>
+      <Nav back={{ label: t('nav.back'), onClick: () => navigate('/') }} />
+    </main>
   )
 }

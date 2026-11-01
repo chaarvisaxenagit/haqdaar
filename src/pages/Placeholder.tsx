@@ -1,16 +1,16 @@
-// A simple page for screens that are not built yet.
-import { Link } from 'react-router-dom'
+// A simple page for addresses that do not exist.
+import { useNavigate } from 'react-router-dom'
 import { useI18n } from '../shared/i18n'
-import { Page } from '../shared/ui'
+import { BigButton, Page } from '../shared/ui'
 
 export default function Placeholder({ titleKey }: { titleKey: string }) {
   const { t } = useI18n()
+  const navigate = useNavigate()
   return (
     <Page title={t(titleKey)}>
-      <p>{t('placeholder.soon')}</p>
-      <Link to="/" className="text-lg font-medium text-green-800 underline">
+      <BigButton icon="🏠" variant="primary" narrow onClick={() => navigate('/')}>
         {t('nav.home')}
-      </Link>
+      </BigButton>
     </Page>
   )
 }

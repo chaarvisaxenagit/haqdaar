@@ -31,5 +31,21 @@
   "about.privacy.operator": "ऑपरेटर किसान की सहमति से ही जानकारी सहेजता है। हर ऑपरेटर सिर्फ़ अपने किसानों की जानकारी देख सकता है। किसान जब चाहें अपनी जानकारी मिटवा सकते हैं।",
   "about.ai.title": "AI का इस्तेमाल",
   "about.ai.text": "यह ऐप बनाने में एक AI टूल की मदद ली गई। योजना के नतीजे AI तय नहीं करता, फ़ोन में लिखे नियम तय करते हैं। हिन्दी के वाक्य AI की मदद से लिखे गए हैं, और इन्हें एक हिन्दी बोलने वाला व्यक्ति जाँचता है।",
-  "about.team": "टीम Root Access · Catalyst Hack 2026"
+  "about.team": "टीम Root Access · Track 07 AgriTech & Rural Innovation · Catalyst Hack 2026",
+  "slip.subtitle": "योजना पर्ची",
+  "slip.qrNote": "QR में सिर्फ़ हक़दार आईडी है",
+  "slip.caption": "बिना स्मार्टफ़ोन वाले किसानों के लिए ऑपरेटर यह पर्ची छापते हैं।",
+  "about.flow.farmerPhone": "🧑‍🌾 किसान का फ़ोन",
+  "about.flow.or": "या",
+  "about.flow.operator": "🏢 CSC ऑपरेटर",
+  "about.flow.device": "📱 फ़ोन पर ही (बिना इंटरनेट)",
+  "about.flow.questions": "सवाल",
+  "about.flow.engine": "नियम इंजन",
+  "about.flow.outputs": "नतीजे · कागज़ों की सूची · पर्ची · आखिरी तारीख की याद",
+  "about.flow.cloud": "☁️ क्लाउड सिंक",
+  "about.flow.cloudNote": "सिर्फ़ इंटरनेट होने पर",
+  "about.point.system": "यह चैटबॉट नहीं, एक सिस्टम है।",
+  "about.point.rules": "पात्रता फ़ोन पर लिखे नियम तय करते हैं, AI नहीं।",
+  "about.point.offline": "एयरप्लेन मोड में भी चलता है; सिर्फ़ सिंक के लिए इंटरनेट चाहिए।",
+  "about.point.newState": "नई योजना या नया राज्य = नई नियम फ़ाइल।"
 }

@@ -1,73 +1,90 @@
-// Operator dashboard: search, New farmer, sign-out, a place for the follow-up list, and the farmer list.
+// Operator dashboard: sync status, search, follow-up list, my farmers, New farmer, sign-out.
 import { useState } from 'react'
+import type { CSSProperties } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useI18n } from '../../shared/i18n'
-import { BigButton, Page } from '../../shared/ui'
+import { BigButton } from '../../shared/ui'
 import { signOutOperator } from '../firebase/auth'
+import { useOnline } from '../firebase/online'
 import FollowUpList from '../deadlines/FollowUpList'
 import { useOperatorData } from './context'
 
 export default function Dashboard() {
   const { t } = useI18n()
   const navigate = useNavigate()
+  const online = useOnline()
   const { user, list } = useOperatorData()
   const [search, setSearch] = useState('')
 
-  // Search by Haqdaar ID (spaces and case ignored) or by name.
+  // Search by Haqdaar ID (spaces and case ignored), name or village.
   const words = search.trim().toLowerCase()
   const idWords = words.replace(/\s+/g, '').toUpperCase()
   const shown = words
     ? list.farmers.filter(
-        (f) => f.name.toLowerCase().includes(words) || (idWords.length > 0 && f.haqdaarId.includes(idWords)),
+        (f) =>
+          f.name.toLowerCase().includes(words) ||
+          (f.village ?? '').toLowerCase().includes(words) ||
+          (idWords.length > 0 && f.haqdaarId.replace('-', '').includes(idWords.replace('-', ''))),
       )
     : list.farmers
 
+  // Share of records already in the cloud, for the green bar.
+  const total = list.farmers.length
+  const syncedPct = total === 0 ? 100 : Math.round(((total - list.pending) / total) * 100)
+
   return (
-    <Page title={t('page.dashboard.title')}>
-      <p className="text-base break-all text-gray-800">{t('dash.signedInAs', { email: user.email ?? '' })}</p>
-      <BigButton icon="➕" variant="primary" onClick={() => navigate('/o/new')}>
+    <main className="is-wide">
+      <h1>{t('page.dashboard.title')}</h1>
+      <p className="muted small">👤 {t('dash.signedInAs', { email: user.email ?? '' })}</p>
+
+      <div className="syncbox">
+        <p style={{ margin: '6px 0' }}>
+          {list.pending > 0 ? t('dash.sync.pending', { n: list.pending }) : t('dash.sync.all')}
+          {list.pending > 0 && !online ? ` ${t('dash.sync.offline')}` : ''}
+        </p>
+        <div className="syncbar" aria-hidden="true">
+          <span style={{ width: `${syncedPct}%` }} />
+        </div>
+      </div>
+
+      <BigButton icon="➕" variant="primary" narrow onClick={() => navigate('/o/new')}>
         {t('dash.newFarmer')}
       </BigButton>
 
-      <FollowUpList farmers={list.farmers} />
+      <label className="field">
+        🔍 {t('dash.search')}
+        <input className="search" type="search" autoComplete="off" value={search} onChange={(e) => setSearch(e.target.value)} />
+      </label>
 
-      <section className="flex flex-col gap-3">
-        <h2 className="text-xl font-bold">{t('dash.farmers.title', { n: list.farmers.length })}</h2>
-        <label className="flex flex-col gap-1 text-lg font-medium">
-          🔍 {t('dash.search')}
-          <input
-            type="search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="min-h-14 w-full rounded-lg border-2 border-gray-400 bg-white px-3 text-lg"
-          />
-        </label>
+      <FollowUpList farmers={words ? shown : list.farmers} />
 
-        {!list.ready && <p className="text-lg">{t('op.loading')}</p>}
-        {list.ready && list.farmers.length === 0 && <p className="text-lg">{t('dash.noFarmers')}</p>}
-        {list.ready && list.farmers.length > 0 && shown.length === 0 && <p className="text-lg">{t('dash.noMatch')}</p>}
-
-        <ul className="flex flex-col gap-2">
-          {shown.map((f) => (
-            <li key={f.haqdaarId}>
-              <Link
-                to={`/o/farmer/${f.haqdaarId}`}
-                className="flex min-h-14 flex-col rounded-xl border-2 border-gray-400 bg-white px-4 py-2 active:bg-gray-100"
-              >
-                <span className="text-lg font-bold">{f.name}</span>
-                <span className="text-base text-gray-800">
-                  <span className="whitespace-nowrap">{f.haqdaarId}</span>
-                  {f.village ? ` · ${f.village}` : ''}
+      <h2>👥 {t('dash.farmers.title', { n: list.farmers.length })}</h2>
+      <p className="small muted">{t('dash.ownOnly')}</p>
+      {!list.ready && <p>{t('op.loading')}</p>}
+      {list.ready && list.farmers.length === 0 && <p className="muted">{t('dash.noFarmers')}</p>}
+      {list.ready && list.farmers.length > 0 && shown.length === 0 && <p className="muted">{t('dash.noMatch')}</p>}
+      <ul className="rows">
+        {shown.map((f, i) => (
+          <li key={f.haqdaarId}>
+            <Link to={`/o/farmer/${f.haqdaarId}`} className="row" style={{ '--i': i } as CSSProperties}>
+              <span className="row-top">
+                <span className="avatar" aria-hidden="true">
+                  🧑‍🌾
                 </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+                <span className="name">{f.name}</span>
+              </span>
+              <span className="meta">
+                {f.village ? `${f.village} · ` : ''}
+                <span className="mono">{f.haqdaarId}</span>
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
 
-      <BigButton icon="🚪" onClick={() => signOutOperator().then(() => navigate('/o/login', { replace: true }))}>
+      <BigButton icon="🚪" narrow onClick={() => signOutOperator().then(() => navigate('/o/login', { replace: true }))}>
         {t('dash.signOut')}
       </BigButton>
-    </Page>
+    </main>
   )
 }

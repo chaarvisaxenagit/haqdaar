@@ -73,5 +73,17 @@
   "results.toChecklist": "Which papers to take",
   "results.toSlip": "See and print the slip",
   "checklist.intro": "Take these papers for the schemes you are likely to get. Tick each paper when it is ready.",
-  "checklist.none": "You do not need to take papers for any scheme right now."
+  "checklist.none": "You do not need to take papers for any scheme right now.",
+  "q.seasonCrop.text": "Which season and which crop?",
+  "q.season.group": "Season",
+  "q.crop.group": "Crop",
+  "results.nextDeadline": "Next last date: {label} – {date} ({days})",
+  "results.moneyLabel": "Money you may get every year",
+  "results.moneyAmount": "₹{amount}/year from {names}",
+  "results.moneyNone": "No fixed yearly money from these schemes.",
+  "results.soonTitle": "State scheme – soon",
+  "results.soonText": "New state = new rules file",
+  "results.sourceLabel": "Source",
+  "results.checkedOn": "checked {date}",
+  "checklist.progress": "{done} / {total} papers ready"
 }

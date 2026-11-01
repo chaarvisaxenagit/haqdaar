@@ -11,6 +11,7 @@ import { todayString } from '../../shared/dates'
 import SchemeCard from '../../shared/SchemeCard'
 import { BigButton, HaqdaarIdLine, Page } from '../../shared/ui'
 import Slip from '../slip/Slip'
+import { MoneyCard } from '../farmer/Results'
 import DetailsForm from './DetailsForm'
 
 // The last check, kept in memory only (for the slip). Never saved anywhere.
@@ -34,16 +35,22 @@ export default function CheckOnly() {
   const [details, setDetails] = useState({ name: '', village: '' })
   const [check, setCheck] = useState<CheckOnlyFarmer | null>(lastCheck)
 
-  const note = <p className="rounded-lg border-2 border-amber-600 bg-amber-50 p-3 text-lg">⚠️ {t('check.note')}</p>
+  const note = <div className="banner warn">⚠️ {t('check.note')}</div>
 
   if (step === 'start') {
     return (
-      <Page title={t('check.title')}>
-        {note}
-        <BigButton icon="🔍" variant="primary" onClick={() => setStep('details')}>
-          {t('check.start')}
-        </BigButton>
-      </Page>
+      <main className="is-narrow">
+        <div className="consent-box">
+          <div className="tile3d big" aria-hidden="true">
+            🔍
+          </div>
+          <h1>{t('check.title')}</h1>
+          <p>{t('check.note')}</p>
+          <BigButton icon="🔍" variant="leaf" onClick={() => setStep('details')}>
+            {t('check.start')}
+          </BigButton>
+        </div>
+      </main>
     )
   }
 
@@ -63,8 +70,10 @@ export default function CheckOnly() {
 
   if (step === 'questions' || !check) {
     return (
-      <Page title={t('check.title')}>
+      <main className="is-narrow">
         <QuestionFlow
+          who={details.name ? `🧑‍🌾 ${details.name}` : undefined}
+          onBack={() => setStep('details')}
           onDone={(answers) => {
             const done = { haqdaarId: makeHaqdaarId(), ...details, answers }
             lastCheck = done
@@ -72,35 +81,42 @@ export default function CheckOnly() {
             setStep('results')
           }}
         />
-      </Page>
+      </main>
     )
   }
 
   if (showSlip) return <Slip farmer={{ ...check, lang }} onBack={() => setShowSlip(false)} />
 
   const today = todayString()
+  const results = evaluateAll(check.answers, today)
   return (
-    <Page title={check.name || t('check.title')}>
+    <main className="is-wide">
       {note}
+      <h1>{check.name || t('check.title')}</h1>
       <HaqdaarIdLine id={check.haqdaarId} />
-      <p className="text-lg text-gray-800">{t('results.likelyNote')}</p>
-      {evaluateAll(check.answers, today).map((r) => (
-        <SchemeCard key={r.schemeId} result={r} today={today} />
-      ))}
-      <BigButton icon="🖨️" variant="primary" onClick={() => setShowSlip(true)}>
-        {t('detail.printSlip')}
-      </BigButton>
-      <BigButton
-        icon="🔄"
-        onClick={() => {
-          lastCheck = null
-          setCheck(null)
-          setDetails({ name: '', village: '' })
-          setStep('start')
-        }}
-      >
-        {t('check.again')}
-      </BigButton>
-    </Page>
+      <MoneyCard results={results} />
+      <div className="grid">
+        {results.map((r, i) => (
+          <SchemeCard key={r.schemeId} result={r} today={today} i={i} />
+        ))}
+      </div>
+      <p className="demo-note">{t('results.likelyNote')}</p>
+      <div className="actions">
+        <BigButton icon="🧾" variant="primary" onClick={() => setShowSlip(true)}>
+          {t('detail.printSlip')}
+        </BigButton>
+        <BigButton
+          icon="🔄"
+          onClick={() => {
+            lastCheck = null
+            setCheck(null)
+            setDetails({ name: '', village: '' })
+            setStep('start')
+          }}
+        >
+          {t('check.again')}
+        </BigButton>
+      </div>
+    </main>
   )
 }

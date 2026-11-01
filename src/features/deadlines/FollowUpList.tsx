@@ -3,13 +3,14 @@
 //     and the farmer has not applied yet, or
 // (b) their follow-up date is today or earlier.
 // Sorted by the soonest date.
+import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import type { FarmerRecord } from '../../shared/types'
 import { getFollowUp } from '../../engine/deadlines'
 import { useI18n } from '../../shared/i18n'
 import { formatDate, todayString } from '../../shared/dates'
 import { SCHEME_BY_ID } from '../../shared/SchemeCard'
-import { Card, STATUS_ICON } from '../../shared/ui'
+import { STATUS_ICON } from '../../shared/ui'
 import { daysText } from './daysText'
 
 export default function FollowUpList({ farmers }: { farmers: FarmerRecord[] }) {
@@ -21,40 +22,41 @@ export default function FollowUpList({ farmers }: { farmers: FarmerRecord[] }) {
     .sort((a, b) => a.item!.date.localeCompare(b.item!.date))
 
   return (
-    <Card>
-      <h2 className="text-xl font-bold">📅 {t('dash.followUp.title')}</h2>
-      {rows.length === 0 && <p className="text-lg">{t('followUp.empty')}</p>}
-      <ul className="flex flex-col gap-2">
-        {rows.map(({ farmer, item }) => (
-          <li key={farmer.haqdaarId}>
-            <Link
-              to={`/o/farmer/${farmer.haqdaarId}`}
-              className="flex min-h-14 flex-col gap-1 rounded-xl border-2 border-amber-600 bg-amber-50 px-4 py-2 active:bg-amber-100"
-            >
-              <span className="flex flex-wrap items-baseline justify-between gap-x-3">
-                <span className="text-lg font-bold">{farmer.name}</span>
-                <span className="text-lg font-bold text-amber-900">⏰ {daysText(item!.daysLeft, t)}</span>
-              </span>
-              <span className="text-base text-gray-800">
-                <span className="whitespace-nowrap">{farmer.haqdaarId}</span>
-                {farmer.village ? ` · ${farmer.village}` : ''}
-              </span>
-              <span className="text-base">
-                {item!.schemeId && item!.status ? (
-                  <>
-                    {SCHEME_BY_ID[item!.schemeId].icon} {t(SCHEME_BY_ID[item!.schemeId].nameKey)} ·{' '}
-                    {STATUS_ICON[item!.status]} {t(`status.${item!.status}`)} · {formatDate(item!.date, t)}
-                  </>
-                ) : (
-                  <>
-                    📌 {t('followUp.dateReached')} · {formatDate(item!.date, t)}
-                  </>
-                )}
-              </span>
-            </Link>
-          </li>
-        ))}
+    <section>
+      <h2>📞 {t('dash.followUp.title')}</h2>
+      {rows.length === 0 && <p className="small muted">{t('followUp.empty')}</p>}
+      <ul className="rows">
+        {rows.map(({ farmer, item }, i) => {
+          const scheme = item!.schemeId ? SCHEME_BY_ID[item!.schemeId] : null
+          return (
+            <li key={farmer.haqdaarId}>
+              <Link to={`/o/farmer/${farmer.haqdaarId}`} className="row" style={{ '--i': i } as CSSProperties}>
+                <span className="row-top">
+                  <span className="avatar" aria-hidden="true">
+                    🧑‍🌾
+                  </span>
+                  <span className="name">{farmer.name}</span>
+                  <span className={`days${item!.daysLeft <= 0 ? ' today' : ''}`}>{daysText(item!.daysLeft, t)}</span>
+                </span>
+                <span className="meta">
+                  {farmer.village ? `${farmer.village} · ` : ''}
+                  <span className="mono">{farmer.haqdaarId}</span>
+                  <br />
+                  {scheme && item!.status ? (
+                    <>
+                      {t(scheme.nameKey)} · {STATUS_ICON[item!.status]} {t(`status.${item!.status}`)} · {formatDate(item!.date, t)}
+                    </>
+                  ) : (
+                    <>
+                      📌 {t('followUp.dateReached')} · {formatDate(item!.date, t)}
+                    </>
+                  )}
+                </span>
+              </Link>
+            </li>
+          )
+        })}
       </ul>
-    </Card>
+    </section>
   )
 }

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useI18n } from '../../shared/i18n'
-import { BigButton, Page } from '../../shared/ui'
+import { BigButton, Nav } from '../../shared/ui'
 import { createOperatorAccount, sendOperatorPasswordReset, signInOperator, useOperator } from '../firebase/auth'
 import { useOnline } from '../firebase/online'
 import OperatorBar from './OperatorBar'
@@ -67,31 +67,19 @@ export default function Login() {
     setInfo('')
   }
 
-  const input = 'min-h-14 w-full rounded-lg border-2 border-gray-400 bg-white px-3 text-lg'
-  const link = 'min-h-14 self-start px-1 text-lg font-medium text-green-800 underline'
-
   return (
     <>
       <OperatorBar online={online} />
-      <Page title={mode === 'signin' ? t('page.operatorLogin.title') : t('signup.title')}>
-        {/* Firebase keeps data on this phone, so it must be the operator's own phone. */}
-        <p className="rounded-lg border-2 border-amber-600 bg-amber-50 p-3 text-lg">⚠️ {t('login.ownPhoneNote')}</p>
+      <main className="is-narrow">
+        <h1>{mode === 'signin' ? t('page.operatorLogin.title') : t('signup.title')}</h1>
+        {!online && <div className="banner warn">📵 {t('login.needInternet')}</div>}
 
-        {!online && <p className="text-lg font-medium text-red-800">{t('login.needInternet')}</p>}
-
-        <form onSubmit={submit} className="flex flex-col gap-4">
-          <label className="flex flex-col gap-1 text-lg font-medium">
+        <form className="login" onSubmit={submit}>
+          <label className="field">
             {t('login.email')}
-            <input
-              type="email"
-              autoComplete="username"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className={input}
-            />
+            <input type="email" autoComplete="username" required value={email} onChange={(e) => setEmail(e.target.value)} />
           </label>
-          <label className="flex flex-col gap-1 text-lg font-medium">
+          <label className="field">
             {t('login.password')}
             <input
               type="password"
@@ -100,50 +88,46 @@ export default function Login() {
               minLength={mode === 'signup' ? 6 : undefined}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={input}
             />
-            {mode === 'signup' && <span className="text-base font-normal text-gray-800">{t('signup.passwordHint')}</span>}
+            {mode === 'signup' && <span className="field-hint">{t('signup.passwordHint')}</span>}
           </label>
           {error && (
-            <p role="alert" className="text-lg font-medium text-red-800">
+            <p role="alert" className="error">
               ❌ {t(error)}
             </p>
           )}
           {info && (
-            <p role="status" className="text-lg font-medium text-green-900">
+            <p role="status" className="info">
               ✅ {info}
             </p>
           )}
-          <button
-            type="submit"
-            disabled={busy}
-            className="min-h-14 w-full rounded-xl border-2 border-green-800 bg-green-700 px-4 text-lg font-medium text-white active:bg-green-800 disabled:opacity-60"
-          >
+          <button type="submit" className="btn primary" disabled={busy}>
             {mode === 'signin' ? (busy ? t('login.busy') : t('login.submit')) : busy ? t('signup.busy') : t('signup.submit')}
           </button>
+          <p className="small">🔐 {t('login.ownPhoneNote')}</p>
+          {mode === 'signin' ? (
+            <>
+              <button type="button" className="link-btn" onClick={forgotPassword}>
+                {t('login.forgot')}
+              </button>
+              <button type="button" className="link-btn" onClick={() => switchMode('signup')}>
+                {t('login.createAccount')}
+              </button>
+            </>
+          ) : (
+            <button type="button" className="link-btn" onClick={() => switchMode('signin')}>
+              {t('login.haveAccount')}
+            </button>
+          )}
         </form>
 
-        {mode === 'signin' ? (
-          <>
-            <button type="button" onClick={forgotPassword} className={link}>
-              {t('login.forgot')}
-            </button>
-            <button type="button" onClick={() => switchMode('signup')} className={link}>
-              {t('login.createAccount')}
-            </button>
-          </>
-        ) : (
-          <button type="button" onClick={() => switchMode('signin')} className={link}>
-            {t('login.haveAccount')}
-          </button>
-        )}
-
         {!online && (
-          <BigButton icon="🔍" onClick={() => navigate('/o')}>
+          <BigButton icon="🔍" variant="leaf" onClick={() => navigate('/o')}>
             {t('login.checkOnly')}
           </BigButton>
         )}
-      </Page>
+        <Nav back={{ label: t('nav.back'), onClick: () => navigate('/') }} />
+      </main>
     </>
   )
 }

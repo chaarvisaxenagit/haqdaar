@@ -65,5 +65,9 @@
   "detail.editAnswers": "जवाब बदलें",
   "detail.editDetails": "नाम या गाँव बदलें",
   "detail.cancel": "रद्द करें",
-  "reg.save": "सहेजें"
+  "reg.save": "सहेजें",
+  "dash.ownOnly": "ऑपरेटर सिर्फ़ अपने किसान देखते हैं।",
+  "dash.sync.all": "✅ सारे रिकॉर्ड सिंक हो गए",
+  "dash.sync.pending": "⏳ {n} रिकॉर्ड सिंक होने बाकी हैं",
+  "dash.sync.offline": "इंटरनेट आते ही अपने-आप सिंक होंगे।"
 }

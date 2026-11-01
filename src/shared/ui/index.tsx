@@ -1,43 +1,69 @@
-// Small shared building blocks: big buttons, the Listen button, status badge, cards, top bar.
-import type { ReactNode } from 'react'
+// Shared building blocks: page shell, top bar, big buttons, Listen button, status, cards.
+// Styles live in src/index.css.
+import { useEffect, useState } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import type { SchemeStatus } from '../types'
 import { useI18n } from '../i18n'
 import { LIVE_LANGUAGES } from '../languages'
+import BgDrift from './BgDrift'
 
-// A big full-width tap button (at least 56 px tall) with an icon and text.
+type Variant = 'plain' | 'primary' | 'leaf' | 'danger'
+
+// A big full-width button (56 px or more) with an icon and text.
 export function BigButton({
   icon,
   children,
   onClick,
-  selected = false,
   variant = 'plain',
+  big = false,
+  narrow = false,
+  disabled = false,
+  className = '',
 }: {
   icon?: string
   children: ReactNode
   onClick: () => void
-  selected?: boolean
-  variant?: 'plain' | 'primary' | 'danger'
+  variant?: Variant
+  big?: boolean
+  narrow?: boolean
+  disabled?: boolean
+  className?: string
 }) {
-  const look =
-    variant === 'primary'
-      ? 'border-green-800 bg-green-700 text-white active:bg-green-800'
-      : variant === 'danger'
-        ? 'border-red-800 bg-red-700 text-white active:bg-red-800'
-        : selected
-          ? 'border-green-700 bg-green-50 text-gray-900'
-          : 'border-gray-400 bg-white text-gray-900 active:bg-gray-100'
+  const classes = ['btn', variant !== 'plain' && variant, big && 'big', narrow && 'narrow-btn', className]
+    .filter(Boolean)
+    .join(' ')
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={variant === 'plain' ? selected : undefined}
-      className={`flex min-h-14 w-full items-center gap-3 rounded-xl border-2 px-4 py-3 text-start text-lg font-medium ${look}`}
-    >
-      {icon && <span className="text-2xl" aria-hidden="true">{icon}</span>}
-      <span className="flex-1">{children}</span>
-      {selected && <span aria-hidden="true">✅</span>}
+    <button type="button" onClick={onClick} disabled={disabled} className={classes}>
+      {icon && <span aria-hidden="true">{icon}</span>}
+      <span>{children}</span>
     </button>
+  )
+}
+
+// Back / Next row. A lone button sits in the middle.
+export function Nav({
+  back,
+  next,
+  sticky = false,
+}: {
+  back?: { label: string; onClick: () => void }
+  next?: { label: string; onClick: () => void; disabled?: boolean }
+  sticky?: boolean
+}) {
+  return (
+    <nav className={`nav${sticky ? ' sticky' : ''} no-print`}>
+      {back && (
+        <button type="button" className="btn back" onClick={back.onClick}>
+          ← {back.label}
+        </button>
+      )}
+      {next && (
+        <button type="button" className="btn primary" onClick={next.onClick} disabled={next.disabled}>
+          {next.label} →
+        </button>
+      )}
+    </nav>
   )
 }
 
@@ -45,16 +71,11 @@ export function BigButton({
 export function ListenButton({ text }: { text: string }) {
   const { t, speak, voiceMissing } = useI18n()
   return (
-    <div className="flex flex-col items-start gap-1 print:hidden">
-      <button
-        type="button"
-        onClick={() => speak(text)}
-        className="flex min-h-14 items-center gap-2 rounded-full bg-green-700 px-5 text-lg font-medium text-white active:bg-green-800"
-      >
-        <span aria-hidden="true">🔊</span>
-        {t('listen')}
+    <div className="no-print">
+      <button type="button" className="listen" onClick={() => speak(text)}>
+        <span aria-hidden="true">🔊</span> {t('listen')}
       </button>
-      {voiceMissing && <p className="text-base text-gray-800">{t('voice.missing')}</p>}
+      {voiceMissing && <p className="voice-note">{t('voice.missing')}</p>}
     </div>
   )
 }
@@ -67,63 +88,45 @@ export const STATUS_ICON: Record<SchemeStatus, string> = {
   already_have: '☑️',
 }
 
-const STATUS_LOOK: Record<SchemeStatus, string> = {
-  likely_eligible: 'border-green-700 bg-green-50 text-green-900',
-  likely_not_eligible: 'border-red-700 bg-red-50 text-red-900',
-  check_office: 'border-amber-600 bg-amber-50 text-amber-900',
-  already_have: 'border-blue-700 bg-blue-50 text-blue-900',
-}
-
 export function StatusBadge({ status }: { status: SchemeStatus }) {
   const { t } = useI18n()
   return (
-    <span className={`inline-flex items-center gap-2 rounded-lg border-2 px-3 py-1 text-lg font-bold ${STATUS_LOOK[status]}`}>
-      <span aria-hidden="true">{STATUS_ICON[status]}</span>
-      {t(`status.${status}`)}
+    <p className="status">
+      {STATUS_ICON[status]} {t(`status.${status}`)}
+    </p>
+  )
+}
+
+// Raised coloured tile with the scheme's emoji.
+export function SchemeIcon({ schemeId, icon, small = false, i = 0 }: { schemeId: string; icon: string; small?: boolean; i?: number }) {
+  const known = ['pmkisan', 'pmfby', 'kcc', 'shc', 'soon']
+  const color = known.includes(schemeId) ? `ic-${schemeId}` : 'ic-default'
+  return (
+    <span className={`card-icon ${color}${small ? ' small' : ''}`} style={{ '--i': i } as CSSProperties} aria-hidden="true">
+      {icon}
     </span>
   )
 }
 
-export function Card({ children }: { children: ReactNode }) {
-  return <section className="flex flex-col gap-3 rounded-2xl border-2 border-gray-300 bg-white p-4">{children}</section>
+export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
+  return <section className={`card ${className}`}>{children}</section>
 }
 
-// Standard page box: phone width first, a title, then the content.
-export function Page({ title, children }: { title: string; children?: ReactNode }) {
+// Standard page: phone width first, a title, then the content.
+export function Page({
+  title,
+  children,
+  width = 'narrow',
+}: {
+  title?: ReactNode
+  children?: ReactNode
+  width?: 'narrow' | 'wide' | 'slip'
+}) {
   return (
-    <main className="mx-auto flex w-full max-w-xl flex-col gap-4 px-4 py-6">
-      <h1 className="text-2xl font-bold">{title}</h1>
+    <main className={`is-${width}`}>
+      {title && <h1>{title}</h1>}
       {children}
     </main>
-  )
-}
-
-// Top bar on every page: app name (goes to start) and the language switch.
-export function TopBar() {
-  const { t, lang, setLang } = useI18n()
-  return (
-    <header className="border-b-2 border-gray-200 bg-white print:hidden">
-      <div className="mx-auto flex w-full max-w-xl items-center justify-between gap-2 px-4 py-2">
-        <Link to="/" className="flex min-h-12 items-center text-xl font-bold text-green-800">
-          {t('app.name')}
-        </Link>
-        <label className="flex items-center gap-2 text-base">
-          <span aria-hidden="true">🌐</span>
-          <span className="sr-only">{t('lang.choose')}</span>
-          <select
-            value={lang}
-            onChange={(e) => setLang(e.target.value)}
-            className="min-h-12 rounded-lg border-2 border-gray-400 bg-white px-2 text-lg"
-          >
-            {LIVE_LANGUAGES.map((l) => (
-              <option key={l.code} value={l.code}>
-                {l.name}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-    </header>
   )
 }
 
@@ -131,8 +134,60 @@ export function TopBar() {
 export function HaqdaarIdLine({ id }: { id: string }) {
   const { t } = useI18n()
   return (
-    <p className="text-lg font-bold">
-      {t('results.haqdaarId')}: <span className="whitespace-nowrap">{id}</span>
+    <p className="who">
+      {t('results.haqdaarId')}: <span className="mono">{id}</span>
     </p>
+  )
+}
+
+// Top bar on every page: home button and the language switch.
+export function TopBar() {
+  const { t, lang, setLang } = useI18n()
+  return (
+    <header className="topbar no-print">
+      <Link to="/" className="home" aria-label={t('nav.home')}>
+        🏠
+      </Link>
+      <div className="lang" role="group" aria-label={t('lang.choose')}>
+        {LIVE_LANGUAGES.map((l) => (
+          <button key={l.code} type="button" lang={l.code} aria-pressed={lang === l.code} onClick={() => setLang(l.code)}>
+            {l.name}
+          </button>
+        ))}
+        {/* More Indian languages come once a native speaker has checked them. */}
+        <button type="button" className="soon" aria-disabled="true" title={t('lang.regionalSoon')}>
+          {t('lang.regionalSoon')}
+        </button>
+      </div>
+    </header>
+  )
+}
+
+// "Works offline too" note, shown only once the app is really saved on the phone.
+function OfflineNote() {
+  const { t } = useI18n()
+  const [ready, setReady] = useState(false)
+  useEffect(() => {
+    let live = true
+    navigator.serviceWorker?.ready.then(() => live && setReady(true)).catch(() => {})
+    return () => {
+      live = false
+    }
+  }, [])
+  if (!ready) return null
+  return <span className="offline-note">{t('app.offlineReady')}</span>
+}
+
+// The app column: drifting background, top bar, the page, and the footer.
+export function AppShell({ children }: { children: ReactNode }) {
+  return (
+    <div className="app">
+      <BgDrift />
+      <TopBar />
+      {children}
+      <footer className="foot no-print">
+        <OfflineNote />
+      </footer>
+    </div>
   )
 }

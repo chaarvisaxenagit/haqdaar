@@ -18,9 +18,9 @@ export default function DeadlineBanner({ results, today }: { results: SchemeResu
   )
 
   return (
-    <section role="alert" className="flex flex-col gap-3 rounded-2xl border-4 border-red-700 bg-red-50 p-4 text-red-950">
-      <h2 className="text-xl font-bold">⏰ {t('alert.title')}</h2>
-      <ul className="flex flex-col gap-2 text-lg">
+    <section role="alert" className="banner alert">
+      <h2 style={{ margin: '0 0 4px', fontSize: 20 }}>⏰ {t('alert.title')}</h2>
+      <ul>
         {lines.map((line) => (
           <li key={line}>{line}</li>
         ))}

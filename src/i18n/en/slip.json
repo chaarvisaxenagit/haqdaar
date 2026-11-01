@@ -31,5 +31,21 @@
   "about.privacy.operator": "An operator saves details only with the farmer's consent. Each operator can see only their own farmers. Farmers can ask to delete their details at any time.",
   "about.ai.title": "Use of AI",
   "about.ai.text": "An AI tool helped build this app. AI does not decide the scheme results; rules written in the app decide them. The Hindi and English text was written with AI help and is checked by a person.",
-  "about.team": "Team Root Access · Catalyst Hack 2026"
+  "about.team": "Team Root Access · Track 07 AgriTech & Rural Innovation · Catalyst Hack 2026",
+  "slip.subtitle": "Scheme slip",
+  "slip.qrNote": "The QR holds only the Haqdaar ID",
+  "slip.caption": "Operators print this slip for farmers without a smartphone.",
+  "about.flow.farmerPhone": "🧑‍🌾 Farmer's phone",
+  "about.flow.or": "or",
+  "about.flow.operator": "🏢 CSC operator",
+  "about.flow.device": "📱 On the phone itself (no internet)",
+  "about.flow.questions": "Questions",
+  "about.flow.engine": "Rules engine",
+  "about.flow.outputs": "Results · paper checklist · slip · deadline reminders",
+  "about.flow.cloud": "☁️ Cloud sync",
+  "about.flow.cloudNote": "Only when there is internet",
+  "about.point.system": "It is not a chatbot, it is a system.",
+  "about.point.rules": "Eligibility is decided by rules on the phone, not by AI.",
+  "about.point.offline": "Works in airplane mode; only sync needs internet.",
+  "about.point.newState": "A new scheme or a new state = a new rules file."
 }

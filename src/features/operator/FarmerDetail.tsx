@@ -1,5 +1,5 @@
 // Farmer detail: results with reasons, application status per scheme, follow-up date,
-// Print slip, and Delete record (farmer withdrew consent).
+// Print slip, edit answers/details, and Delete record (farmer withdrew consent).
 // Results are worked out again from the saved answers each time.
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -8,8 +8,9 @@ import { evaluateAll } from '../../engine/evaluate'
 import { useI18n } from '../../shared/i18n'
 import { todayString } from '../../shared/dates'
 import SchemeCard from '../../shared/SchemeCard'
-import { BigButton, Card, HaqdaarIdLine, ListenButton, Page } from '../../shared/ui'
+import { BigButton, ListenButton, Nav, Page } from '../../shared/ui'
 import QuestionFlow from '../../shared/QuestionFlow'
+import { NextDeadlineBanner } from '../farmer/Results'
 import { deleteFarmer, updateFarmer, useFarmer } from '../firebase/farmers'
 import DetailsForm from './DetailsForm'
 
@@ -24,59 +25,59 @@ export default function FarmerDetail() {
   const { id } = useParams()
   const { record, ready } = useFarmer(id)
   const [screen, setScreen] = useState<Screen>('view')
-  const confirmDelete = screen === 'confirmDelete'
-  const setConfirmDelete = (yes: boolean) => setScreen(yes ? 'confirmDelete' : 'view')
 
   if (!ready) return <Page title={t('op.loading')} />
 
   if (!record) {
     return (
       <Page title={t('detail.notFound')}>
-        <BigButton icon="🏠" onClick={() => navigate('/o')}>
-          {t('detail.back')}
-        </BigButton>
+        <Nav back={{ label: t('detail.back'), onClick: () => navigate('/o') }} />
       </Page>
     )
   }
 
-  if (confirmDelete) {
-    const text = `${t('detail.deleteConfirmTitle')} ${t('detail.deleteConfirmText')}`
+  if (screen === 'confirmDelete') {
     return (
-      <Page title={t('detail.deleteConfirmTitle')}>
-        <p className="text-lg">{t('detail.deleteConfirmText')}</p>
-        <ListenButton text={text} />
-        <BigButton
-          icon="🗑️"
-          variant="danger"
-          onClick={() => {
-            deleteFarmer(record.haqdaarId)
-            navigate('/o', { replace: true })
-          }}
-        >
-          {t('delete.yes')}
-        </BigButton>
-        <BigButton icon="↩️" onClick={() => setConfirmDelete(false)}>
-          {t('delete.no')}
-        </BigButton>
-      </Page>
+      <main className="is-narrow">
+        <div className="consent-box">
+          <div className="tile3d big" aria-hidden="true">
+            🗑️
+          </div>
+          <h1>{t('detail.deleteConfirmTitle')}</h1>
+          <p>{t('detail.deleteConfirmText')}</p>
+          <ListenButton text={`${t('detail.deleteConfirmTitle')} ${t('detail.deleteConfirmText')}`} />
+          <BigButton
+            icon="🗑️"
+            variant="danger"
+            onClick={() => {
+              deleteFarmer(record.haqdaarId)
+              navigate('/o', { replace: true })
+            }}
+          >
+            {t('delete.yes')}
+          </BigButton>
+          <BigButton icon="↩️" onClick={() => setScreen('view')}>
+            {t('delete.no')}
+          </BigButton>
+        </div>
+      </main>
     )
   }
 
   // Fix a wrong answer: the same questions, starting from the saved answers.
   if (screen === 'editAnswers') {
     return (
-      <Page title={record.name}>
+      <main className="is-narrow">
         <QuestionFlow
+          who={`🧑‍🌾 ${record.name}`}
           initial={record.answers}
+          onBack={() => setScreen('view')}
           onDone={(answers) => {
             updateFarmer(record.haqdaarId, { answers })
             setScreen('view')
           }}
         />
-        <BigButton icon="↩️" onClick={() => setScreen('view')}>
-          {t('detail.cancel')}
-        </BigButton>
-      </Page>
+      </main>
     )
   }
 
@@ -93,75 +94,73 @@ export default function FarmerDetail() {
             setScreen('view')
           }}
         />
-        <BigButton icon="↩️" onClick={() => setScreen('view')}>
-          {t('detail.cancel')}
-        </BigButton>
+        <Nav back={{ label: t('detail.cancel'), onClick: () => setScreen('view') }} />
       </Page>
     )
   }
 
   const today = todayString()
   const results = evaluateAll(record.answers, today)
-  const select = 'min-h-14 w-full rounded-lg border-2 border-gray-400 bg-white px-3 text-lg'
 
   return (
-    <Page title={record.name}>
-      <HaqdaarIdLine id={record.haqdaarId} />
-      {record.village && <p className="text-lg">{t('detail.village', { village: record.village })}</p>}
+    <main className="is-wide">
+      <h1>🧑‍🌾 {record.name}</h1>
+      <p className="who">
+        {record.village ? `${record.village} · ` : ''}
+        <span className="mono">{record.haqdaarId}</span>
+      </p>
+      <NextDeadlineBanner results={results} today={today} />
 
-      <Card>
-        <label className="flex flex-col gap-1 text-lg font-bold">
-          📅 {t('detail.followUp')}
-          <input
-            type="date"
-            value={record.followUpDate}
-            onChange={(e) => updateFarmer(record.haqdaarId, { followUpDate: e.target.value })}
-            className={select}
-          />
-        </label>
-      </Card>
+      <label className="field">
+        📅 {t('detail.followUp')}
+        <input
+          className="search"
+          type="date"
+          value={record.followUpDate}
+          onChange={(e) => updateFarmer(record.haqdaarId, { followUpDate: e.target.value })}
+        />
+      </label>
 
-      <BigButton icon="🖨️" variant="primary" onClick={() => navigate(`/o/farmer/${record.haqdaarId}/slip`)}>
-        {t('detail.printSlip')}
-      </BigButton>
+      <div className="grid">
+        {results.map((r, i) => (
+          <SchemeCard key={r.schemeId} result={r} today={today} i={i}>
+            <label className="status-pick">
+              {t('detail.appStatus')}
+              <select
+                value={record.statuses[r.schemeId] ?? 'not_started'}
+                onChange={(e) =>
+                  updateFarmer(record.haqdaarId, {
+                    statuses: { ...record.statuses, [r.schemeId]: e.target.value as ApplicationStatus },
+                  })
+                }
+              >
+                {APP_STATUSES.map((s) => (
+                  <option key={s} value={s}>
+                    {t(`appStatus.${s}`)}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </SchemeCard>
+        ))}
+      </div>
 
-      <p className="text-lg text-gray-800">{t('results.likelyNote')}</p>
-
-      {results.map((r) => (
-        <SchemeCard key={r.schemeId} result={r} today={today}>
-          <label className="flex flex-col gap-1 text-lg font-bold">
-            {t('detail.appStatus')}
-            <select
-              value={record.statuses[r.schemeId] ?? 'not_started'}
-              onChange={(e) =>
-                updateFarmer(record.haqdaarId, {
-                  statuses: { ...record.statuses, [r.schemeId]: e.target.value as ApplicationStatus },
-                })
-              }
-              className={select}
-            >
-              {APP_STATUSES.map((s) => (
-                <option key={s} value={s}>
-                  {t(`appStatus.${s}`)}
-                </option>
-              ))}
-            </select>
-          </label>
-        </SchemeCard>
-      ))}
-
-      <BigButton icon="✏️" onClick={() => setScreen('editAnswers')}>
-        {t('detail.editAnswers')}
-      </BigButton>
-      <BigButton icon="📝" onClick={() => setScreen('editDetails')}>
-        {t('detail.editDetails')}
-      </BigButton>
-      <BigButton icon="🏠" onClick={() => navigate('/o')}>
-        {t('detail.back')}
-      </BigButton>
-      <BigButton icon="🗑️" onClick={() => setConfirmDelete(true)}>
-        {t('detail.delete')}
-      </BigButton>
-    </Page>
+      <p className="demo-note">{t('results.likelyNote')}</p>
+      <div className="actions">
+        <BigButton icon="🧾" variant="primary" onClick={() => navigate(`/o/farmer/${record.haqdaarId}/slip`)}>
+          {t('detail.printSlip')}
+        </BigButton>
+        <BigButton icon="✏️" onClick={() => setScreen('editAnswers')}>
+          {t('detail.editAnswers')}
+        </BigButton>
+        <BigButton icon="📝" onClick={() => setScreen('editDetails')}>
+          {t('detail.editDetails')}
+        </BigButton>
+        <BigButton icon="🗑️" onClick={() => setScreen('confirmDelete')}>
+          {t('detail.delete')}
+        </BigButton>
+      </div>
+      <Nav back={{ label: t('detail.back'), onClick: () => navigate('/o') }} />
+    </main>
   )
 }

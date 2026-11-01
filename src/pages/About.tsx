@@ -1,66 +1,91 @@
-// About & sources: every scheme's official link and last-checked date,
-// "likely eligible, the department decides", the privacy promise and the AI-tool disclosure.
+// How it works / About: a simple diagram, key points, every scheme's official link and
+// last-checked date, "likely eligible, the department decides", the privacy promise and the AI-tool disclosure.
+import { useNavigate } from 'react-router-dom'
 import { SCHEMES } from '../engine/evaluate'
 import { useI18n } from '../shared/i18n'
 import { formatDate } from '../shared/dates'
-import { Card, ListenButton, Page } from '../shared/ui'
+import { siteName } from '../shared/SchemeCard'
+import { ListenButton, Nav } from '../shared/ui'
 
 export default function About() {
   const { t } = useI18n()
+  const navigate = useNavigate()
+  const points = ['about.point.system', 'about.point.rules', 'about.point.offline', 'about.point.newState']
   const privacy = ['about.privacy.phone', 'about.privacy.never', 'about.privacy.operator']
 
   return (
-    <Page title={t('page.about.title')}>
-      <p className="text-lg">{t('about.intro')}</p>
+    <main className="is-narrow">
+      <h1>{t('page.about.title')}</h1>
+      <p className="muted">{t('about.intro')}</p>
 
-      <Card>
-        <h2 className="text-xl font-bold">⚖️ {t('about.likely.title')}</h2>
-        <p className="text-lg">{t('about.likely.text')}</p>
-        <ListenButton text={`${t('about.likely.title')}. ${t('about.likely.text')}`} />
-      </Card>
+      <div className="flow" aria-label={t('page.about.title')}>
+        <div className="who-row">
+          <div className="box">{t('about.flow.farmerPhone')}</div>
+          <span className="or">{t('about.flow.or')}</span>
+          <div className="box">{t('about.flow.operator')}</div>
+        </div>
+        <div className="arrow" aria-hidden="true">
+          ⬇
+        </div>
+        <div className="box device">
+          {t('about.flow.device')}
+          <div className="steps">
+            <span>{t('about.flow.questions')}</span>
+            <span>⬇ {t('about.flow.engine')}</span>
+            <span>⬇ {t('about.flow.outputs')}</span>
+          </div>
+        </div>
+        <div className="arrow" aria-hidden="true">
+          ⬇
+        </div>
+        <div className="box cloud">
+          {t('about.flow.cloud')}
+          <div className="small muted">{t('about.flow.cloudNote')}</div>
+        </div>
+      </div>
 
-      <Card>
-        <h2 className="text-xl font-bold">📚 {t('about.sources.title')}</h2>
-        <ul className="flex flex-col gap-3">
-          {SCHEMES.map((s) => (
-            <li key={s.id} className="text-lg">
-              <strong>
-                {s.icon} {t(s.nameKey)}
-              </strong>
-              <br />
-              <a href={s.sourceUrl} target="_blank" rel="noreferrer" className="break-all text-green-800 underline">
-                {s.sourceUrl}
-              </a>
-              <br />
-              <span className="text-base text-gray-800">
-                {t('results.lastVerified', { date: formatDate(s.lastVerified, t) })}
-              </span>
-            </li>
-          ))}
-        </ul>
-        <p className="text-base text-gray-800">{t('about.district')}</p>
-      </Card>
+      <ul className="bullets">
+        {points.map((k) => (
+          <li key={k}>{t(k)}</li>
+        ))}
+      </ul>
 
-      <Card>
-        <h2 className="text-xl font-bold">🔒 {t('about.privacy.title')}</h2>
-        <ul className="list-disc ps-6 text-lg">
-          {privacy.map((k) => (
-            <li key={k}>{t(k)}</li>
-          ))}
-        </ul>
-        <ListenButton text={[t('about.privacy.title'), ...privacy.map((k) => t(k))].join('. ')} />
-      </Card>
+      <h2>⚖️ {t('about.likely.title')}</h2>
+      <p>{t('about.likely.text')}</p>
+      <ListenButton text={`${t('about.likely.title')}. ${t('about.likely.text')}`} />
 
-      <Card>
-        <h2 className="text-xl font-bold">🤖 {t('about.ai.title')}</h2>
-        <p className="text-lg">{t('about.ai.text')}</p>
-      </Card>
+      <h2>📚 {t('about.sources.title')}</h2>
+      <ul className="bullets">
+        {SCHEMES.map((s) => (
+          <li key={s.id}>
+            <b>{t(s.nameKey)}</b>
+            <br />
+            <a href={s.sourceUrl} target="_blank" rel="noreferrer">
+              {siteName(s.sourceUrl)}
+            </a>{' '}
+            · <span className="small muted">{t('results.checkedOn', { date: formatDate(s.lastVerified, t) })}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="small muted">{t('about.district')}</p>
 
-      <Card>
-        <p className="text-lg font-bold">{t('slip.footer.free')}</p>
-        <p className="text-lg">{t('slip.footer.helplines')}</p>
-        <p className="text-base text-gray-800">{t('about.team')}</p>
-      </Card>
-    </Page>
+      <h2>🔒 {t('about.privacy.title')}</h2>
+      <ul className="bullets">
+        {privacy.map((k) => (
+          <li key={k}>{t(k)}</li>
+        ))}
+      </ul>
+
+      <h2>🤖 {t('about.ai.title')}</h2>
+      <p>{t('about.ai.text')}</p>
+
+      <p>
+        <b>{t('slip.footer.free')}</b>
+      </p>
+      <p>📞 {t('slip.footer.helplines')}</p>
+      <p className="small muted">{t('about.team')}</p>
+
+      <Nav back={{ label: t('nav.back'), onClick: () => navigate('/') }} />
+    </main>
   )
 }

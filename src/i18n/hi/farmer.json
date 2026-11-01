@@ -73,5 +73,17 @@
   "results.toChecklist": "कौन से कागज़ ले जाने हैं",
   "results.toSlip": "पर्ची देखें और छापें",
   "checklist.intro": "जिन योजनाओं के आप शायद हक़दार हैं, उनके लिए ये कागज़ साथ ले जाएँ। जो कागज़ तैयार हो जाए, उस पर निशान लगा दें।",
-  "checklist.none": "अभी किसी योजना के लिए कागज़ ले जाने की ज़रूरत नहीं है।"
+  "checklist.none": "अभी किसी योजना के लिए कागज़ ले जाने की ज़रूरत नहीं है।",
+  "q.seasonCrop.text": "कौन सा मौसम और कौन सी फ़सल?",
+  "q.season.group": "मौसम",
+  "q.crop.group": "फ़सल",
+  "results.nextDeadline": "अगली आखिरी तारीख: {label} – {date} ({days})",
+  "results.moneyLabel": "हर साल मिल सकने वाला पैसा",
+  "results.moneyAmount": "₹{amount}/साल, {names} से",
+  "results.moneyNone": "इन योजनाओं में हर साल तय पैसा नहीं है।",
+  "results.soonTitle": "राज्य योजना – जल्द",
+  "results.soonText": "नया राज्य = नई नियम फ़ाइल",
+  "results.sourceLabel": "स्रोत",
+  "results.checkedOn": "जाँचा गया {date}",
+  "checklist.progress": "{done} / {total} कागज़ तैयार"
 }

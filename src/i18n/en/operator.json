@@ -65,5 +65,9 @@
   "detail.editAnswers": "Change answers",
   "detail.editDetails": "Change name or village",
   "detail.cancel": "Cancel",
-  "reg.save": "Save"
+  "reg.save": "Save",
+  "dash.ownOnly": "Operators see only their own farmers.",
+  "dash.sync.all": "✅ All records are synced",
+  "dash.sync.pending": "⏳ {n} records still to sync",
+  "dash.sync.offline": "They will sync by themselves when internet returns."
 }

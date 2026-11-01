@@ -38,7 +38,7 @@
     {
       "id": "pmfby",
       "nameKey": "scheme.pmfby.name",
-      "icon": "🌾",
+      "icon": "🛡️",
       "benefitKey": "scheme.pmfby.benefit",
       "yearlyAmount": 0,
       "conditions": [
@@ -75,7 +75,7 @@
       "documents": ["doc.kccForm", "doc.landOrTenancy", "doc.cropDetails", "doc.bankKyc"],
       "deadlines": [],
       "notes": ["note.kcc.beforeSeason"],
-      "sourceUrl": "https://agriwelfare.gov.in",
+      "sourceUrl": "https://www.myscheme.gov.in/schemes/kcc",
       "lastVerified": "2026-10-22"
     },
     {

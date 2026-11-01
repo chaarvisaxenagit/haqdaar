@@ -9,7 +9,7 @@ import { suggestFollowUpDate } from '../../engine/deadlines'
 import { makeHaqdaarId } from '../../engine/haqdaarId'
 import { useI18n } from '../../shared/i18n'
 import { todayString } from '../../shared/dates'
-import { BigButton, ListenButton, Page } from '../../shared/ui'
+import { BigButton, ListenButton, Nav, Page } from '../../shared/ui'
 import { saveFarmer } from '../firebase/farmers'
 import { useOperatorData } from './context'
 import DetailsForm from './DetailsForm'
@@ -48,33 +48,39 @@ export default function Register() {
 
   if (step === 'consent') {
     return (
-      <Page title={t('reg.consent.title')}>
-        <p className="text-lg">{t('reg.consent.text')}</p>
-        <ListenButton text={t('reg.consent.text')} />
-        <BigButton
-          icon="✅"
-          variant="primary"
-          onClick={() => {
-            setConsentAt(Date.now())
-            setStep('details')
-          }}
-        >
-          {t('reg.consent.yes')}
-        </BigButton>
-        <BigButton icon="✋" onClick={() => setStep('declined')}>
-          {t('reg.consent.no')}
-        </BigButton>
-      </Page>
+      <main className="is-narrow">
+        <div className="consent-box">
+          <div className="tile3d big" aria-hidden="true">
+            🔒
+          </div>
+          <h1>{t('reg.consent.title')}</h1>
+          <p>{t('reg.consent.text')}</p>
+          <ListenButton text={t('reg.consent.text')} />
+          <BigButton
+            icon="✅"
+            variant="leaf"
+            onClick={() => {
+              setConsentAt(Date.now())
+              setStep('details')
+            }}
+          >
+            {t('reg.consent.yes')}
+          </BigButton>
+          <BigButton icon="❌" onClick={() => setStep('declined')}>
+            {t('reg.consent.no')}
+          </BigButton>
+        </div>
+        <Nav back={{ label: t('nav.back'), onClick: () => navigate('/o') }} />
+      </main>
     )
   }
 
   if (step === 'declined' || step === 'saveFailed') {
     const key = step === 'declined' ? 'reg.consent.declined' : 'reg.saveFailed'
     return (
-      <Page title={t(key)}>
-        <BigButton icon="🏠" onClick={() => navigate('/o')}>
-          {t('detail.back')}
-        </BigButton>
+      <Page>
+        <div className="banner warn">{t(key)}</div>
+        <Nav back={{ label: t('detail.back'), onClick: () => navigate('/o') }} />
       </Page>
     )
   }
@@ -89,13 +95,18 @@ export default function Register() {
             setStep('questions')
           }}
         />
+        <Nav back={{ label: t('nav.back'), onClick: () => setStep('consent') }} />
       </Page>
     )
   }
 
   return (
-    <Page title={details.name}>
-      <QuestionFlow onDone={save} />
-    </Page>
+    <main className="is-narrow">
+      <QuestionFlow
+        who={`🧑‍🌾 ${details.name}${details.village ? ` · ${details.village}` : ''}`}
+        onBack={() => setStep('details')}
+        onDone={save}
+      />
+    </main>
   )
 }

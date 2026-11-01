@@ -1,4 +1,4 @@
-// Name and village, typed by the operator. Used by Register and "Check only".
+// Name and village, typed by the operator. Used by Register, "Check only" and editing a farmer.
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { useI18n } from '../../shared/i18n'
@@ -30,26 +30,22 @@ export default function DetailsForm({
     onDone(name.trim(), village.trim())
   }
 
-  const input = 'min-h-14 w-full rounded-lg border-2 border-gray-400 bg-white px-3 text-lg'
   return (
-    <form onSubmit={submit} className="flex flex-col gap-4">
-      <label className="flex flex-col gap-1 text-lg font-medium">
+    <form className="login" onSubmit={submit}>
+      <label className="field">
         {t('reg.name')}
-        <input value={name} onChange={(e) => setName(e.target.value)} autoComplete="off" className={input} />
+        <input value={name} onChange={(e) => setName(e.target.value)} autoComplete="off" />
       </label>
       {showError && (
-        <p role="alert" className="text-lg font-medium text-red-800">
+        <p role="alert" className="error">
           ❌ {t('reg.nameRequired')}
         </p>
       )}
-      <label className="flex flex-col gap-1 text-lg font-medium">
+      <label className="field">
         {t('reg.village')}
-        <input value={village} onChange={(e) => setVillage(e.target.value)} autoComplete="off" className={input} />
+        <input value={village} onChange={(e) => setVillage(e.target.value)} autoComplete="off" />
       </label>
-      <button
-        type="submit"
-        className="min-h-14 w-full rounded-xl border-2 border-green-800 bg-green-700 px-4 text-lg font-medium text-white active:bg-green-800"
-      >
+      <button type="submit" className="btn primary">
         {t(submitKey)} →
       </button>
     </form>
