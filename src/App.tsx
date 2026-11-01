@@ -1,47 +1,56 @@
 // All screens and their addresses.
 // HashRouter makes addresses look like /#/f/results, so refresh never gives a 404.
+import { lazy, Suspense } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { I18nProvider } from './shared/i18n'
 import { TopBar } from './shared/ui'
 import Start from './pages/Start'
 import Placeholder from './pages/Placeholder'
+import About from './pages/About'
 import FarmerHome from './features/farmer/FarmerHome'
 import Questions from './features/farmer/Questions'
 import Results from './features/farmer/Results'
 import Checklist from './features/farmer/Checklist'
-import Login from './features/operator/Login'
-import OperatorGate from './features/operator/OperatorGate'
-import Dashboard from './features/operator/Dashboard'
-import Register from './features/operator/Register'
-import FarmerDetail from './features/operator/FarmerDetail'
+import { FarmerSlipPage } from './features/slip/SlipPages'
+
+// Operator screens use Firebase. They load only when an #/o page opens,
+// so farmer mode never starts Firebase. (Still saved for offline use by the PWA.)
+const Login = lazy(() => import('./features/operator/Login'))
+const OperatorGate = lazy(() => import('./features/operator/OperatorGate'))
+const Dashboard = lazy(() => import('./features/operator/Dashboard'))
+const Register = lazy(() => import('./features/operator/Register'))
+const FarmerDetail = lazy(() => import('./features/operator/FarmerDetail'))
+const OperatorSlipPage = lazy(() => import('./features/slip/OperatorSlipPage'))
 
 export default function App() {
   return (
     <I18nProvider>
       <HashRouter>
         <TopBar />
-        <Routes>
-          <Route path="/" element={<Start />} />
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<Start />} />
 
-          {/* Farmer mode */}
-          <Route path="/f" element={<FarmerHome />} />
-          <Route path="/f/questions" element={<Questions />} />
-          <Route path="/f/results" element={<Results />} />
-          <Route path="/f/checklist" element={<Checklist />} />
-          <Route path="/f/slip" element={<Placeholder titleKey="page.slip.title" />} />
+            {/* Farmer mode */}
+            <Route path="/f" element={<FarmerHome />} />
+            <Route path="/f/questions" element={<Questions />} />
+            <Route path="/f/results" element={<Results />} />
+            <Route path="/f/checklist" element={<Checklist />} />
+            <Route path="/f/slip" element={<FarmerSlipPage />} />
 
-          {/* Operator mode. Every screen except login needs sign-in (OperatorGate). */}
-          <Route path="/o/login" element={<Login />} />
-          <Route path="/o" element={<OperatorGate />}>
-            <Route index element={<Dashboard />} />
-            <Route path="new" element={<Register />} />
-            <Route path="farmer/:id" element={<FarmerDetail />} />
-            <Route path="farmer/:id/slip" element={<Placeholder titleKey="page.slip.title" />} />
-          </Route>
+            {/* Operator mode. Every screen except login needs sign-in (OperatorGate). */}
+            <Route path="/o/login" element={<Login />} />
+            <Route path="/o" element={<OperatorGate />}>
+              <Route index element={<Dashboard />} />
+              <Route path="new" element={<Register />} />
+              <Route path="farmer/:id" element={<FarmerDetail />} />
+              <Route path="farmer/:id/slip" element={<OperatorSlipPage />} />
+            </Route>
 
-          <Route path="/about" element={<Placeholder titleKey="page.about.title" />} />
-          <Route path="*" element={<Placeholder titleKey="page.notFound" />} />
-        </Routes>
+            <Route path="/about" element={<About />} />
+            <Route path="*" element={<Placeholder titleKey="page.notFound" />} />
+          </Routes>
+        </Suspense>
       </HashRouter>
     </I18nProvider>
   )

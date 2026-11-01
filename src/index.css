@@ -11,3 +11,16 @@ html {
   color: #111827;
   background: #ffffff;
 }
+
+/* Slip printing: A4 page, white paper, no background colours wasted. */
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+  html,
+  body {
+    background: #ffffff;
+    font-size: 15px;
+  }
+}

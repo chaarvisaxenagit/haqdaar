@@ -2,8 +2,9 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useI18n } from '../../shared/i18n'
-import { BigButton, Card, Page } from '../../shared/ui'
+import { BigButton, Page } from '../../shared/ui'
 import { signOutOperator } from '../firebase/auth'
+import FollowUpList from '../deadlines/FollowUpList'
 import { useOperatorData } from './context'
 
 export default function Dashboard() {
@@ -27,11 +28,7 @@ export default function Dashboard() {
         {t('dash.newFarmer')}
       </BigButton>
 
-      {/* Follow-up list goes here (built with the deadlines feature). */}
-      <Card>
-        <h2 className="text-xl font-bold">📅 {t('dash.followUp.title')}</h2>
-        <p className="text-lg text-gray-800">{t('dash.followUp.soon')}</p>
-      </Card>
+      <FollowUpList farmers={list.farmers} />
 
       <section className="flex flex-col gap-3">
         <h2 className="text-xl font-bold">{t('dash.farmers.title', { n: list.farmers.length })}</h2>

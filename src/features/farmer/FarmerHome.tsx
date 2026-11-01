@@ -4,6 +4,9 @@ import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useI18n } from '../../shared/i18n'
 import { BigButton, HaqdaarIdLine, ListenButton, Page } from '../../shared/ui'
+import { evaluateAll } from '../../engine/evaluate'
+import { todayString } from '../../shared/dates'
+import DeadlineBanner from '../deadlines/DeadlineBanner'
 import { deleteFarmerData, loadRecord } from './storage'
 
 type Screen = 'home' | 'confirmDelete' | 'deleted'
@@ -52,6 +55,7 @@ export default function FarmerHome() {
 
   return (
     <Page title={t('page.farmerHome.title')}>
+      <DeadlineBanner results={evaluateAll(record.answers, todayString())} today={todayString()} />
       <p className="text-lg">{t('home.saved')}</p>
       <HaqdaarIdLine id={record.haqdaarId} />
       <BigButton icon="📋" variant="primary" onClick={() => navigate('/f/results')}>

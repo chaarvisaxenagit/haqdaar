@@ -10,6 +10,7 @@ import { useI18n } from '../../shared/i18n'
 import { todayString } from '../../shared/dates'
 import SchemeCard from '../../shared/SchemeCard'
 import { BigButton, HaqdaarIdLine, Page } from '../../shared/ui'
+import Slip from '../slip/Slip'
 import DetailsForm from './DetailsForm'
 
 // The last check, kept in memory only (for the slip). Never saved anywhere.
@@ -27,7 +28,8 @@ export function getLastCheck(): CheckOnlyFarmer | null {
 type Step = 'start' | 'details' | 'questions' | 'results'
 
 export default function CheckOnly() {
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
+  const [showSlip, setShowSlip] = useState(false)
   const [step, setStep] = useState<Step>(lastCheck ? 'results' : 'start')
   const [details, setDetails] = useState({ name: '', village: '' })
   const [check, setCheck] = useState<CheckOnlyFarmer | null>(lastCheck)
@@ -74,6 +76,8 @@ export default function CheckOnly() {
     )
   }
 
+  if (showSlip) return <Slip farmer={{ ...check, lang }} onBack={() => setShowSlip(false)} />
+
   const today = todayString()
   return (
     <Page title={check.name || t('check.title')}>
@@ -83,6 +87,9 @@ export default function CheckOnly() {
       {evaluateAll(check.answers, today).map((r) => (
         <SchemeCard key={r.schemeId} result={r} today={today} />
       ))}
+      <BigButton icon="🖨️" variant="primary" onClick={() => setShowSlip(true)}>
+        {t('detail.printSlip')}
+      </BigButton>
       <BigButton
         icon="🔄"
         onClick={() => {
