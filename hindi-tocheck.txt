@@ -1,3 +1,4 @@
+Checked by Chaarvi Saxena on 1 Nov 2026
 app.name = हक़दार
 app.tagline = कौन सी सरकारी योजना आपको मिल सकती है, और क्यों
 lang.choose = भाषा चुनें
