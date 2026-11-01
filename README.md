@@ -430,7 +430,7 @@ npx vitest run
 | `src/shared/i18n.test.ts` | Every live language has all five files with exactly the same lines as Hindi; text falls back to Hindi |
 | `src/features/firebase/emailCheck.test.ts` | Good emails pass; badly written, misspelt, test and throwaway emails are refused |
 
-**Checked on a real Android phone in Chrome, on the live HTTPS link, in airplane mode (1 Nov 2026):** offline install, the Listen button in Hindi and English, printing the slip, reopening operator mode offline while signed in, and sync after reconnecting. All worked. Bengali, Marathi, Punjabi, Tamil and Telugu were added after this test, so their Listen voices and printed slips on the phone are still to be checked.
+**Checked on a real Android phone in Chrome, on the live HTTPS link, in airplane mode (1 Nov 2026):** offline install, the Listen button in Hindi and English, printing the slip, reopening operator mode offline while signed in, and sync after reconnecting. All worked. Bengali, Marathi, Punjabi, Tamil and Telugu were added after this test. Their printed slips were then checked on the same phone and print correctly. Their Listen voices on the phone are still to be checked.
 
 **Checked at phone width (375 px) on the current build, 1 Nov 2026** (the same build that is live):
 - Served by Vercel over HTTPS; the service worker (`sw.js`) and app manifest load; the live bundle contains the new languages and schemes.
@@ -484,5 +484,5 @@ haqdaar/
 - The UP state scheme is left out until a person confirms its Government Order on an official site (Section 13).
 - The Lucknow crop lists come from pmfby.gov.in. The **Rabi 2026-27 list is last season's** until UP's list appears on the portal, and the Rabi 31 Dec date comes from a news report of the state cabinet decision (Section 13).
 - Firebase does not promise that an operator stays signed in when the app is reopened with no internet. If the sign-in is lost offline, the app switches to "Check only" mode: results and the slip still work, but nothing is saved until the operator signs in online.
-- The Listen button needs the phone's voice data for that language to be installed. The five newest languages are not yet tested on the real phone (Section 14).
+- The Listen button needs the phone's voice data for that language to be installed. The Listen voices of the five newest languages are not yet tested on the real phone; their printed slips are (Section 14).
 - The question asks about land got after 1 Feb 2019 (the PM-KISAN date). Other schemes use other dates (PM Kisan Maandhan: 1 Aug 2019; MKSN: 1 Jul 2026), so the app sends unsure cases to the office or prints the date as a note.
