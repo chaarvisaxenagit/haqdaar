@@ -5,7 +5,7 @@
 **Team members:** Chaarvi Saxena, Yashi Savita, Vivek Singh, Ishan Singh Bhadoria, Divyanshu Tripathi
 **Built by:** Chaarvi Saxena
 
-**Live app:** https://haqdaar.vercel.app
+**Live app:** https://haqdaar-one.vercel.app/
 
 ---
 
@@ -22,7 +22,7 @@ It has two modes in one app:
 
 ## Install it on a phone
 
-1. Open **https://haqdaar.vercel.app** in Chrome on an Android phone, while you have internet.
+1. Open **https://haqdaar-one.vercel.app/** in Chrome on an Android phone, while you have internet.
 2. Tap the ⋮ menu → **Install app** (or **Add to Home screen**).
 3. Open Haqdaar from the home screen. From now on it works in airplane mode.
 
@@ -48,7 +48,7 @@ npx vitest run
 npm run build
 ```
 
-**Deploy:** the GitHub repo is linked to Vercel (framework Vite, build `npm run build`, output `dist`, the six `VITE_FIREBASE_*` variables set in Vercel). Every push to `main` deploys automatically. Publish `firestore.rules` in the Firebase console, and add the `vercel.app` domain under Authentication → Settings → Authorized domains.
+**Deploy:** the GitHub repo is linked to Vercel (framework Vite, build `npm run build`, output `dist`, the six `VITE_FIREBASE_*` variables set in Vercel). Every push to `main` deploys automatically. Publish `firestore.rules` in the Firebase console, and add `haqdaar-one.vercel.app` under Authentication → Settings → Authorized domains.
 
 ## How it is built
 
