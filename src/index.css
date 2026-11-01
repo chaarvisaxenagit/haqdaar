@@ -43,6 +43,8 @@ body {
 .app {
   position: relative;
   width: 100%;
+  /* cards tilt in from the side; this stops a brief sideways scroll at 360 px */
+  overflow-x: clip;
   min-height: 100vh;
   margin: 0 auto;
   display: flex;
