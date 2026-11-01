@@ -8,9 +8,9 @@
   "scheme.pmfby.name": "PM Fasal Bima Yojana (crop insurance)",
   "scheme.pmfby.benefit": "Insurance money if your crop is damaged. The farmer pays only a small share: at most 2% in Kharif, 1.5% for Rabi food and oilseed crops, and 5% for commercial or horticulture crops (like potato).",
   "scheme.kcc.name": "Kisan Credit Card (KCC)",
-  "scheme.kcc.benefit": "Farm loans up to ₹3 lakh at 7% interest. Only 4% if you repay on time. No security needed up to ₹2 lakh. Confirm with your bank.",
+  "scheme.kcc.benefit": "Farm loans up to ₹5 lakh at 7% interest (the limit was raised from ₹3 lakh). Only 4% if you repay on time. No security needed up to ₹2 lakh. Confirm with your bank.",
   "scheme.shc.name": "Soil Health Card",
-  "scheme.shc.benefit": "A soil test for your field and a card that says which fertiliser to use and how much. A new test every 2 years.",
+  "scheme.shc.benefit": "A soil test for your field and a card that says which fertiliser to use and how much. A new test every 2 to 3 years.",
   "reason.pmkisan.ownsLand.pass": "Farm land is in your family's name.",
   "reason.pmkisan.ownsLand.fail": "This scheme needs farm land in your family's name.",
   "reason.pmkisan.cutoff.pass": "The land is from before 1 February 2019, or was inherited.",
@@ -53,5 +53,6 @@
   "note.pmfby.confirmNotified": "Check that your crop is on the insurance list.",
   "note.kcc.beforeSeason": "Apply before the crop season starts.",
   "deadline.pmfby.rabi": "Last date for Rabi crop insurance",
-  "deadline.pmfby.kharif": "Last date for Kharif crop insurance"
+  "deadline.pmfby.kharif": "Last date for Kharif crop insurance",
+  "note.pmkisan.oneFamily": "Only one person in a family (husband, wife and children under 18) gets PM-KISAN. If two people get it, the money can be stopped until it is checked."
 }

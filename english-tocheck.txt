@@ -319,3 +319,6 @@ verify.busy = Checking…
 verify.notYet = Your email is not confirmed yet. First open the link in the email. Also look in the spam folder.
 verify.resend = Send the email again
 verify.resent = The email was sent again to {email}.
+scheme.kcc.benefit = Farm loans up to ₹5 lakh at 7% interest (the limit was raised from ₹3 lakh). Only 4% if you repay on time. No security needed up to ₹2 lakh. Confirm with your bank.
+scheme.shc.benefit = A soil test for your field and a card that says which fertiliser to use and how much. A new test every 2 to 3 years.
+note.pmkisan.oneFamily = Only one person in a family (husband, wife and children under 18) gets PM-KISAN. If two people get it, the money can be stopped until it is checked.

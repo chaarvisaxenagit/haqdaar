@@ -120,22 +120,23 @@ No code change is needed.
 - **We never store** Aadhaar numbers, bank account numbers, photos of documents, fingerprints or farmers' passwords. We only ask yes/no questions, such as "Is your bank account linked to Aadhaar?"
 - **Farmer mode** saves only on the farmer's phone. Nothing is sent anywhere. "Delete my data" removes it.
 - **Operator mode** saves a farmer only after the farmer gives consent. The record can be deleted if consent is withdrawn.
+- **Operator accounts need a real email.** Badly written, test and throwaway emails are refused, and an account can save nothing until its email is confirmed with the link Firebase sends.
 - **Operators see only their own farmers.** This is enforced by the Firestore security rules (`firestore.rules`), not just by the screens.
 - The QR code on the slip holds only the Haqdaar ID (for example `HQ-7K2M9QXA`), no personal details.
 - Fonts are the phone's own system fonts, so the app downloads nothing extra.
 
 ## Schemes and sources
 
-| Scheme | Official source | Last verified |
-|---|---|---|
-| PM-KISAN (₹6,000 a year) | https://pmkisan.gov.in | 22 Oct 2026 |
-| PMFBY crop insurance | https://pmfby.gov.in | 22 Oct 2026 |
-| Kisan Credit Card | https://www.myscheme.gov.in/schemes/kcc | 22 Oct 2026 |
-| Soil Health Card | https://soilhealth.dac.gov.in | 22 Oct 2026 |
+| Scheme | What we checked | Official source | Last verified |
+|---|---|---|---|
+| PM-KISAN | ₹6,000 a year in 3 instalments; family = husband, wife, minor children; all exclusions; land after 1 Feb 2019; e-KYC required | https://pmkisan.gov.in | 1 Nov 2026 |
+| PMFBY crop insurance | Farmer pays at most 2% (Kharif), 1.5% (Rabi food and oilseed crops), 5% (commercial and horticulture crops); helpline 14447; report crop loss within 72 hours | https://pmfby.gov.in (FAQ) and a reply in Parliament (Lok Sabha) | 1 Nov 2026 |
+| Kisan Credit Card | Loans at 7%, 4% with prompt repayment; low-interest limit raised from ₹3 lakh to ₹5 lakh; collateral-free up to ₹2 lakh | https://www.pib.gov.in/PressReleasePage.aspx?PRID=2238004 (PIB, 11 Mar 2026) | 1 Nov 2026 |
+| Soil Health Card | Scheme running in 2026-27; card every 2 to 3 years (official pages give both) | https://soilhealth.dac.gov.in | 1 Nov 2026 |
 
 **Demo area:** Lucknow district, Uttar Pradesh.
 
-**Notified crops used (draft):** Rabi: wheat, mustard, potato (the UP Rabi 2025-26 list). Kharif: paddy. **PMFBY cut-off dates used (draft):** Rabi 31 Dec, Kharif 31 Jul.
+**Notified crops used (draft):** Rabi: wheat, mustard, potato (the UP Rabi 2025-26 list). Kharif: paddy. **PMFBY cut-off dates used (draft):** Rabi 31 Dec, Kharif 31 Jul. On 1 Nov 2026 we could not find the official UP Rabi 2026-27 notification online, so these stay drafts until the district agriculture office or pmfby.gov.in confirms them.
 
 **State scheme left out:** Mukhyamantri Krishak Durghatna Kalyan Yojana, UP (Government Order No. 1/2020/मु0स0-11/एक-9-2020-2एफ/2018, Revenue Section-9, dated 28 Feb 2020). We read the GO text but could not yet confirm it on an official government site. We do not add rules we have not confirmed, so the prototype shows 4 central schemes.
 
@@ -177,7 +178,7 @@ No PDF library is used. The slip is a normal page printed with the browser's Pri
 
 | What we measured | Result |
 |---|---|
-| Automated tests (rules engine and translations) | 27 passing, 1 skipped (the state scheme test, because that scheme is left out) |
+| Automated tests (rules engine, translations and email check) | 31 passing, 1 skipped (the state scheme test, because that scheme is left out) |
 | Time to check one farmer | _to fill in after the phone test_ |
 | Slip printed in airplane mode | _to fill in after the phone test_ |
 | Operator reopened offline, still signed in | _to fill in after the phone test_ |

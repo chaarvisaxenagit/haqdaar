@@ -31,9 +31,9 @@
       ],
       "documents": ["doc.landRecord", "doc.aadhaarCard", "doc.bankPassbookLinked"],
       "deadlines": [],
-      "notes": ["note.pmkisan.farmerId", "note.pmkisan.nameMatch"],
+      "notes": ["note.pmkisan.farmerId", "note.pmkisan.nameMatch", "note.pmkisan.oneFamily"],
       "sourceUrl": "https://pmkisan.gov.in",
-      "lastVerified": "2026-10-22"
+      "lastVerified": "2026-11-01"
     },
     {
       "id": "pmfby",
@@ -57,7 +57,7 @@
       ],
       "notes": ["note.pmfby.lossReport72h", "note.pmfby.confirmNotified"],
       "sourceUrl": "https://pmfby.gov.in",
-      "lastVerified": "2026-10-22"
+      "lastVerified": "2026-11-01"
     },
     {
       "id": "kcc",
@@ -75,8 +75,8 @@
       "documents": ["doc.kccForm", "doc.landOrTenancy", "doc.cropDetails", "doc.bankKyc"],
       "deadlines": [],
       "notes": ["note.kcc.beforeSeason"],
-      "sourceUrl": "https://www.myscheme.gov.in/schemes/kcc",
-      "lastVerified": "2026-10-22"
+      "sourceUrl": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2238004",
+      "lastVerified": "2026-11-01"
     },
     {
       "id": "shc",
@@ -97,7 +97,7 @@
       "deadlines": [],
       "notes": [],
       "sourceUrl": "https://soilhealth.dac.gov.in",
-      "lastVerified": "2026-10-22"
+      "lastVerified": "2026-11-01"
     }
   ]
 }
