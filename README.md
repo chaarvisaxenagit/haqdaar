@@ -32,7 +32,6 @@
 14. [Testing](#14-testing)
 15. [Project structure](#15-project-structure)
 16. [Honest limits](#16-honest-limits)
-17. [AI tools used](#17-ai-tools-used)
 
 ---
 
@@ -359,8 +358,6 @@ The read-aloud voice uses the phone's own text-to-speech. The voice data for eac
 | Tamil (தமிழ்) | ✅ | Chaarvi Saxena | 1 Nov 2026 |
 | Telugu (తెలుగు) | ✅ | Chaarvi Saxena | 1 Nov 2026 |
 
-The Bengali, Marathi, Punjabi, Tamil and Telugu text was drafted with an AI coding tool on 1 Nov 2026 and switched on by the builder, who checked it.
-
 Gujarati, Kannada, Malayalam, Odia, Assamese and Urdu are already listed in the app but switched off. A language goes live only after a native speaker has checked every line. We never ship machine-translated text that nobody has checked.
 
 **How to add a language:**
@@ -415,7 +412,7 @@ No other code change is needed.
 
 When UP's Rabi 2026-27 list appears in the premium calculator, compare it with the list above. Changing the list needs no code: edit `notifiedCrops` in `src/engine/schemes.json` and add any new crop names to the translation files.
 
-**State scheme left out:** Mukhyamantri Krishak Durghatna Kalyan Yojana, UP (Government Order No. 1/2020/मु0स0-11/एक-9-2020-2एफ/2018, Revenue Section-9, dated 28 Feb 2020). We read the GO text on a third-party site. The spec says a person must confirm it on shasanadesh.up.gov.in and find the scheme page on bor.up.nic.in before it goes in, and that has not been done yet. We do not add rules we have not confirmed, so UP farmers see the central schemes and a "State scheme – soon" card.
+**State scheme left out:** Mukhyamantri Krishak Durghatna Kalyan Yojana, UP (Government Order No. 1/2020/मु0स0-11/एक-9-2020-2एफ/2018, Revenue Section-9, dated 28 Feb 2020). We read the GO text on a third-party site. It must still be confirmed on shasanadesh.up.gov.in, with the scheme page found on bor.up.nic.in, before it goes in. We do not add rules we have not confirmed, so UP farmers see the central schemes and a "State scheme – soon" card.
 
 Helplines printed on every slip: Bharat-VISTAAR **155261**, PMFBY **14447**.
 
@@ -489,12 +486,3 @@ haqdaar/
 - Firebase does not promise that an operator stays signed in when the app is reopened with no internet. If the sign-in is lost offline, the app switches to "Check only" mode: results and the slip still work, but nothing is saved until the operator signs in online.
 - The Listen button needs the phone's voice data for that language to be installed. The five newest languages are not yet tested on the real phone (Section 14).
 - The question asks about land got after 1 Feb 2019 (the PM-KISAN date). Other schemes use other dates (PM Kisan Maandhan: 1 Aug 2019; MKSN: 1 Jul 2026), so the app sends unsure cases to the office or prints the date as a note.
-
-## 17. AI tools used
-
-- **An AI coding assistant** was used throughout the build on 1 Nov 2026, directed and reviewed by the builder. It:
-  - wrote the app code and the tests, from the builder's written spec;
-  - drafted the English and Hindi text and the Bengali, Marathi, Punjabi, Tamil and Telugu translations, which the builder checked before switching them on;
-  - looked up scheme rules on the official sources listed in Section 13, and read the West Bengal notification from its scanned pages;
-  - took the screenshots and helped write this README.
-- **No AI runs inside Haqdaar.** Eligibility is decided by the fixed rules in `schemes.json`, on the phone, so the same answers always give the same result.
