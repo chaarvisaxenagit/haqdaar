@@ -19,3 +19,5 @@ dev-dist
 .idea
 .DS_Store
 
+# Local notes (kept on this computer, never pushed)
+SOLO.md
