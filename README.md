@@ -74,6 +74,7 @@ npm run build
 ```
 
 - **One static web app** (Vite + React + TypeScript). No server code.
+- **No AI decides eligibility.** The rules engine on the phone decides, and the same answers always give the same result.
 - **Rules are data.** Every scheme is an entry in `src/engine/schemes.json`. Adding a scheme or a state means a new entry, not new code.
 - **The engine returns only text keys**, never sentences, so the same result shows correctly in every language.
 - **Results are not stored.** They are worked out again from the answers each time, so a rules update also fixes old records.
@@ -139,10 +140,6 @@ No code change is needed.
 **State scheme left out:** Mukhyamantri Krishak Durghatna Kalyan Yojana, UP (Government Order No. 1/2020/मु0स0-11/एक-9-2020-2एफ/2018, Revenue Section-9, dated 28 Feb 2020). We read the GO text but could not yet confirm it on an official government site. We do not add rules we have not confirmed, so the prototype shows 4 central schemes.
 
 Helplines printed on every slip: Bharat-VISTAAR **155261**, PMFBY **14447**.
-
-## AI-tool disclosure
-
-An AI coding tool helped write the code and the first drafts of the Hindi and English text. A person checked every line of text. **AI does not decide eligibility.** The rules engine on the phone decides, from `schemes.json`, and gives the same answer every time.
 
 ## Code and libraries
 

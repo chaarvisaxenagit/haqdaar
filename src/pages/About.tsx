@@ -1,5 +1,5 @@
 // How it works / About: a simple diagram, key points, every scheme's official link and
-// last-checked date, "likely eligible, the department decides", the privacy promise and the AI-tool disclosure.
+// last-checked date, "likely eligible, the department decides", the privacy promise and the team.
 import { useNavigate } from 'react-router-dom'
 import { SCHEMES } from '../engine/evaluate'
 import { useI18n } from '../shared/i18n'
@@ -75,9 +75,6 @@ export default function About() {
           <li key={k}>{t(k)}</li>
         ))}
       </ul>
-
-      <h2>🤖 {t('about.ai.title')}</h2>
-      <p>{t('about.ai.text')}</p>
 
       <p>
         <b>{t('slip.footer.free')}</b>
