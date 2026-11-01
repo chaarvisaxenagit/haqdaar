@@ -1,23 +1,30 @@
 rules_version = '2';
 
 // Haqdaar security rules.
-// Only signed-in operators can touch "farmers", and each operator sees only their own records.
+// Only signed-in operators with a confirmed email can touch "farmers",
+// and each operator sees only their own records.
 // Everything not allowed here is denied.
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // Signed in, and the operator has opened the confirmation link sent to their email.
+    // This stops fake or mistyped emails from saving anything.
+    function confirmedOperator() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+
     match /farmers/{haqdaarId} {
 
       // Create: only if the new record's operatorId is the signed-in operator.
-      allow create: if request.auth != null
+      allow create: if confirmedOperator()
                     && request.resource.data.operatorId == request.auth.uid;
 
       // Read and delete: only if the stored record belongs to the signed-in operator.
-      allow read, delete: if request.auth != null
+      allow read, delete: if confirmedOperator()
                           && resource.data.operatorId == request.auth.uid;
 
       // Update: only your own record, and operatorId may not change.
-      allow update: if request.auth != null
+      allow update: if confirmedOperator()
                     && resource.data.operatorId == request.auth.uid
                     && request.resource.data.operatorId == resource.data.operatorId;
     }

@@ -2,13 +2,15 @@
 // These talk to the server, so they need internet. It is fine to wait for them (they are not Firestore writes).
 import {
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
+  onIdTokenChanged,
+  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth'
 import type { User } from 'firebase/auth'
 import { useEffect, useState } from 'react'
+import { emailProblem } from './emailCheck'
 import { auth } from './init'
 
 export async function signInOperator(email: string, password: string): Promise<User> {
@@ -18,9 +20,30 @@ export async function signInOperator(email: string, password: string): Promise<U
 
 // A new CSC / panchayat / agriculture worker makes their own account.
 // Each account sees only its own farmers (firestore.rules), so accounts cannot see each other's data.
+// Fake or badly written emails are refused here. Then Firebase sends a link to the email,
+// and the account can save nothing until that link is opened (firestore.rules checks this).
 export async function createOperatorAccount(email: string, password: string): Promise<User> {
-  const result = await createUserWithEmailAndPassword(auth, email.trim(), password)
+  const problem = emailProblem(email)
+  if (problem) throw { code: `haqdaar/${problem}` }
+  const result = await createUserWithEmailAndPassword(auth, email.trim().toLowerCase(), password)
+  sendEmailVerification(result.user).catch(console.error)
   return result.user
+}
+
+// Sends the "confirm your email" link again.
+export function resendVerification(): Promise<void> {
+  if (!auth.currentUser) return Promise.reject({ code: 'auth/no-current-user' })
+  return sendEmailVerification(auth.currentUser)
+}
+
+// Asks Firebase whether the link was opened. Gets a fresh sign-in token too,
+// so firestore.rules sees the email as confirmed straight away.
+export async function checkVerified(): Promise<boolean> {
+  const user = auth.currentUser
+  if (!user) return false
+  await user.reload()
+  if (user.emailVerified) await user.getIdToken(true)
+  return user.emailVerified
 }
 
 // Sends a "reset your password" email from Firebase.
@@ -38,6 +61,7 @@ export function useOperator(): { user: User | null; ready: boolean } {
     user: auth.currentUser,
     ready: false,
   })
-  useEffect(() => onAuthStateChanged(auth, (user) => setState({ user, ready: true })), [])
+  // onIdTokenChanged also fires when checkVerified() gets a fresh token, so the screen updates.
+  useEffect(() => onIdTokenChanged(auth, (user) => setState({ user, ready: true })), [])
   return state
 }

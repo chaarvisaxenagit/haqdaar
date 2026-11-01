@@ -13,11 +13,13 @@ type Mode = 'signin' | 'signup'
 // Turn a Firebase error into one of our translation keys.
 function errorKey(err: unknown): string {
   const code = (err as { code?: string })?.code ?? ''
+  if (code === 'haqdaar/tempEmail') return 'signup.error.tempEmail'
+  if (code === 'haqdaar/badEmail' || code.includes('invalid-email')) return 'signup.error.badEmail'
   if (code.includes('network')) return 'login.error.network'
   if (code.includes('email-already-in-use')) return 'login.error.emailInUse'
   if (code.includes('weak-password')) return 'login.error.weakPassword'
   if (code.includes('too-many-requests')) return 'login.error.tooMany'
-  if (code.includes('invalid-credential') || code.includes('wrong-password') || code.includes('user-not-found') || code.includes('invalid-email')) {
+  if (code.includes('invalid-credential') || code.includes('wrong-password') || code.includes('user-not-found')) {
     return 'login.error.wrong'
   }
   return 'login.error.other'
@@ -78,6 +80,7 @@ export default function Login() {
           <label className="field">
             {t('login.email')}
             <input type="email" autoComplete="username" required value={email} onChange={(e) => setEmail(e.target.value)} />
+            {mode === 'signup' && <span className="field-hint">{t('signup.emailHint')}</span>}
           </label>
           <label className="field">
             {t('login.password')}

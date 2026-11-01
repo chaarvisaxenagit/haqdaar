@@ -69,5 +69,15 @@
   "dash.ownOnly": "Operators see only their own farmers.",
   "dash.sync.all": "✅ All records are synced",
   "dash.sync.pending": "⏳ {n} records still to sync",
-  "dash.sync.offline": "They will sync by themselves when internet returns."
+  "dash.sync.offline": "They will sync by themselves when internet returns.",
+  "signup.emailHint": "Use your own email that you can open. We will send a link to confirm it.",
+  "signup.error.badEmail": "This email is not correct or is written wrongly. Check the spelling and use your own email.",
+  "signup.error.tempEmail": "Test or temporary emails are not allowed. Use your own email that you can open.",
+  "verify.title": "Confirm your email",
+  "verify.text": "We sent a link to {email}. Open your email and tap the link. Then come back here and tap the button below.",
+  "verify.done": "I have confirmed my email",
+  "verify.busy": "Checking…",
+  "verify.notYet": "Your email is not confirmed yet. First open the link in the email. Also look in the spam folder.",
+  "verify.resend": "Send the email again",
+  "verify.resent": "The email was sent again to {email}."
 }
