@@ -65,7 +65,9 @@ const QUESTIONS: Question[] = [
   },
 ]
 
-const CROP_ICONS: Record<string, string> = { paddy: '🍚', wheat: '🌾', mustard: '🌼', potato: '🥔', other: '🌿' }
+const CROP_ICONS: Record<string, string> = {
+  paddy: '🍚', bajra: '🌾', maize: '🌽', jowar: '🌱', urad: '⚫', wheat: '🌾', mustard: '🌼', potato: '🥔', other: '🌿',
+}
 
 function cropsFor(season: Season): string[] {
   const crops: Record<string, string[]> = schemesData.notifiedCrops

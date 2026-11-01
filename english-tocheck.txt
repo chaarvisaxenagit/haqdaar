@@ -328,3 +328,7 @@ check.noteOnline = You are not signed in, so nothing will be saved. Sign in to s
 login.tryHint = Want to try it first? Check a farmer without an account. Nothing is saved.
 signup.error.typo = Did you mean {domain}? Check the spelling of your email and type it again.
 signup.error.noMail = No email can reach this address. Use your own real email that you can open.
+crop.bajra = Bajra (pearl millet)
+crop.maize = Maize (makka)
+crop.jowar = Jowar (sorghum)
+crop.urad = Urad (black gram)

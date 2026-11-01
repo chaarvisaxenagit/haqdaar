@@ -384,7 +384,14 @@ No other code change is needed.
 
 **Demo area:** Lucknow district, Uttar Pradesh.
 
-**Notified crops used (draft):** Rabi: wheat, mustard, potato (the UP Rabi 2025-26 list). Kharif: paddy. **PMFBY cut-off dates used (draft):** Rabi 31 Dec, Kharif 31 Jul. On 1 Nov 2026 we could not find the official UP Rabi 2026-27 notification online, so these stay drafts until the district agriculture office or pmfby.gov.in confirms them.
+**Notified crops and PMFBY cut-off dates used** (checked 1 Nov 2026):
+
+| Season | Crops in Haqdaar | Last date in Haqdaar | How sure we are |
+|---|---|---|---|
+| Kharif | paddy, bajra, maize, jowar, urad | 31 Jul | **Crops: from the district office.** Lucknow's Deputy Agriculture Director named these five crops for Kharif 2026 ([Saahas Samachar, 7 Aug 2026](https://www.saahassamachar.in/opportunity-for-lucknow-farmers-to-avail-crop-insurance-applications-open-until-august-14-and-31)). **Date: usual date.** In 2026 UP extended Kharif enrolment past 31 July; we keep 31 July until UP notifies Kharif 2027. |
+| Rabi | wheat, mustard, potato | 31 Dec | **Date: from the state cabinet decision.** UP's cabinet decision on PMFBY for Kharif 2026 to Rabi 2026-27 set the Rabi last date at 31 December ([News Nation, 4 Aug 2026](https://www.newsnationtv.com/states/uttar-pradesh/major-relief-for-up-farmers-insurance-coverage-for-crop-loss-yogi-cabinet-grants-approval-12227594)). **Crops: still a draft.** This is the UP Rabi 2025-26 list; the Lucknow Rabi 2026-27 list was not online on 1 Nov 2026. |
+
+Both sources are news reports of official decisions, not the notification itself. To confirm: pmfby.gov.in → Insurance Premium Calculator (Rabi 2026-27, Uttar Pradesh, Lucknow) lists only the notified crops; or ask the Deputy Director of Agriculture office in Lucknow, a bank branch or the PMFBY helpline 14447. Changing the list needs no code: edit `notifiedCrops` in `src/engine/schemes.json` and add the crop names to the translation files.
 
 **State scheme left out:** Mukhyamantri Krishak Durghatna Kalyan Yojana, UP (Government Order No. 1/2020/मु0स0-11/एक-9-2020-2एफ/2018, Revenue Section-9, dated 28 Feb 2020). We read the GO text but could not yet confirm it on an official government site. We do not add rules we have not confirmed, so the prototype shows 4 central schemes. The results page shows a "State scheme – soon" card in its place.
 
@@ -449,6 +456,6 @@ haqdaar/
 - The rules must be kept up to date by hand when schemes change.
 - The prototype covers **4 schemes** and **one demo district (Lucknow, UP)**.
 - Only **Hindi and English** are live.
-- The notified crop list and PMFBY dates are **drafts** until the UP Rabi 2026-27 notification is confirmed.
+- The Kharif crop list and the Rabi 31 Dec date come from news reports of official decisions (Section 13). The **Rabi 2026-27 crop list for Lucknow is still a draft** (last year's list) until the official notification is confirmed.
 - Firebase does not promise that an operator stays signed in when the app is reopened with no internet. If the sign-in is lost offline, the app switches to "Check only" mode: results and the slip still work, but nothing is saved until the operator signs in online.
 - The Listen button needs the phone's voice data for that language to be installed.

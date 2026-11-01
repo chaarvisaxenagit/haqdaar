@@ -149,6 +149,12 @@ describe('eligibility', () => {
     expect(r.pmfby.reasons).toContain('reason.pmfby.cropNotified.fail')
   })
 
+  it('11b. Lucknow Kharif 2026 crops count as notified (paddy, bajra, maize, jowar, urad)', () => {
+    for (const crop of ['paddy', 'bajra', 'maize', 'jowar', 'urad']) {
+      expect(run({ season: 'kharif', crop }).pmfby.status, crop).toBe('likely_eligible')
+    }
+  })
+
   it('12. has KCC: KCC already have; PMFBY tip to ask the bank', () => {
     const r = run({ hasKcc: 'yes' })
     expect(r.kcc.status).toBe('already_have')

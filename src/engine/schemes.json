@@ -1,6 +1,6 @@
 {
   "district": "Lucknow, Uttar Pradesh",
-  "notifiedCrops": { "kharif": ["paddy"], "rabi": ["wheat", "mustard", "potato"] },
+  "notifiedCrops": { "kharif": ["paddy", "bajra", "maize", "jowar", "urad"], "rabi": ["wheat", "mustard", "potato"] },
   "schemes": [
     {
       "id": "pmkisan",
