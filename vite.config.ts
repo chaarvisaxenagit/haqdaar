@@ -37,5 +37,8 @@ export default defineConfig({
   ],
   test: {
     environment: 'node',
+    // Do not reuse old saved copies of files between test runs. With the cache on,
+    // a new language folder was not seen by the tests until the cache was deleted.
+    fsModuleCache: false,
   },
 })

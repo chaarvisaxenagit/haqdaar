@@ -15,6 +15,7 @@ export const BASE_LANG = 'hi'
 
 export const LANGUAGES: Language[] = [
   { code: 'hi', name: 'हिन्दी', speechCode: 'hi-IN', live: true },
+  { code: 'en', name: 'English', speechCode: 'en-IN', live: true },
   { code: 'bn', name: 'বাংলা', speechCode: 'bn-IN', live: false },
   { code: 'mr', name: 'मराठी', speechCode: 'mr-IN', live: false },
   { code: 'te', name: 'తెలుగు', speechCode: 'te-IN', live: false },

@@ -10,7 +10,7 @@ import { useOperatorData } from './context'
 export default function Dashboard() {
   const { t } = useI18n()
   const navigate = useNavigate()
-  const { list } = useOperatorData()
+  const { user, list } = useOperatorData()
   const [search, setSearch] = useState('')
 
   // Search by Haqdaar ID (spaces and case ignored) or by name.
@@ -24,6 +24,7 @@ export default function Dashboard() {
 
   return (
     <Page title={t('page.dashboard.title')}>
+      <p className="text-base break-all text-gray-800">{t('dash.signedInAs', { email: user.email ?? '' })}</p>
       <BigButton icon="➕" variant="primary" onClick={() => navigate('/o/new')}>
         {t('dash.newFarmer')}
       </BigButton>

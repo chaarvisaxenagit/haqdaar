@@ -9,16 +9,23 @@ import { useI18n } from '../../shared/i18n'
 import { todayString } from '../../shared/dates'
 import SchemeCard from '../../shared/SchemeCard'
 import { BigButton, Card, HaqdaarIdLine, ListenButton, Page } from '../../shared/ui'
+import QuestionFlow from '../../shared/QuestionFlow'
 import { deleteFarmer, updateFarmer, useFarmer } from '../firebase/farmers'
+import DetailsForm from './DetailsForm'
 
 const APP_STATUSES: ApplicationStatus[] = ['not_started', 'documents_ready', 'applied', 'approved', 'rejected']
+
+// What the page shows: the farmer, or one of the edit screens.
+type Screen = 'view' | 'editAnswers' | 'editDetails' | 'confirmDelete'
 
 export default function FarmerDetail() {
   const { t } = useI18n()
   const navigate = useNavigate()
   const { id } = useParams()
   const { record, ready } = useFarmer(id)
-  const [confirmDelete, setConfirmDelete] = useState(false)
+  const [screen, setScreen] = useState<Screen>('view')
+  const confirmDelete = screen === 'confirmDelete'
+  const setConfirmDelete = (yes: boolean) => setScreen(yes ? 'confirmDelete' : 'view')
 
   if (!ready) return <Page title={t('op.loading')} />
 
@@ -50,6 +57,44 @@ export default function FarmerDetail() {
         </BigButton>
         <BigButton icon="↩️" onClick={() => setConfirmDelete(false)}>
           {t('delete.no')}
+        </BigButton>
+      </Page>
+    )
+  }
+
+  // Fix a wrong answer: the same questions, starting from the saved answers.
+  if (screen === 'editAnswers') {
+    return (
+      <Page title={record.name}>
+        <QuestionFlow
+          initial={record.answers}
+          onDone={(answers) => {
+            updateFarmer(record.haqdaarId, { answers })
+            setScreen('view')
+          }}
+        />
+        <BigButton icon="↩️" onClick={() => setScreen('view')}>
+          {t('detail.cancel')}
+        </BigButton>
+      </Page>
+    )
+  }
+
+  if (screen === 'editDetails') {
+    return (
+      <Page title={t('detail.editDetails')}>
+        <DetailsForm
+          nameRequired
+          initialName={record.name}
+          initialVillage={record.village ?? ''}
+          submitKey="reg.save"
+          onDone={(name, village) => {
+            updateFarmer(record.haqdaarId, { name, village })
+            setScreen('view')
+          }}
+        />
+        <BigButton icon="↩️" onClick={() => setScreen('view')}>
+          {t('detail.cancel')}
         </BigButton>
       </Page>
     )
@@ -105,6 +150,12 @@ export default function FarmerDetail() {
         </SchemeCard>
       ))}
 
+      <BigButton icon="✏️" onClick={() => setScreen('editAnswers')}>
+        {t('detail.editAnswers')}
+      </BigButton>
+      <BigButton icon="📝" onClick={() => setScreen('editDetails')}>
+        {t('detail.editDetails')}
+      </BigButton>
       <BigButton icon="🏠" onClick={() => navigate('/o')}>
         {t('detail.back')}
       </BigButton>

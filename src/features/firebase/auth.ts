@@ -1,13 +1,31 @@
-// Operator sign-in and sign-out (email + password). First sign-in needs internet.
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+// Operator accounts: sign-in, new account, password reset, sign-out (email + password).
+// These talk to the server, so they need internet. It is fine to wait for them (they are not Firestore writes).
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signOut,
+} from 'firebase/auth'
 import type { User } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 import { auth } from './init'
 
-// Sign-in talks to the server, so it is fine to wait for it (it is not a Firestore write).
 export async function signInOperator(email: string, password: string): Promise<User> {
   const result = await signInWithEmailAndPassword(auth, email.trim(), password)
   return result.user
+}
+
+// A new CSC / panchayat / agriculture worker makes their own account.
+// Each account sees only its own farmers (firestore.rules), so accounts cannot see each other's data.
+export async function createOperatorAccount(email: string, password: string): Promise<User> {
+  const result = await createUserWithEmailAndPassword(auth, email.trim(), password)
+  return result.user
+}
+
+// Sends a "reset your password" email from Firebase.
+export function sendOperatorPasswordReset(email: string): Promise<void> {
+  return sendPasswordResetEmail(auth, email.trim())
 }
 
 export function signOutOperator(): Promise<void> {

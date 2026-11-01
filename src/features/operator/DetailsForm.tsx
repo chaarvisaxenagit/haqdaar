@@ -6,13 +6,19 @@ import { useI18n } from '../../shared/i18n'
 export default function DetailsForm({
   nameRequired,
   onDone,
+  initialName = '',
+  initialVillage = '',
+  submitKey = 'reg.next',
 }: {
   nameRequired: boolean
   onDone: (name: string, village: string) => void
+  initialName?: string
+  initialVillage?: string
+  submitKey?: string // button text key
 }) {
   const { t } = useI18n()
-  const [name, setName] = useState('')
-  const [village, setVillage] = useState('')
+  const [name, setName] = useState(initialName)
+  const [village, setVillage] = useState(initialVillage)
   const [showError, setShowError] = useState(false)
 
   function submit(e: FormEvent) {
@@ -44,7 +50,7 @@ export default function DetailsForm({
         type="submit"
         className="min-h-14 w-full rounded-xl border-2 border-green-800 bg-green-700 px-4 text-lg font-medium text-white active:bg-green-800"
       >
-        {t('reg.next')} →
+        {t(submitKey)} →
       </button>
     </form>
   )

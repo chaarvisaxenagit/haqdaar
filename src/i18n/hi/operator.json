@@ -48,5 +48,22 @@
   "check.title": "सिर्फ़ जाँच (कुछ सहेजा नहीं जाएगा)",
   "check.note": "आप साइन इन नहीं हैं और इंटरनेट भी नहीं है। जब इंटरनेट हो, तब साइन इन करके इस किसान को सहेजें।",
   "check.start": "जाँच शुरू करें",
-  "check.again": "दूसरे किसान की जाँच करें"
+  "check.again": "दूसरे किसान की जाँच करें",
+  "login.forgot": "पासवर्ड भूल गए?",
+  "login.createAccount": "नया ऑपरेटर खाता बनाएँ",
+  "login.haveAccount": "पहले से खाता है? साइन इन करें",
+  "signup.title": "नया ऑपरेटर खाता",
+  "signup.passwordHint": "पासवर्ड कम से कम 6 अक्षर का हो।",
+  "signup.submit": "खाता बनाएँ",
+  "signup.busy": "खाता बन रहा है…",
+  "reset.sent": "पासवर्ड बदलने का लिंक {email} पर भेज दिया है। अपना ईमेल देखें।",
+  "reset.needEmail": "पहले ऊपर अपना ईमेल लिखें।",
+  "login.error.emailInUse": "इस ईमेल से पहले से खाता बना है। साइन इन करें।",
+  "login.error.weakPassword": "पासवर्ड बहुत छोटा है। कम से कम 6 अक्षर रखें।",
+  "login.error.tooMany": "बहुत बार कोशिश हो गई। थोड़ी देर बाद फिर कोशिश करें।",
+  "dash.signedInAs": "साइन इन: {email}",
+  "detail.editAnswers": "जवाब बदलें",
+  "detail.editDetails": "नाम या गाँव बदलें",
+  "detail.cancel": "रद्द करें",
+  "reg.save": "सहेजें"
 }
