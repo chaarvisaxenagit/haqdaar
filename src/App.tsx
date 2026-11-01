@@ -4,6 +4,7 @@ import { lazy, Suspense } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { I18nProvider } from './shared/i18n'
 import { AppShell } from './shared/ui'
+import ErrorBoundary from './shared/ErrorBoundary'
 import Start from './pages/Start'
 import Placeholder from './pages/Placeholder'
 import About from './pages/About'
@@ -27,30 +28,32 @@ export default function App() {
     <I18nProvider>
       <HashRouter>
         <AppShell>
-          <Suspense fallback={null}>
-            <Routes>
-              <Route path="/" element={<Start />} />
+          <ErrorBoundary>
+            <Suspense fallback={null}>
+              <Routes>
+                <Route path="/" element={<Start />} />
 
-              {/* Farmer mode */}
-              <Route path="/f" element={<FarmerHome />} />
-              <Route path="/f/questions" element={<Questions />} />
-              <Route path="/f/results" element={<Results />} />
-              <Route path="/f/checklist" element={<Checklist />} />
-              <Route path="/f/slip" element={<FarmerSlipPage />} />
+                {/* Farmer mode */}
+                <Route path="/f" element={<FarmerHome />} />
+                <Route path="/f/questions" element={<Questions />} />
+                <Route path="/f/results" element={<Results />} />
+                <Route path="/f/checklist" element={<Checklist />} />
+                <Route path="/f/slip" element={<FarmerSlipPage />} />
 
-              {/* Operator mode. Every screen except login needs sign-in (OperatorGate). */}
-              <Route path="/o/login" element={<Login />} />
-              <Route path="/o" element={<OperatorGate />}>
-                <Route index element={<Dashboard />} />
-                <Route path="new" element={<Register />} />
-                <Route path="farmer/:id" element={<FarmerDetail />} />
-                <Route path="farmer/:id/slip" element={<OperatorSlipPage />} />
-              </Route>
+                {/* Operator mode. Every screen except login needs sign-in (OperatorGate). */}
+                <Route path="/o/login" element={<Login />} />
+                <Route path="/o" element={<OperatorGate />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path="new" element={<Register />} />
+                  <Route path="farmer/:id" element={<FarmerDetail />} />
+                  <Route path="farmer/:id/slip" element={<OperatorSlipPage />} />
+                </Route>
 
-              <Route path="/about" element={<About />} />
-              <Route path="*" element={<Placeholder titleKey="page.notFound" />} />
-            </Routes>
-          </Suspense>
+                <Route path="/about" element={<About />} />
+                <Route path="*" element={<Placeholder titleKey="page.notFound" />} />
+              </Routes>
+            </Suspense>
+          </ErrorBoundary>
         </AppShell>
       </HashRouter>
     </I18nProvider>
