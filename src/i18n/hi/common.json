@@ -20,5 +20,19 @@
   "page.register.title": "नया किसान जोड़ें",
   "page.farmerDetail.title": "किसान की जानकारी",
   "page.about.title": "जानकारी और स्रोत",
-  "page.notFound": "यह पन्ना नहीं मिला।"
+  "page.notFound": "यह पन्ना नहीं मिला।",
+  "page.farmerHome.title": "किसान",
+  "nav.farmerHome": "किसान वाले पन्ने पर जाएँ",
+  "month.1": "जनवरी",
+  "month.2": "फ़रवरी",
+  "month.3": "मार्च",
+  "month.4": "अप्रैल",
+  "month.5": "मई",
+  "month.6": "जून",
+  "month.7": "जुलाई",
+  "month.8": "अगस्त",
+  "month.9": "सितंबर",
+  "month.10": "अक्टूबर",
+  "month.11": "नवंबर",
+  "month.12": "दिसंबर"
 }

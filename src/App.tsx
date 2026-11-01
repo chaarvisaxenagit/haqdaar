@@ -1,24 +1,28 @@
 // All screens and their addresses.
 // HashRouter makes addresses look like /#/f/results, so refresh never gives a 404.
-import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 import { I18nProvider } from './shared/i18n'
+import { TopBar } from './shared/ui'
 import Start from './pages/Start'
 import Placeholder from './pages/Placeholder'
+import FarmerHome from './features/farmer/FarmerHome'
 import Questions from './features/farmer/Questions'
+import Results from './features/farmer/Results'
+import Checklist from './features/farmer/Checklist'
 
 export default function App() {
   return (
     <I18nProvider>
       <HashRouter>
+        <TopBar />
         <Routes>
           <Route path="/" element={<Start />} />
 
           {/* Farmer mode */}
-          {/* No saved profile yet, so farmer home goes straight to the questions. */}
-          <Route path="/f" element={<Navigate to="/f/questions" replace />} />
+          <Route path="/f" element={<FarmerHome />} />
           <Route path="/f/questions" element={<Questions />} />
-          <Route path="/f/results" element={<Placeholder titleKey="page.results.title" />} />
-          <Route path="/f/checklist" element={<Placeholder titleKey="page.checklist.title" />} />
+          <Route path="/f/results" element={<Results />} />
+          <Route path="/f/checklist" element={<Checklist />} />
           <Route path="/f/slip" element={<Placeholder titleKey="page.slip.title" />} />
 
           {/* Operator mode */}

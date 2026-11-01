@@ -153,7 +153,7 @@ export default function QuestionFlow({
         <button
           type="button"
           onClick={() => setStep(step - 1)}
-          className="min-h-12 self-start rounded-lg px-4 text-lg font-medium text-green-800 underline"
+          className="min-h-14 self-start rounded-lg px-4 text-lg font-medium text-green-800 underline"
         >
           ← {t('nav.back')}
         </button>
