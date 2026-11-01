@@ -174,9 +174,18 @@ describe('eligibility', () => {
     expect(r.pmfby.reasons).toContain('reason.pmfby.cropNotified.fail')
   })
 
-  it('11b. Lucknow Kharif 2026 crops count as notified (paddy, bajra, maize, jowar, urad)', () => {
-    for (const crop of ['paddy', 'bajra', 'maize', 'jowar', 'urad']) {
+  it('11b. Lucknow Kharif 2026 crops on pmfby.gov.in count as notified (paddy, bajra, urad); maize and jowar do not', () => {
+    for (const crop of ['paddy', 'bajra', 'urad']) {
       expect(run({ season: 'kharif', crop }).pmfby.status, crop).toBe('likely_eligible')
+    }
+    for (const crop of ['maize', 'jowar']) {
+      expect(run({ season: 'kharif', crop }).pmfby.status, crop).toBe('check_office')
+    }
+  })
+
+  it('11c. Lucknow Rabi crops (2025-26 list on pmfby.gov.in) count as notified', () => {
+    for (const crop of ['wheat', 'mustard', 'potato', 'gram', 'lentil']) {
+      expect(run({ season: 'rabi', crop }).pmfby.status, crop).toBe('likely_eligible')
     }
   })
 

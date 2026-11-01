@@ -90,7 +90,7 @@ const QUESTIONS: Question[] = [
 ]
 
 const CROP_ICONS: Record<string, string> = {
-  paddy: '🍚', bajra: '🌾', maize: '🌽', jowar: '🌱', urad: '⚫', wheat: '🌾', mustard: '🌼', potato: '🥔', other: '🌿',
+  paddy: '🍚', bajra: '🌾', urad: '⚫', wheat: '🌾', mustard: '🌼', potato: '🥔', gram: '🫘', lentil: '🟠', other: '🌿',
 }
 
 function cropsFor(season: Season): string[] {

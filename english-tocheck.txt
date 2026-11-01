@@ -424,3 +424,7 @@ reason.krishakBandhu.cultivates.pass = (removed: Krishak Bandhu replaced by MKSN
 reason.krishakBandhu.cultivates.fail = (removed: Krishak Bandhu replaced by MKSN, WB notification 1128 of 29 Oct 2026)
 note.krishakBandhu.death = (removed: Krishak Bandhu replaced by MKSN, WB notification 1128 of 29 Oct 2026)
 note.krishakBandhu.bargadar = (removed: Krishak Bandhu replaced by MKSN, WB notification 1128 of 29 Oct 2026)
+crop.gram = Gram (chana)
+crop.lentil = Lentil (masur)
+crop.maize = (removed: not on the Lucknow Kharif 2026 list on pmfby.gov.in)
+crop.jowar = (removed: not on the Lucknow Kharif 2026 list on pmfby.gov.in)

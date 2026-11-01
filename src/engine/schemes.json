@@ -1,7 +1,7 @@
 {
   "district": "Lucknow, Uttar Pradesh",
   "notifiedState": "up",
-  "notifiedCrops": { "kharif": ["paddy", "bajra", "maize", "jowar", "urad"], "rabi": ["wheat", "mustard", "potato"] },
+  "notifiedCrops": { "kharif": ["paddy", "bajra", "urad"], "rabi": ["wheat", "mustard", "potato", "gram", "lentil"] },
   "schemes": [
     {
       "id": "pmkisan",
@@ -184,7 +184,7 @@
       "documents": ["doc.pattadarPassbook", "doc.aadhaarCard", "doc.bankPassbookLinked"],
       "deadlines": [],
       "notes": ["note.rythuBharosa.landRecords"],
-      "sourceUrl": "https://www.newsonair.gov.in/telangana-farmers-to-receive-%e2%82%b912000-per-acre-annually-under-rythu-bharosa-scheme/",
+      "sourceUrl": "https://www.newsonair.gov.in/telangana-farmers-to-receive-₹12000-per-acre-annually-under-rythu-bharosa-scheme/",
       "lastVerified": "2026-11-01"
     },
     {
