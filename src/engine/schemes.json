@@ -111,6 +111,8 @@
           "passKey": "reason.pmkmy.ownsLand.pass", "failKey": "reason.pmkmy.ownsLand.fail" },
         { "id": "smallFarmer", "field": "land", "op": "notEquals", "value": "gt5acre", "failAs": "not_eligible",
           "passKey": "reason.pmkmy.smallFarmer.pass", "failKey": "reason.pmkmy.smallFarmer.fail" },
+        { "id": "cutoff", "field": "landAfter2019", "op": "notIn", "value": ["yes", "dontKnow"], "failAs": "check_office",
+          "passKey": "reason.pmkmy.cutoff.pass", "failKey": "reason.pmkmy.cutoff.fail" },
         { "id": "ageNo", "field": "age", "op": "notIn", "value": ["under18", "41to59", "60plus"], "failAs": "not_eligible",
           "passKey": "reason.pmkmy.age.pass", "failKey": "reason.pmkmy.age.fail" },
         { "id": "ageUnknown", "field": "age", "op": "equals", "value": "18to40", "failAs": "check_office",
@@ -128,7 +130,7 @@
       "documents": ["doc.aadhaarCard", "doc.bankPassbook", "doc.landRecord"],
       "deadlines": [],
       "notes": ["note.pmkmy.contribution", "note.pmkmy.otherPension", "note.pmkmy.csc"],
-      "sourceUrl": "https://maandhan.in",
+      "sourceUrl": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=2053142",
       "lastVerified": "2026-11-01"
     },
     {
@@ -182,7 +184,7 @@
       "documents": ["doc.pattadarPassbook", "doc.aadhaarCard", "doc.bankPassbookLinked"],
       "deadlines": [],
       "notes": ["note.rythuBharosa.landRecords"],
-      "sourceUrl": "https://www.myscheme.gov.in/search/state/Telangana",
+      "sourceUrl": "https://www.newsonair.gov.in/telangana-farmers-to-receive-%e2%82%b912000-per-acre-annually-under-rythu-bharosa-scheme/",
       "lastVerified": "2026-11-01"
     },
     {
@@ -208,21 +210,69 @@
       "lastVerified": "2026-11-01"
     },
     {
-      "id": "krishakBandhu",
+      "id": "wbTopup",
       "states": ["wb"],
-      "nameKey": "scheme.krishakBandhu.name",
+      "nameKey": "scheme.wbTopup.name",
+      "icon": "➕",
+      "benefitKey": "scheme.wbTopup.benefit",
+      "yearlyAmount": 3000,
+      "conditions": [
+        { "id": "ownsLand", "field": "ownsLand", "op": "isTrue", "failAs": "not_eligible",
+          "passKey": "reason.pmkisan.ownsLand.pass", "failKey": "reason.pmkisan.ownsLand.fail" },
+        { "id": "cutoff", "field": "landAfter2019", "op": "notIn", "value": ["yes", "dontKnow"], "failAs": "check_office",
+          "passKey": "reason.pmkisan.cutoff.pass", "failKey": "reason.pmkisan.cutoff.fail" },
+        { "id": "incomeTaxYes", "field": "incomeTax", "op": "notEquals", "value": "yes", "failAs": "not_eligible",
+          "passKey": "reason.pmkisan.incomeTax.pass", "failKey": "reason.pmkisan.incomeTax.fail" },
+        { "id": "incomeTaxUnsure", "field": "incomeTax", "op": "notEquals", "value": "dontKnow", "failAs": "check_office",
+          "passKey": "reason.pmkisan.incomeTax.pass", "failKey": "reason.pmkisan.incomeTax.unsure" },
+        { "id": "pensionYes", "field": "pensionOrGovtJob", "op": "notEquals", "value": "yes", "failAs": "not_eligible",
+          "passKey": "reason.pmkisan.pension.pass", "failKey": "reason.pmkisan.pension.fail" },
+        { "id": "pensionUnsure", "field": "pensionOrGovtJob", "op": "notEquals", "value": "dontKnow", "failAs": "check_office",
+          "passKey": "reason.pmkisan.pension.pass", "failKey": "reason.pmkisan.pension.unsure" },
+        { "id": "professionalYes", "field": "professionalOrPost", "op": "notEquals", "value": "yes", "failAs": "not_eligible",
+          "passKey": "reason.pmkisan.professional.pass", "failKey": "reason.pmkisan.professional.fail" },
+        { "id": "professionalUnsure", "field": "professionalOrPost", "op": "notEquals", "value": "dontKnow", "failAs": "check_office",
+          "passKey": "reason.pmkisan.professional.pass", "failKey": "reason.pmkisan.professional.unsure" }
+      ],
+      "tips": [
+        { "when": { "field": "bankEkyc", "op": "notEquals", "value": "yes" }, "key": "tip.pmkisan.ekyc" }
+      ],
+      "documents": ["doc.landRecord", "doc.aadhaarCard", "doc.bankPassbookLinked"],
+      "deadlines": [],
+      "notes": ["note.wbTopup.sameRules"],
+      "sourceUrl": "https://krishakbandhu.wb.gov.in/download_notification16",
+      "lastVerified": "2026-11-01"
+    },
+    {
+      "id": "mksn",
+      "states": ["wb"],
+      "nameKey": "scheme.mksn.name",
       "icon": "🤲",
-      "benefitKey": "scheme.krishakBandhu.benefit",
+      "benefitKey": "scheme.mksn.benefit",
       "yearlyAmount": 0,
       "conditions": [
         { "id": "cultivates", "field": "cultivates", "op": "isTrue", "failAs": "not_eligible",
-          "passKey": "reason.krishakBandhu.cultivates.pass", "failKey": "reason.krishakBandhu.cultivates.fail" }
+          "passKey": "reason.mksn.cultivates.pass", "failKey": "reason.mksn.cultivates.fail" },
+        { "id": "incomeTaxYes", "field": "incomeTax", "op": "notEquals", "value": "yes", "failAs": "not_eligible",
+          "passKey": "reason.pmkisan.incomeTax.pass", "failKey": "reason.pmkisan.incomeTax.fail" },
+        { "id": "incomeTaxUnsure", "field": "incomeTax", "op": "notEquals", "value": "dontKnow", "failAs": "check_office",
+          "passKey": "reason.pmkisan.incomeTax.pass", "failKey": "reason.pmkisan.incomeTax.unsure" },
+        { "id": "pensionYes", "field": "pensionOrGovtJob", "op": "notEquals", "value": "yes", "failAs": "not_eligible",
+          "passKey": "reason.pmkisan.pension.pass", "failKey": "reason.pmkisan.pension.fail" },
+        { "id": "pensionUnsure", "field": "pensionOrGovtJob", "op": "notEquals", "value": "dontKnow", "failAs": "check_office",
+          "passKey": "reason.pmkisan.pension.pass", "failKey": "reason.pmkisan.pension.unsure" },
+        { "id": "professionalYes", "field": "professionalOrPost", "op": "notEquals", "value": "yes", "failAs": "not_eligible",
+          "passKey": "reason.pmkisan.professional.pass", "failKey": "reason.pmkisan.professional.fail" },
+        { "id": "professionalUnsure", "field": "professionalOrPost", "op": "notEquals", "value": "dontKnow", "failAs": "check_office",
+          "passKey": "reason.pmkisan.professional.pass", "failKey": "reason.pmkisan.professional.unsure" },
+        { "id": "notOwner", "field": "ownsLand", "op": "isFalse", "failAs": "check_office",
+          "passKey": "reason.mksn.bargadar.pass", "failKey": "reason.mksn.owner" }
       ],
       "tips": [],
-      "documents": ["doc.rorOrBargadar", "doc.aadhaarCard", "doc.bankPassbook"],
+      "documents": ["doc.rorOrBargadar", "doc.voterId", "doc.aadhaarCard", "doc.bankPassbookLinked"],
       "deadlines": [],
-      "notes": ["note.krishakBandhu.death", "note.krishakBandhu.bargadar"],
-      "sourceUrl": "https://krishakbandhu.wb.gov.in",
+      "notes": ["note.mksn.cutoff", "note.mksn.recorded", "note.mksn.oneFamily"],
+      "sourceUrl": "https://krishakbandhu.wb.gov.in/download_notification16",
       "lastVerified": "2026-11-01"
     },
     {

@@ -85,6 +85,8 @@ const ALL_CASES: Answers[] = [
   { state: 'wb' },
   { state: 'wb', land: 'none', tenant: 'yes' },
   { state: 'wb', land: 'none', tenant: 'no' },
+  { state: 'wb', land: 'none', tenant: 'yes', incomeTax: 'yes' },
+  { age: '18to40', landAfter2019: 'yes' },
   { state: 'tn' },
   { state: 'tn', land: 'lt1acre' },
   { state: 'tn', land: 'gt5acre' },
@@ -229,6 +231,12 @@ describe('pension scheme (PM-KMY, all India)', () => {
     expect(r.pmkmy.reasons).toContain('reason.pmkmy.ownsLand.fail')
   })
 
+  it('30b. age 18-40, land got after Feb 2019: PM-KMY check with office (land must be on record by 1 Aug 2019)', () => {
+    const r = run({ age: '18to40', landAfter2019: 'yes' })
+    expect(r.pmkmy.status).toBe('check_office')
+    expect(r.pmkmy.reasons).toContain('reason.pmkmy.cutoff.fail')
+  })
+
   it('30. age 18-40, income tax not known: PM-KMY check with office', () => {
     expect(run({ age: '18to40', incomeTax: 'dontKnow' }).pmkmy.status).toBe('check_office')
   })
@@ -264,10 +272,26 @@ describe('state schemes', () => {
     expect(r.rythuBima.status).toBe('likely_not_eligible')
   })
 
-  it('36. West Bengal: Krishak Bandhu for owners and sharecroppers, not for non-farmers', () => {
-    expect(run({ state: 'wb' }).krishakBandhu.status).toBe('likely_eligible')
-    expect(run({ state: 'wb', land: 'none', tenant: 'yes' }).krishakBandhu.status).toBe('likely_eligible')
-    expect(run({ state: 'wb', land: 'none', tenant: 'no' }).krishakBandhu.status).toBe('likely_not_eligible')
+  it('36. West Bengal land owner: PM-KISAN top-up Rs 3,000; MKSN asks the office (PM-KISAN farmers get the top-up instead)', () => {
+    const r = run({ state: 'wb' })
+    expect(r.wbTopup.status).toBe('likely_eligible')
+    expect(r.wbTopup.yearlyAmount).toBe(3000)
+    expect(r.mksn.status).toBe('check_office')
+    expect(r.mksn.reasons).toContain('reason.mksn.owner')
+    expect(r).not.toHaveProperty('krishakBandhu')
+  })
+
+  it('36b. West Bengal sharecropper: MKSN likely eligible, no top-up (needs land for PM-KISAN)', () => {
+    const r = run({ state: 'wb', land: 'none', tenant: 'yes' })
+    expect(r.mksn.status).toBe('likely_eligible')
+    expect(r.mksn.reasons).toContain('reason.mksn.bargadar.pass')
+    expect(r.wbTopup.status).toBe('likely_not_eligible')
+  })
+
+  it('36c. West Bengal: MKSN not for non-farmers or excluded families', () => {
+    expect(run({ state: 'wb', land: 'none', tenant: 'no' }).mksn.status).toBe('likely_not_eligible')
+    expect(run({ state: 'wb', land: 'none', tenant: 'yes', incomeTax: 'yes' }).mksn.status).toBe('likely_not_eligible')
+    expect(run({ state: 'wb', land: 'none', tenant: 'yes', pensionOrGovtJob: 'dontKnow' }).mksn.status).toBe('check_office')
   })
 
   it('37. Tamil Nadu: Uzhavar Pathukappu depends on land size, age and work', () => {
