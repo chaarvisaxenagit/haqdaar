@@ -20,11 +20,11 @@ It has two modes in one app:
 - **Farmer mode:** the farmer uses their own phone. No sign-in. Their answers stay on the phone and never leave it.
 - **Operator mode:** a CSC operator, gram panchayat worker or agriculture worker signs in, registers the farmer with consent, asks the same questions, prints a slip and follows up before deadlines. This is how Haqdaar reaches farmers who have no smartphone. Records save offline and sync when the internet comes back.
 
-## Install it on a phone
+## Use it on a phone
 
-1. Open **https://haqdaar-one.vercel.app/** in Chrome on an Android phone, while you have internet.
-2. Tap the ⋮ menu → **Install app** (or **Add to Home screen**).
-3. Open Haqdaar from the home screen. From now on it works in airplane mode.
+Haqdaar is a website. Open **https://haqdaar-one.vercel.app/** in Chrome, with internet, once. Chrome saves the whole site on the phone, so after that it also works in airplane mode.
+
+To open it like an app, tap ⋮ → **Add to Home screen**. Nothing is downloaded from an app store.
 
 Operator mode needs internet for the first sign-in only.
 
