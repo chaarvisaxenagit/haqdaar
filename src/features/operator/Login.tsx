@@ -14,6 +14,8 @@ type Mode = 'signin' | 'signup'
 function errorKey(err: unknown): string {
   const code = (err as { code?: string })?.code ?? ''
   if (code === 'haqdaar/tempEmail') return 'signup.error.tempEmail'
+  if (code === 'haqdaar/typo') return 'signup.error.typo'
+  if (code === 'haqdaar/noMail') return 'signup.error.noMail'
   if (code === 'haqdaar/badEmail' || code.includes('invalid-email')) return 'signup.error.badEmail'
   if (code.includes('network')) return 'login.error.network'
   if (code.includes('email-already-in-use')) return 'login.error.emailInUse'
@@ -35,6 +37,7 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
+  const [suggestion, setSuggestion] = useState('') // e.g. "gmail.com" for a misspelt email
   const [info, setInfo] = useState('')
 
   if (ready && user) return <Navigate to="/o" replace />
@@ -47,7 +50,10 @@ export default function Login() {
     const action = mode === 'signin' ? signInOperator(email, password) : createOperatorAccount(email, password)
     action
       .then(() => navigate('/o', { replace: true }))
-      .catch((err) => setError(errorKey(err)))
+      .catch((err) => {
+        setError(errorKey(err))
+        setSuggestion((err as { suggestion?: string })?.suggestion ?? '')
+      })
       .finally(() => setBusy(false))
   }
 
@@ -96,7 +102,7 @@ export default function Login() {
           </label>
           {error && (
             <p role="alert" className="error">
-              ❌ {t(error)}
+              ❌ {t(error, { domain: suggestion })}
             </p>
           )}
           {info && (

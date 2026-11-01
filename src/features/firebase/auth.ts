@@ -10,21 +10,28 @@ import {
 } from 'firebase/auth'
 import type { User } from 'firebase/auth'
 import { useEffect, useState } from 'react'
-import { emailProblem } from './emailCheck'
+import { checkNewEmail, emailProblem } from './emailCheck'
 import { auth } from './init'
 
+// A badly written or misspelt email is stopped here too, with a "did you mean" hint,
+// instead of asking Firebase about an account that should never exist.
 export async function signInOperator(email: string, password: string): Promise<User> {
+  const check = emailProblem(email)
+  if (check && (check.problem === 'badEmail' || check.problem === 'typo')) {
+    throw { code: `haqdaar/${check.problem}`, suggestion: check.suggestion }
+  }
   const result = await signInWithEmailAndPassword(auth, email.trim(), password)
   return result.user
 }
 
 // A new CSC / panchayat / agriculture worker makes their own account.
 // Each account sees only its own farmers (firestore.rules), so accounts cannot see each other's data.
-// Fake or badly written emails are refused here. Then Firebase sends a link to the email,
+// Fake, misspelt or badly written emails are refused here, and so are domains that cannot
+// receive mail. Then Firebase sends a link to the email,
 // and the account can save nothing until that link is opened (firestore.rules checks this).
 export async function createOperatorAccount(email: string, password: string): Promise<User> {
-  const problem = emailProblem(email)
-  if (problem) throw { code: `haqdaar/${problem}` }
+  const check = await checkNewEmail(email)
+  if (check) throw { code: `haqdaar/${check.problem}`, suggestion: check.suggestion }
   const result = await createUserWithEmailAndPassword(auth, email.trim().toLowerCase(), password)
   sendEmailVerification(result.user).catch(console.error)
   return result.user

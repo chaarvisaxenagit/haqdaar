@@ -73,6 +73,8 @@
   "signup.emailHint": "Use your own email that you can open. We will send a link to confirm it.",
   "signup.error.badEmail": "This email is not correct or is written wrongly. Check the spelling and use your own email.",
   "signup.error.tempEmail": "Test or temporary emails are not allowed. Use your own email that you can open.",
+  "signup.error.typo": "Did you mean {domain}? Check the spelling of your email and type it again.",
+  "signup.error.noMail": "No email can reach this address. Use your own real email that you can open.",
   "verify.title": "Confirm your email",
   "verify.text": "We sent a link to {email}. Open your email and tap the link. Then come back here and tap the button below.",
   "verify.done": "I have confirmed my email",
