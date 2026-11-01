@@ -1,0 +1,21 @@
+# Installed packages and build output
+node_modules
+dist
+dist-ssr
+dev-dist
+
+# Secret keys (never commit)
+.env
+.env.*
+!.env.example
+*.local
+
+# Logs
+*.log
+
+# Editor files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+

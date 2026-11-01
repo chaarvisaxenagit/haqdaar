@@ -1,0 +1,5 @@
+{
+  "district": "Lucknow, Uttar Pradesh",
+  "notifiedCrops": { "kharif": ["paddy"], "rabi": ["wheat", "mustard", "potato"] },
+  "schemes": []
+}

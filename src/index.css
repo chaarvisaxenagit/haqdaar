@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+/* System fonts only, so every Indian script shows offline. */
+@theme {
+  --font-sans: system-ui, sans-serif;
+}
+
+html {
+  font-family: system-ui, sans-serif;
+  font-size: 18px;
+  color: #111827;
+  background: #ffffff;
+}
