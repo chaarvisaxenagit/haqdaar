@@ -313,3 +313,4 @@ about.point.system = यह चैटबॉट नहीं, एक सिस्
 about.point.rules = पात्रता फ़ोन पर लिखे नियम तय करते हैं, AI नहीं।
 about.point.offline = एयरप्लेन मोड में भी चलता है; सिर्फ़ सिंक के लिए इंटरनेट चाहिए।
 about.point.newState = नई योजना या नया राज्य = नई नियम फ़ाइल।
+about.members = टीम के सदस्य: Chaarvi Saxena, Yashi Savita, Vivek Singh, Ishan Singh Bhadoria, Divyanshu Tripathi

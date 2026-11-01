@@ -84,6 +84,7 @@ export default function About() {
       </p>
       <p>📞 {t('slip.footer.helplines')}</p>
       <p className="small muted">{t('about.team')}</p>
+      <p className="small muted">{t('about.members')}</p>
 
       <Nav back={{ label: t('nav.back'), onClick: () => navigate('/') }} />
     </main>

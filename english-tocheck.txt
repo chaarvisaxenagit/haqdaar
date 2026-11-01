@@ -310,3 +310,4 @@ about.point.system = It is not a chatbot, it is a system.
 about.point.rules = Eligibility is decided by rules on the phone, not by AI.
 about.point.offline = Works in airplane mode; only sync needs internet.
 about.point.newState = A new scheme or a new state = a new rules file.
+about.members = Team members: Chaarvi Saxena, Yashi Savita, Vivek Singh, Ishan Singh Bhadoria, Divyanshu Tripathi
