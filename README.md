@@ -37,7 +37,25 @@
 
 ## 1. Problem statement
 
-India has large farm support schemes, but many farmers who qualify never get them. They do not know which schemes fit them, why, which papers to bring, or when the last date is. Many also have weak or no internet, and many have no smartphone.
+**Official problem statement:**
+
+> India’s farmer schemes and crop insurance reach only those who know they exist, understand if they qualify, and finish the paperwork on time. Small and marginal farmers miss out at every step: information is mostly in formal Hindi or English, eligibility rules are scattered across separate portals, applications get rejected over missing documents, and insurance deadlines pass unnoticed. Most digital tools make this worse because they assume a smartphone, steady internet and digital skills, which many farmers don’t have. Farmers end up paying middlemen for information that should be free. We need a native-language system that works fully offline. It should tell every farmer which schemes they likely qualify for and why, which documents to bring, and when each deadline falls. Farmers can use it themselves on a phone or get the same help through a CSC or gram panchayat operator.
+
+**How Haqdaar answers each part of it:**
+
+| The problem statement asks for | What Haqdaar does |
+|---|---|
+| A native-language system | Simple village Hindi first, plus English; a Listen button reads every question and result aloud. More Indian languages plug in as one folder each. |
+| Works fully offline | After one visit, everything works in airplane mode. Only operator sync needs internet. |
+| Which schemes they likely qualify for, and why | Results say "likely eligible", "likely not eligible", "ask the agriculture office" or "already have it", and every result shows its reason. |
+| Which documents to bring | A checklist of papers per scheme, also printed on the slip. |
+| When each deadline falls | Deadline dates on every result, an alert for any last date in the next 30 days, and an operator follow-up list for the next 14 days. |
+| Farmers use it themselves on a phone | Farmer mode: no sign-in, data stays on the phone. |
+| Or get the same help through a CSC or gram panchayat operator | Operator mode: the same questions and results, with consent, a printed slip and follow-up, for farmers without a smartphone. |
+| Information should be free, not bought from middlemen | Every slip says "This help is free. Do not pay anyone for this information." |
+| Applications rejected over missing documents | Tips to fix problems before applying (for example, link Aadhaar to the bank and finish e-KYC), and tick boxes for papers. |
+
+**Numbers behind the problem:**
 
 | Fact | Number | Source |
 |---|---|---|
