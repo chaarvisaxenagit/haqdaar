@@ -324,3 +324,5 @@ scheme.shc.benefit = A soil test for your field and a card that says which ferti
 note.pmkisan.oneFamily = Only one person in a family (husband, wife and children under 18) gets PM-KISAN. If two people get it, the money can be stopped until it is checked.
 crash.text = Something went wrong. Your saved information is safe.
 crash.reload = Open the page again
+check.noteOnline = You are not signed in, so nothing will be saved. Sign in to save farmers.
+login.tryHint = Want to try it first? Check a farmer without an account. Nothing is saved.

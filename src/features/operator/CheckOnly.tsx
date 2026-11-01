@@ -2,6 +2,7 @@
 // Same questions and results, but NOTHING is saved to Firestore.
 // A Haqdaar ID is still made, so the slip can be printed and the farmer registered later.
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import type { Answers } from '../../shared/types'
 import QuestionFlow from '../../shared/QuestionFlow'
 import { evaluateAll } from '../../engine/evaluate'
@@ -9,7 +10,8 @@ import { makeHaqdaarId } from '../../engine/haqdaarId'
 import { useI18n } from '../../shared/i18n'
 import { todayString } from '../../shared/dates'
 import SchemeCard from '../../shared/SchemeCard'
-import { BigButton, HaqdaarIdLine, Page } from '../../shared/ui'
+import { BigButton, HaqdaarIdLine, Nav, Page } from '../../shared/ui'
+import { useOnline } from '../firebase/online'
 import Slip from '../slip/Slip'
 import { MoneyCard } from '../farmer/Results'
 import DetailsForm from './DetailsForm'
@@ -35,7 +37,11 @@ export default function CheckOnly() {
   const [details, setDetails] = useState({ name: '', village: '' })
   const [check, setCheck] = useState<CheckOnlyFarmer | null>(lastCheck)
 
-  const note = <div className="banner warn">⚠️ {t('check.note')}</div>
+  const online = useOnline()
+  const navigate = useNavigate()
+  // The note says why nothing is saved: no internet, or simply not signed in.
+  const noteText = online ? t('check.noteOnline') : t('check.note')
+  const note = <div className="banner warn">⚠️ {noteText}</div>
 
   if (step === 'start') {
     return (
@@ -45,11 +51,12 @@ export default function CheckOnly() {
             🔍
           </div>
           <h1>{t('check.title')}</h1>
-          <p>{t('check.note')}</p>
+          <p>{noteText}</p>
           <BigButton icon="🔍" variant="leaf" onClick={() => setStep('details')}>
             {t('check.start')}
           </BigButton>
         </div>
+        <Nav back={{ label: t('nav.back'), onClick: () => navigate('/o/login') }} />
       </main>
     )
   }

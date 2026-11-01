@@ -79,5 +79,7 @@
   "verify.busy": "Checking…",
   "verify.notYet": "Your email is not confirmed yet. First open the link in the email. Also look in the spam folder.",
   "verify.resend": "Send the email again",
-  "verify.resent": "The email was sent again to {email}."
+  "verify.resent": "The email was sent again to {email}.",
+  "check.noteOnline": "You are not signed in, so nothing will be saved. Sign in to save farmers.",
+  "login.tryHint": "Want to try it first? Check a farmer without an account. Nothing is saved."
 }

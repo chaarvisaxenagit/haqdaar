@@ -22,6 +22,7 @@ const Dashboard = lazy(() => import('./features/operator/Dashboard'))
 const Register = lazy(() => import('./features/operator/Register'))
 const FarmerDetail = lazy(() => import('./features/operator/FarmerDetail'))
 const OperatorSlipPage = lazy(() => import('./features/slip/OperatorSlipPage'))
+const TryCheckOnly = lazy(() => import('./features/operator/TryCheckOnly'))
 
 export default function App() {
   return (
@@ -42,6 +43,8 @@ export default function App() {
 
                 {/* Operator mode. Every screen except login needs sign-in (OperatorGate). */}
                 <Route path="/o/login" element={<Login />} />
+                {/* Try operator mode without an account. Nothing is saved. */}
+                <Route path="/o/check" element={<TryCheckOnly />} />
                 <Route path="/o" element={<OperatorGate />}>
                   <Route index element={<Dashboard />} />
                   <Route path="new" element={<Register />} />

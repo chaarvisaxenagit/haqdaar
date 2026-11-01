@@ -124,11 +124,11 @@ export default function Login() {
           )}
         </form>
 
-        {!online && (
-          <BigButton icon="🔍" variant="leaf" onClick={() => navigate('/o')}>
-            {t('login.checkOnly')}
-          </BigButton>
-        )}
+        {/* Always offered: try the operator steps with no account, online or offline. Nothing is saved. */}
+        <p className="small">{t('login.tryHint')}</p>
+        <BigButton icon="🔍" variant="leaf" onClick={() => navigate('/o/check')}>
+          {t('login.checkOnly')}
+        </BigButton>
         <Nav back={{ label: t('nav.back'), onClick: () => navigate('/') }} />
       </main>
     </>
