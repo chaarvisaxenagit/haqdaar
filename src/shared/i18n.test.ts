@@ -22,7 +22,7 @@ describe('translations', () => {
   })
 
   it('t() falls back to Hindi, then to the key itself', () => {
-    expect(translate('bn', 'listen')).toBe(TRANSLATIONS.hi.listen)
+    expect(translate('gu', 'listen')).toBe(TRANSLATIONS.hi.listen)
     expect(translate('hi', 'no.such.key')).toBe('no.such.key')
     expect(translate('hi', 'progress.question', { n: 3, total: 10 })).toBe('प्रश्न 3 / 10')
   })

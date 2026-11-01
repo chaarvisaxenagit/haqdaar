@@ -90,15 +90,17 @@ button, input, select { font: inherit; color: inherit; }
   border: 1px solid var(--line);
   background: var(--paper);
 }
-.lang { flex: 1; display: flex; gap: 6px; }
+/* Many languages: the row scrolls sideways on its own, the page does not. */
+.lang { flex: 1; min-width: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.lang::-webkit-scrollbar { display: none; }
 .lang button {
-  flex: 1;
+  flex: 1 0 auto;
   min-height: 44px;
   border: 2px solid var(--line);
   background: var(--paper);
   border-radius: 10px;
   font-size: 16px;
-  padding: 2px 4px;
+  padding: 2px 8px;
   cursor: pointer;
 }
 .lang button[aria-pressed="true"] { border-color: var(--soil); background: var(--soil); color: #fff; font-weight: 700; }

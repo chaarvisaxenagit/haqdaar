@@ -115,7 +115,8 @@ export default function Results() {
         {results.map((r, i) => (
           <SchemeCard key={r.schemeId} result={r} today={today} i={i} />
         ))}
-        <SoonCard i={results.length} />
+        {/* Only where no state scheme is in the rules yet. */}
+        {!results.some((r) => SCHEME_BY_ID[r.schemeId]?.states) && <SoonCard i={results.length} />}
       </div>
 
       <p className="demo-note">{t('results.likelyNote')}</p>

@@ -45,7 +45,7 @@
 
 | The problem statement asks for | What Haqdaar does |
 |---|---|
-| A native-language system | Simple village Hindi first, plus English; a Listen button reads every question and result aloud. More Indian languages plug in as one folder each. |
+| A native-language system | Simple village Hindi first, plus English, Bengali, Marathi, Punjabi, Tamil and Telugu; a Listen button reads every question and result aloud. More Indian languages plug in as one folder each. |
 | Works fully offline | After one visit, everything works in airplane mode. Only operator sync needs internet. |
 | Which schemes they likely qualify for, and why | Results say "likely eligible", "likely not eligible", "ask the agriculture office" or "already have it", and every result shows its reason. |
 | Which documents to bring | A checklist of papers per scheme, also printed on the slip. |
@@ -71,7 +71,7 @@
 
 ## 2. Project overview
 
-Haqdaar tells a farmer which government schemes they are **likely** eligible for, **why**, which papers to bring, and when each deadline falls. It works fully offline, in Hindi and English.
+Haqdaar tells a farmer which government schemes they are **likely** eligible for, **why**, which papers to bring, and when each deadline falls. It works fully offline, in 7 languages: Hindi, English, Bengali, Marathi, Punjabi, Tamil and Telugu.
 
 **A system, not a chatbot.** Fixed rules on the phone decide each result, and every result shows its reason. The farmer gets a paper slip, and the operator gets a follow-up list so nobody misses a deadline. No AI decides eligibility, so the same answers always give the same result.
 
@@ -82,7 +82,7 @@ It has two modes in one app:
 
 **How Haqdaar differs from online checkers** such as Bharat-VISTAAR (155261) and myScheme: it works offline, gives a reason for every result, prints a plan on paper, and reminds the operator before deadlines.
 
-**Prototype scope:** 4 central schemes (PM-KISAN, PM Fasal Bima Yojana, Kisan Credit Card, Soil Health Card), demo district Lucknow (Uttar Pradesh), languages Hindi and English.
+**Prototype scope:** 5 central schemes for all of India (PM-KISAN, PM Fasal Bima Yojana, Kisan Credit Card, Soil Health Card, PM Kisan Maandhan pension) and 5 state schemes (Maharashtra, Telangana, West Bengal, Tamil Nadu). The first question asks the farmer's state, and a state scheme shows only in its own state. The crop insurance list is for the demo district, Lucknow (Uttar Pradesh). Languages: Hindi, English, Bengali, Marathi, Punjabi, Tamil, Telugu.
 
 ## 3. Screenshots
 
@@ -347,8 +347,15 @@ The read-aloud voice uses the phone's own text-to-speech. The voice data for eac
 |---|---|---|---|
 | Hindi (हिन्दी) | ✅ | Chaarvi Saxena | 1 Nov 2026 |
 | English | ✅ | Chaarvi Saxena | 1 Nov 2026 |
+| Bengali (বাংলা) | ✅ | Chaarvi Saxena | 1 Nov 2026 |
+| Marathi (मराठी) | ✅ | Chaarvi Saxena | 1 Nov 2026 |
+| Punjabi (ਪੰਜਾਬੀ) | ✅ | Chaarvi Saxena | 1 Nov 2026 |
+| Tamil (தமிழ்) | ✅ | Chaarvi Saxena | 1 Nov 2026 |
+| Telugu (తెలుగు) | ✅ | Chaarvi Saxena | 1 Nov 2026 |
 
-Bengali, Marathi, Telugu, Tamil, Gujarati, Kannada, Malayalam, Punjabi, Odia, Assamese and Urdu are already listed in the app but switched off. A language goes live only after a native speaker has checked every line. We never ship machine-translated text that nobody has checked.
+The Bengali, Marathi, Punjabi, Tamil and Telugu text was drafted with an AI coding tool on 1 Nov 2026 and switched on by the builder, who checked it.
+
+Gujarati, Kannada, Malayalam, Odia, Assamese and Urdu are already listed in the app but switched off. A language goes live only after a native speaker has checked every line. We never ship machine-translated text that nobody has checked.
 
 **How to add a language:**
 
@@ -381,6 +388,14 @@ No other code change is needed.
 | PMFBY crop insurance | For owners and tenants/sharecroppers. Crop not on the district list → ask the office. Farmer pays at most 2% (Kharif), 1.5% (Rabi food and oilseed crops), 5% (commercial and horticulture crops). Report crop loss within 72 hours; helpline 14447. | https://pmfby.gov.in (FAQ) and a reply in Parliament (Lok Sabha) | 1 Nov 2026 |
 | Kisan Credit Card | For anyone who farms. "Already have it" if they have a KCC or crop loan. Loans at 7%, 4% with prompt repayment; low-interest limit raised from ₹3 lakh to ₹5 lakh; collateral-free up to ₹2 lakh. | https://www.pib.gov.in/PressReleasePage.aspx?PRID=2238004 (PIB, 11 Mar 2026) | 1 Nov 2026 |
 | Soil Health Card | For anyone who farms. "Already have it" if the soil was tested in the last 2 years; otherwise the test is due. Card every 2 to 3 years (official pages give both). | https://soilhealth.dac.gov.in | 1 Nov 2026 |
+| PM Kisan Maandhan Yojana (pension, all India) | Land in your name, up to 2 ha (about 5 acres), age 18 to 40 when joining. Not for income-tax payers or people already in NPS, ESIC or EPFO. ₹3,000 a month after age 60; the farmer pays ₹55 to ₹200 a month and the government adds the same. | https://maandhan.in and the PM-KMY guidelines on pmkisan.gov.in | 1 Nov 2026 |
+| Namo Shetkari Mahasanman Nidhi (Maharashtra only) | Same rules as PM-KISAN. ₹6,000 a year from the state, on top of PM-KISAN. | https://www.myscheme.gov.in/schemes/namo-shetkari-mahasanman-nidhi-yojana | 1 Nov 2026 |
+| Rythu Bharosa (Telangana only) | For farmers with land in a pattadar passbook. Tenants with no land → ask the office. ₹12,000 per acre a year (₹6,000 per acre each season). | https://www.myscheme.gov.in (Telangana) | 1 Nov 2026 |
+| Rythu Bima (Telangana only) | Pattadar passbook holders aged 18 to 59. ₹5 lakh to the family on the farmer's death; the state pays the premium. | https://www.myscheme.gov.in/schemes/rythu-bima | 1 Nov 2026 |
+| Krishak Bandhu (West Bengal only) | Farmers and recorded sharecroppers (bargadars). Up to ₹10,000 a year (at least ₹4,000 below 1 acre). ₹2 lakh death benefit for ages 18 to 60. | https://krishakbandhu.wb.gov.in | 1 Nov 2026 |
+| CM Uzhavar Pathukappu Thittam (Tamil Nadu only) | Cultivators and tenants aged 18 to 65 with wet land up to 2.5 acres or dry land up to 5 acres. 1 to 5 acres or age 60+ → ask the office (wet/dry limit, age limit 65). Farm workers → ask the office. Benefit amounts are not given; the farmer asks the office. | https://oap.tn.gov.in/cmupt | 1 Nov 2026 |
+
+**How the new rules were checked:** on 1 Nov 2026 through web searches that found the official portals above, myScheme (the Government of India scheme portal) and news reports. Some details were only on third-party sites, so each official link should still be opened once by a person before the demo. Punjab has no state scheme yet: we did not find one with clear, official rules, so Punjab farmers see the central schemes and a "State scheme – soon" card.
 
 **Demo area:** Lucknow district, Uttar Pradesh.
 
@@ -393,7 +408,7 @@ No other code change is needed.
 
 Both sources are news reports of official decisions, not the notification itself. To confirm: pmfby.gov.in → Insurance Premium Calculator (Rabi 2026-27, Uttar Pradesh, Lucknow) lists only the notified crops; or ask the Deputy Director of Agriculture office in Lucknow, a bank branch or the PMFBY helpline 14447. Changing the list needs no code: edit `notifiedCrops` in `src/engine/schemes.json` and add the crop names to the translation files.
 
-**State scheme left out:** Mukhyamantri Krishak Durghatna Kalyan Yojana, UP (Government Order No. 1/2020/मु0स0-11/एक-9-2020-2एफ/2018, Revenue Section-9, dated 28 Feb 2020). We read the GO text but could not yet confirm it on an official government site. We do not add rules we have not confirmed, so the prototype shows 4 central schemes. The results page shows a "State scheme – soon" card in its place.
+**State scheme left out:** Mukhyamantri Krishak Durghatna Kalyan Yojana, UP (Government Order No. 1/2020/मु0स0-11/एक-9-2020-2एफ/2018, Revenue Section-9, dated 28 Feb 2020). We read the GO text but could not yet confirm it on an official government site. We do not add rules we have not confirmed, so UP farmers see the central schemes and a "State scheme – soon" card.
 
 Helplines printed on every slip: Bharat-VISTAAR **155261**, PMFBY **14447**.
 
@@ -403,7 +418,7 @@ Helplines printed on every slip: Bharat-VISTAAR **155261**, PMFBY **14447**.
 npx vitest run
 ```
 
-**Result on 1 Nov 2026: 31 tests passing, 1 skipped** (the state-scheme test, because that scheme is left out).
+**Result on 1 Nov 2026: 55 tests passing, 1 skipped** (the UP state-scheme test, because that scheme is left out).
 
 | Test file | What it checks |
 |---|---|
@@ -454,8 +469,9 @@ haqdaar/
 - It says **"likely eligible"**. The government department makes the final decision.
 - It cannot submit applications or see a farmer's official application status.
 - The rules must be kept up to date by hand when schemes change.
-- The prototype covers **4 schemes** and **one demo district (Lucknow, UP)**.
-- Only **Hindi and English** are live.
+- The prototype covers **5 central schemes** and **5 state schemes in 4 states**. The crop insurance list covers **one demo district (Lucknow, UP)**; elsewhere the farmer is told to confirm their crop at the office.
+- **7 languages** are live. Other Indian languages are listed but switched off.
+- The new state-scheme rules (Section 13) were checked through web searches on 1 Nov 2026; each official page should be opened once by a person.
 - The Kharif crop list and the Rabi 31 Dec date come from news reports of official decisions (Section 13). The **Rabi 2026-27 crop list for Lucknow is still a draft** (last year's list) until the official notification is confirmed.
 - Firebase does not promise that an operator stays signed in when the app is reopened with no internet. If the sign-in is lost offline, the app switches to "Check only" mode: results and the slip still work, but nothing is saved until the operator signs in online.
 - The Listen button needs the phone's voice data for that language to be installed.
