@@ -86,7 +86,7 @@ It has two modes in one app:
 
 ## 3. Screenshots
 
-All screenshots were taken on 1 Nov 2026 at phone width (375 px) from the same build that is live at https://haqdaar-one.vercel.app/. The farmers shown are fictional examples.
+All 18 screenshots were taken on 1 Nov 2026 at phone width (375 px) from the same build that is live at https://haqdaar-one.vercel.app/. The farmers shown are fictional examples. Two were taken with a setting changed, so the feature could be shown: the deadline alert with the phone's date set to 10 Dec 2026 (the alert shows only in the last 30 days before a last date), and "Check only" with the internet switched off.
 
 | Start page (Hindi) | One question per screen | Results with money card |
 |:---:|:---:|:---:|
@@ -95,8 +95,12 @@ All screenshots were taken on 1 Nov 2026 at phone width (375 px) from the same b
 | <img src="docs/screenshots/04-scheme-card.jpg" width="230" alt="PM Fasal Bima Yojana card: likely eligible, two reasons, benefit, last date 31 December 2026 and the official source"> | <img src="docs/screenshots/05-checklist.jpg" width="230" alt="Checklist with tick boxes, 2 of 15 papers ready and an e-KYC tip"> | <img src="docs/screenshots/06-slip.jpg" width="230" alt="Slip with Haqdaar ID, QR code, each scheme's status and reason, and the papers to bring"> |
 | **Operator sign-in** | **Operator "Check only", in English: a West Bengal state scheme** | **How it works / About** |
 | <img src="docs/screenshots/07-operator-signin.jpg" width="230" alt="Operator sign-in page with the Only check, without saving button"> | <img src="docs/screenshots/08-check-only-english.jpg" width="230" alt="Check only result in English for a landless sharecropper in West Bengal: Mukhyamantri Krishak Samman Nidhi likely eligible, with every reason and the official source"> | <img src="docs/screenshots/09-about.jpg" width="230" alt="About page diagram: farmer phone or CSC operator, then questions, rules engine and results on the phone, then cloud sync only with internet"> |
-| **Telugu: Telangana state schemes** | | |
-| <img src="docs/screenshots/10-telugu-state-scheme.jpg" width="230" alt="Results in Telugu for a Telangana farmer: Rythu Bharosa and Rythu Bima likely eligible, with reasons, benefit and source"> | | |
+| **Telugu: Telangana state schemes** | **Bengali: results in another script** | **Tamil: a question, with Listen** |
+| <img src="docs/screenshots/10-telugu-state-scheme.jpg" width="230" alt="Results in Telugu for a Telangana farmer: Rythu Bharosa and Rythu Bima likely eligible, with reasons, benefit and source"> | <img src="docs/screenshots/13-bengali-results.jpg" width="230" alt="Results in Bengali: next last date, Haqdaar ID, Rs 6,000 a year from PM-KISAN, 5 schemes likely eligible and the PM-KISAN card with its reasons"> | <img src="docs/screenshots/14-tamil-question.jpg" width="230" alt="Question 2 of 12 in Tamil about farm land, with the Listen button, big answer buttons and Back and Next buttons"> |
+| **Marathi: checklist of papers** | **Punjabi: printable slip with QR code** | **Consent before saving** |
+| <img src="docs/screenshots/16-marathi-checklist.jpg" width="230" alt="Checklist in Marathi: 0 of 15 papers ready, tick boxes for the PM-KISAN papers and the e-KYC tip"> | <img src="docs/screenshots/15-punjabi-slip.jpg" width="230" alt="Slip in Punjabi with the Print / Save as PDF button, Haqdaar ID, QR code and each scheme's status and reason"> | <img src="docs/screenshots/11-consent.jpg" width="230" alt="Save on this phone? Your answers stay only on this phone. Yes, save on this phone, or No, just show the results"> |
+| **Deadline alert (Hindi), 21 days before 31 Dec** | **Works with no internet: Check only, offline** | **Delete my data, with a confirm screen** |
+| <img src="docs/screenshots/12-deadline-alert.jpg" width="230" alt="Farmer home in Hindi with a red alert: the last date for Rabi crop insurance is 31 December 2026, 21 days left, with a Listen button, the money card and See my results, Start again and Delete my data"> | <img src="docs/screenshots/17-offline-check-only.jpg" width="230" alt="Operator Check only results with the top bar showing Offline and a note that nothing is saved until the operator signs in with internet"> | <img src="docs/screenshots/18-delete-confirm.jpg" width="230" alt="Do you really want to delete? All your answers and your Haqdaar ID will be deleted from this phone. Yes, delete or No, keep it"> |
 
 ## 4. Key features
 
