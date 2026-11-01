@@ -1,5 +1,6 @@
 // Rules engine tests.
-// Written FIRST, before the engine code. The state scheme is skipped on 1 Nov.
+// Written FIRST, before the engine code. The UP state scheme is skipped on 1 Nov.
+// Tests 26-40 (pension and state schemes) were added on 1 Nov, also before the code.
 import { describe, expect, it } from 'vitest'
 import type { Answers, FarmerRecord, SchemeResult, SchemeStatus } from '../shared/types'
 import { I18N_FILES, LIVE_LANGUAGES } from '../shared/languages'
@@ -54,7 +55,7 @@ function makeRecord(changes: Answers, extra: Partial<FarmerRecord> = {}): Farmer
   }
 }
 
-// Every change used in tests 1-13 and 22-24 (for test 19).
+// Every change used in tests 1-13, 22-24 and 26-40 (for test 19).
 const ALL_CASES: Answers[] = [
   {},
   { land: 'none', tenant: 'no' },
@@ -202,7 +203,7 @@ describe('eligibility', () => {
     expect(r.shc.reasons).toEqual(['reason.shc.recentTest'])
   })
 
-  it.skip('25. state scheme skipped on 1 Nov', () => {})
+  it.skip('25. UP state scheme skipped on 1 Nov', () => {})
 })
 
 describe('pension scheme (PM-KMY, all India)', () => {

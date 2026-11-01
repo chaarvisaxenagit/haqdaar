@@ -99,7 +99,7 @@ All screenshots were taken from the live app (https://haqdaar-one.vercel.app/) o
 ## 4. Key features
 
 **For the farmer**
-- One question per screen (10 screens; 9 if the farmer has no land), big buttons with pictures. No typing.
+- One question per screen (12 screens; 11 if the farmer has no land), big buttons with pictures. No typing.
 - **Listen** button on every question and result card (the phone's own read-aloud voice).
 - Result for each scheme: ✅ likely eligible, ❌ likely not eligible, ❓ ask the agriculture office, or ☑️ already have it. **Every result shows its reason.**
 - Yearly money card (for example ₹6,000/year from PM-KISAN).
@@ -121,7 +121,8 @@ All screenshots were taken from the live app (https://haqdaar-one.vercel.app/) o
 
 **For everyone**
 - Works in airplane mode after the first visit.
-- Hindi and English, switchable on every page.
+- 7 languages (Hindi, English, Bengali, Marathi, Punjabi, Tamil, Telugu), switchable on every page.
+- State schemes for Maharashtra, Telangana, West Bengal and Tamil Nadu, shown only to farmers in that state.
 - Each result links to the official scheme website and shows the date we last checked it.
 
 ## 5. Technology stack
@@ -192,16 +193,18 @@ No code was written before 1 Nov 2026. All the code was written from scratch dur
 
 ### 6.2 The rules engine (`src/engine/`)
 
-1. **Questions → answers.** Up to 10 screens collect: land, land received after 1 Feb 2019, tenant/sharecropper, income tax, pension or government job, professional or elected post, bank–Aadhaar link and e-KYC, season and crop, Kisan Credit Card, last soil test.
-2. **Answers → facts** (`facts.ts`): `ownsLand`, `cultivates` (owns land or farms someone else's land), `cropNotified` (crop is on the district's insurance list for that season).
+1. **Questions → answers.** Up to 12 screens collect: state, land, land received after 1 Feb 2019, tenant/sharecropper, age, income tax, pension or government job, professional or elected post, bank–Aadhaar link and e-KYC, season and crop, Kisan Credit Card, last soil test.
+2. **Answers → facts** (`facts.ts`): `ownsLand`, `cultivates` (owns land or farms someone else's land), `cropNotified` (the farmer is in Uttar Pradesh and the crop is on the Lucknow insurance list for that season; elsewhere the farmer is asked to confirm the crop).
 3. **Facts → result** (`evaluate.ts`). Each scheme in `schemes.json` has conditions such as `{ field: "incomeTax", op: "notEquals", value: "yes", failAs: "not_eligible" }`. Every condition is checked, then:
    - any failed condition marked `not_eligible` → **likely not eligible** (a firm "no" always wins);
    - else, if the scheme's "already have" check passes → **already have it**;
    - else, any failed condition marked `check_office` → **ask the agriculture office**;
    - else → **likely eligible**, with every reason it passed.
+
+   A scheme with a `states` list (for example `["tg"]`) is only checked for farmers in those states. A scheme without it applies to all of India. Records saved before the state question count as Uttar Pradesh.
 4. **The engine returns only text keys**, never sentences, so the same result shows correctly in every language.
 5. **Results are never stored.** They are worked out again from the answers each time, so a rules update also fixes old records.
-6. **Rules are data.** Adding a scheme or a district means a new entry in `schemes.json`, not new code.
+6. **Rules are data.** Adding a scheme, a state or a district means a new entry in `schemes.json`, not new code.
 
 ### 6.3 Deadlines and follow-up (`src/engine/deadlines.ts`)
 
@@ -300,7 +303,7 @@ npm run preview
 
 Haqdaar is a website. Open **https://haqdaar-one.vercel.app/** in Chrome, with internet, once. Chrome saves the whole site on the phone, so after that it also works in airplane mode. To open it like an app, tap ⋮ → **Add to Home screen**. Nothing is downloaded from an app store.
 
-Choose **हिन्दी** or **English** in the top bar at any time.
+Choose a language (हिन्दी, English, বাংলা, मराठी, ਪੰਜਾਬੀ, தமிழ், తెలుగు) in the top bar at any time. Swipe the row sideways to see them all.
 
 ### Farmer mode
 
@@ -422,7 +425,7 @@ npx vitest run
 
 | Test file | What it checks |
 |---|---|
-| `src/engine/engine.test.ts` | Every eligibility rule (clean farmer, no land, tenant, each exclusion, "don't know" answers, firm "no" beats "ask the office" and "already have"), tips, PMFBY deadlines for Rabi and Kharif, the follow-up list, every result has a reason with Hindi and English text, and 10,000 Haqdaar IDs with no repeats |
+| `src/engine/engine.test.ts` | Every eligibility rule (clean farmer, no land, tenant, each exclusion, "don't know" answers, firm "no" beats "ask the office" and "already have"), tips, PMFBY deadlines for Rabi and Kharif, the follow-up list, the pension and state-scheme rules, state schemes showing only in their own state, every result has a reason with text in every live language, and 10,000 Haqdaar IDs with no repeats |
 | `src/shared/i18n.test.ts` | Every live language has all five files with exactly the same lines as Hindi; text falls back to Hindi |
 | `src/features/firebase/emailCheck.test.ts` | Good emails pass; badly written, misspelt, test and throwaway emails are refused |
 
@@ -435,9 +438,10 @@ npx vitest run
 
 | Name | Mode | Key answers | Expected results |
 |---|---|---|---|
-| Ramvati | Operator | owns less than 1 acre, e-KYC not done, Rabi wheat, no KCC, soil never tested | PM-KISAN likely eligible + e-KYC tip; PMFBY likely eligible (last date 31 Dec 2026); KCC likely eligible; Soil Health Card test due |
-| Suresh | Operator | no land, sharecropper, Rabi mustard, has KCC, soil tested over 2 years ago | PM-KISAN likely not (no land in name); PMFBY likely eligible + "ask your bank" tip; KCC already have it; Soil Health Card due |
-| Meena | Farmer | owns 1–5 acres, family paid income tax, Kharif paddy, soil tested recently | PM-KISAN likely not (income tax); PMFBY likely eligible; KCC likely eligible; Soil Health Card already have it |
+| Ramvati | Operator | Uttar Pradesh, owns less than 1 acre, age 18–40, e-KYC not done, Rabi wheat, no KCC, soil never tested | PM-KISAN likely eligible + e-KYC tip; PMFBY likely eligible (last date 31 Dec 2026); KCC likely eligible; Soil Health Card test due; PM Kisan Maandhan pension likely eligible |
+| Suresh | Operator | Uttar Pradesh, no land, sharecropper, age 41–59, Rabi mustard, has KCC, soil tested over 2 years ago | PM-KISAN likely not (no land in name); PMFBY likely eligible + "ask your bank" tip; KCC already have it; Soil Health Card due; pension likely not (needs land in name) |
+| Meena | Farmer | Uttar Pradesh, owns 1–5 acres, age 41–59, family paid income tax, Kharif paddy, soil tested recently | PM-KISAN likely not (income tax); PMFBY likely eligible; KCC likely eligible; Soil Health Card already have it; pension likely not |
+| Lakshmi | Farmer, in Telugu | Telangana, owns 1–5 acres, age 41–59, Rabi wheat, no KCC, soil never tested | PM-KISAN likely eligible; PMFBY ask the office (crop list is for Lucknow only); KCC likely eligible; Soil Health Card test due; pension likely not (age); Rythu Bharosa and Rythu Bima likely eligible |
 
 ## 15. Project structure
 
@@ -454,7 +458,7 @@ haqdaar/
    ├─ main.tsx, App.tsx      start-up and the list of pages
    ├─ index.css              all styles
    ├─ shared/                types, languages, t() and Listen, question flow, scheme card, buttons
-   ├─ i18n/hi/, i18n/en/     all text: common, farmer, operator, engine, slip (.json)
+   ├─ i18n/<code>/           all text, one folder per language (hi, en, bn, mr, pa, ta, te): common, farmer, operator, engine, slip (.json)
    ├─ engine/                schemes.json, facts, evaluate, deadlines, dates, Haqdaar ID, tests
    ├─ features/farmer/       farmer home, questions, results, checklist, phone storage
    ├─ features/operator/     sign-in, dashboard, register, farmer detail, Check only
