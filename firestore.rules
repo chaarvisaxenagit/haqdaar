@@ -1,0 +1,25 @@
+rules_version = '2';
+
+// Haqdaar security rules.
+// Only signed-in operators can touch "farmers", and each operator sees only their own records.
+// Everything not allowed here is denied.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /farmers/{haqdaarId} {
+
+      // Create: only if the new record's operatorId is the signed-in operator.
+      allow create: if request.auth != null
+                    && request.resource.data.operatorId == request.auth.uid;
+
+      // Read and delete: only if the stored record belongs to the signed-in operator.
+      allow read, delete: if request.auth != null
+                          && resource.data.operatorId == request.auth.uid;
+
+      // Update: only your own record, and operatorId may not change.
+      allow update: if request.auth != null
+                    && resource.data.operatorId == request.auth.uid
+                    && request.resource.data.operatorId == resource.data.operatorId;
+    }
+  }
+}
