@@ -17,7 +17,7 @@ export function FarmerSlipPage() {
   return (
     <Slip
       farmer={{ haqdaarId: current.haqdaarId ?? spareId, answers: current.answers, lang }}
-      onBack={() => navigate(-1)}
+      onBack={() => navigate('/f/results')}
     />
   )
 }

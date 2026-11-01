@@ -68,7 +68,8 @@ const QUESTIONS: Question[] = [
 const CROP_ICONS: Record<string, string> = { paddy: '🍚', wheat: '🌾', mustard: '🌼', potato: '🥔', other: '🌿' }
 
 function cropsFor(season: Season): string[] {
-  return [...schemesData.notifiedCrops[season], 'other']
+  const crops: Record<string, string[]> = schemesData.notifiedCrops
+  return [...(crops[season] ?? []), 'other']
 }
 
 function visibleQuestions(a: Answers): Question[] {

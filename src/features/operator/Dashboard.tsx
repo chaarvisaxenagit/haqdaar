@@ -82,7 +82,15 @@ export default function Dashboard() {
         ))}
       </ul>
 
-      <BigButton icon="🚪" narrow onClick={() => signOutOperator().then(() => navigate('/o/login', { replace: true }))}>
+      <BigButton
+        icon="🚪"
+        narrow
+        onClick={() =>
+          signOutOperator()
+            .catch(console.error)
+            .finally(() => navigate('/o/login', { replace: true }))
+        }
+      >
         {t('dash.signOut')}
       </BigButton>
     </main>

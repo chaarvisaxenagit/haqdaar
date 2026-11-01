@@ -60,7 +60,7 @@ export default function VerifyEmail({ user }: { user: User }) {
       <BigButton icon="🔁" onClick={resend}>
         {t('verify.resend')}
       </BigButton>
-      <BigButton icon="🚪" narrow onClick={() => signOutOperator()}>
+      <BigButton icon="🚪" narrow onClick={() => signOutOperator().catch(console.error)}>
         {t('dash.signOut')}
       </BigButton>
     </Page>

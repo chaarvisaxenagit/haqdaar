@@ -42,5 +42,7 @@
   "start.sub": "Not a chatbot, a system. Works without internet.",
   "start.chip.offline": "✈️ No internet needed",
   "start.chip.listen": "🔊 Listen and understand",
-  "start.chip.rules": "⚖️ Rules, not AI"
+  "start.chip.rules": "⚖️ Rules, not AI",
+  "crash.text": "Something went wrong. Your saved information is safe.",
+  "crash.reload": "Open the page again"
 }

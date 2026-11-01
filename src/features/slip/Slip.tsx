@@ -55,7 +55,15 @@ export default function Slip({ farmer, onBack }: { farmer: SlipFarmer; onBack: (
 
   return (
     <main className="is-slip" lang={farmer.lang} dir={getLanguage(farmer.lang).rtl ? 'rtl' : 'ltr'}>
-      <button type="button" className="btn primary narrow-btn no-print" onClick={() => window.print()}>
+      <button type="button" className="btn primary narrow-btn no-print" onClick={() => {
+          // Some phone browsers have no print; the caption below explains Share → Print instead.
+          try {
+            window.print()
+          } catch (err) {
+            console.error(err)
+          }
+        }}
+      >
         🖨️ {t('slip.print')}
       </button>
 

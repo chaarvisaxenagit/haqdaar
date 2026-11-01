@@ -62,6 +62,19 @@ export function useOperator(): { user: User | null; ready: boolean } {
     ready: false,
   })
   // onIdTokenChanged also fires when checkVerified() gets a fresh token, so the screen updates.
-  useEffect(() => onIdTokenChanged(auth, (user) => setState({ user, ready: true })), [])
+  // Safety net: if Firebase has not answered in 6 seconds, go on with what it knows,
+  // so the operator never waits on "Loading…" for ever.
+  useEffect(() => {
+    const timer = setTimeout(() => setState((s) => (s.ready ? s : { user: auth.currentUser, ready: true })), 6000)
+    const stop = onIdTokenChanged(
+      auth,
+      (user) => setState({ user, ready: true }),
+      () => setState({ user: auth.currentUser, ready: true }),
+    )
+    return () => {
+      clearTimeout(timer)
+      stop()
+    }
+  }, [])
   return state
 }

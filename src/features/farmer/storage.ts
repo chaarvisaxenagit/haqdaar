@@ -20,7 +20,10 @@ export function loadRecord(): FarmerRecord | null {
     const raw = localStorage.getItem(RECORD_KEY)
     if (!raw) return null
     const record = JSON.parse(raw) as FarmerRecord
-    return record && typeof record.answers === 'object' && record.haqdaarId ? record : null
+    // A damaged record is ignored, so it can never crash a screen.
+    return record && record.answers && typeof record.answers === 'object' && typeof record.haqdaarId === 'string'
+      ? record
+      : null
   } catch {
     return null
   }

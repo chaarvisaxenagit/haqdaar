@@ -20,6 +20,9 @@ export const auth = initializeAuth(app, { persistence: [indexedDBLocalPersistenc
 
 // Offline saving is OFF by default on the web, so we turn on the saved local cache.
 // The multiple-tab manager lets the app open in more than one tab safely.
+// ignoreUndefinedProperties: an empty answer (for example the land date when there is no land)
+// is skipped. Without it, saving a farmer with no land crashed the screen.
 export const db = initializeFirestore(app, {
   localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+  ignoreUndefinedProperties: true,
 })

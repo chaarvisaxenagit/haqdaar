@@ -28,7 +28,12 @@ function CrashPage() {
   const navigate = useNavigate()
   return (
     <Page title="⚠️">
-      <BigButton icon="🏠" variant="primary" narrow onClick={() => navigate('/')}>
+      <p>{t('crash.text')}</p>
+      {/* Reloading also fixes a screen that could not load after the app was updated. */}
+      <BigButton icon="🔄" variant="primary" narrow onClick={() => window.location.reload()}>
+        {t('crash.reload')}
+      </BigButton>
+      <BigButton icon="🏠" narrow onClick={() => navigate('/')}>
         {t('nav.home')}
       </BigButton>
     </Page>
